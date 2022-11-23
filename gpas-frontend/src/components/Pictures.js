@@ -10,7 +10,7 @@ const Pictures = ({ id, url }) => {
   })); //
   return (
     <img
-      className={`aspect-square w-36 h-[7rem] border-${isDragging ? 4 : 0}`}
+      className={`aspect-square w-[7rem] h-[4rem] border-${isDragging ? 4 : 0}`}
       src={url}
       key={id}
       ref={drag}
