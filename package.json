@@ -1,0 +1,32 @@
+{
+  "name": "gpas-prototype",
+  "version": "1.0.0",
+  "description": "Prototype of final year project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "build": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdshinde/GPAS-prototype.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdshinde/GPAS-prototype/issues"
+  },
+  "homepage": "https://github.com/rdshinde/GPAS-prototype#readme",
+  "dependencies": {
+    "@truffle/contract": "^4.6.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.0",
+    "mongoose": "^6.7.3",
+    "nodemon": "^2.0.20",
+    "web3": "^1.8.1"
+  }
+}
