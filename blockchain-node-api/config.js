@@ -1,6 +1,6 @@
-const CONTRACT_ADDRESS = "0x4140391db6d713e3276f46cc1e519b4066a56e22";
+const CONTACT_ADDRESS = "0x82f1D01F0FF7121aa198e7CA4187E69aC4982969";
 
-const CONTRACT_ABI = [
+const CONTACT_ABI = [
   {
     inputs: [
       {
@@ -119,7 +119,8 @@ const CONTRACT_ABI = [
     type: "function",
   },
 ];
+
 module.exports = {
-  CONTRACT_ABI,
-  CONTRACT_ADDRESS,
+  CONTACT_ABI,
+  CONTACT_ADDRESS,
 };

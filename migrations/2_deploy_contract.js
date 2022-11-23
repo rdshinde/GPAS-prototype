@@ -1,5 +1,5 @@
 const Users = artifacts.require("Users");
 
 module.exports = function (deployer) {
-  deployer.deploy(Users);
+  deployer.deploy(Users).then(() => console.log(Users.address));
 };
