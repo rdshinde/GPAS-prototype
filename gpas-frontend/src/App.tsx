@@ -1,5 +1,10 @@
 import React from "react";
-import { AuthButton, ImageContainer, ModalContainer } from "./components";
+import {
+  AuthButton,
+  GridContainer,
+  ImageContainer,
+  ModalContainer,
+} from "./components";
 import "./styles/App.css";
 
 function App() {
@@ -37,6 +42,8 @@ function App() {
           Log in
         </AuthButton>
       </ModalContainer>
+      data= {}
+      <GridContainer>data.map</GridContainer>
     </div>
   );
 }
