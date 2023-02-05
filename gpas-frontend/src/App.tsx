@@ -36,8 +36,8 @@ function App() {
             {
               stepName: "Done!",
               stepNumber: 3,
-              isActive: true,
-              isCompleted: false,
+              isActive: false,
+              isCompleted: true,
             },
           ]}
         />

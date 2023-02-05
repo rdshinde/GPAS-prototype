@@ -24,7 +24,9 @@ export const StepperChain = ({ steps }: Props) => {
               index < 2 ? "w-full" : "w-[100%]"
             } items-center text-blue-600 dark:text-blue-500 ${
               index < 2 &&
-              `sm:after:content-[''] after:w-full after:h-[0.5px] after:border-b after:border-gray-200  after:border-[1.5px] after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:${
+              `sm:after:content-[''] after:w-full after:h-[0.5px] after:border-b after:${
+                step.isCompleted ? "border-blue" : "border-gray-200"
+              }  after:border-[1.5px] after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:${
                 step.isCompleted ? "border-blue" : "border-gray-200"
               }`
             }`}
