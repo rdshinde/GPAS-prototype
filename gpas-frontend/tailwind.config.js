@@ -4,16 +4,22 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./src/**/*.{html,js,ts,jsx,tsx}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
       colors: {
         blue: "#0075F2",
-        orange: "FF4A1C",
+        // bluelight: "#3a8eff",
+        // bluelighter: "#0050c9",
+        // bluelightest: "#0031a0",
+        // bluedark: "#0c2d91",
+        // bluedarker: "#080f48",
+        orange: "#FF4A1C",
         white: "#F2FDFF",
         black: "#00171F",
       },
     },
-    // plugins: [require("tailwind-scrollbar")],
   },
+  // plugins: [require("tw-elements/dist/plugin")],
 };

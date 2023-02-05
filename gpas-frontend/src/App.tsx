@@ -2,54 +2,47 @@ import React from "react";
 import {
   AuthButton,
   GridContainer,
+  IconContainer,
   ImageContainer,
   ModalContainer,
   ModalContainerOverlay,
+  StepperChain,
 } from "./components";
 import "./styles/App.css";
 
 function App() {
   return (
     <div className="App">
+      <ModalContainerOverlay styles={{ backgroundColor: "red" }} />
       <ImageContainer imageSrc="" imageAlt="A picture of a cat" />
       <br />
-      <ModalContainerOverlay />
-      <ModalContainer
-        styles={
-          {
-            // backgroundColor: "white",
-            // padding: "20px",
-            // borderRadius: "5px",
-            // border: "1px solid black",
-            // width: "300px",
-            // height: "300px",
-            // display: "flex",
-            // flexDirection: "column",
-            // justifyContent: "center",
-            // alignItems: "center",
-          }
-        }
-      >
-        <AuthButton
-          // styles={{
-          //   backgroundColor: "red",
-          //   color: "white",
-          //   padding: "10px",
-          //   borderRadius: "5px",
-          //   border: "none",
-          //   cursor: "pointer",
-          //   fontSize: "1.2rem",
-          //   fontWeight: "bold",
-
-          // }}
-          className="auth-button"
-        >
-          Log in using GPAS
-        </AuthButton>
-
+      <ModalContainer>
+        {/* <AuthButton className="auth-button">Log in using GPAS</AuthButton> */}
+        <IconContainer />
+        <StepperChain
+          steps={[
+            {
+              stepName: "Username",
+              stepNumber: 1,
+              isActive: false,
+              isCompleted: true,
+            },
+            {
+              stepName: "Password",
+              stepNumber: 2,
+              isActive: false,
+              isCompleted: true,
+            },
+            {
+              stepName: "Done!",
+              stepNumber: 3,
+              isActive: true,
+              isCompleted: false,
+            },
+          ]}
+        />
       </ModalContainer>
     </div>
   );
 }
-
 export default App;

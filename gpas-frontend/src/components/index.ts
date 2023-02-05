@@ -3,3 +3,7 @@ export { AuthButton } from "./auth-button/AuthButton";
 export { ModalContainerOverlay } from "./modal-container-overlay/ModalContainerOverlay";
 export { GridContainer } from "./grid-container/GridContainer";
 export { ModalContainer } from "./modal-container/ModalContainer";
+export { IconContainer } from "./icon-container/IconContainer";
+export { StepperTrueTick } from "./stepper-true-tick/StepperTrueTick";
+export { StepperChain } from "./stepper/StepperChain";
+export { SmallSpinner } from "./small-spinner/SmallSpinner";
