@@ -10,11 +10,11 @@ module.exports = {
     extend: {
       colors: {
         blue: "#0075F2",
-        // bluelight: "#3a8eff",
-        // bluelighter: "#0050c9",
-        // bluelightest: "#0031a0",
-        // bluedark: "#0c2d91",
-        // bluedarker: "#080f48",
+        bluelight: "#3a8eff",
+        bluelighter: "#0050c9",
+        bluelightest: "#0031a0",
+        bluedark: "#0c2d91",
+        bluedarker: "#080f48",
         orange: "#FF4A1C",
         white: "#F2FDFF",
         black: "#00171F",

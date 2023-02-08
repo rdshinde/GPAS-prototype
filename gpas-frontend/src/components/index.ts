@@ -7,3 +7,5 @@ export { IconContainer } from "./icon-container/IconContainer";
 export { StepperTrueTick } from "./stepper-true-tick/StepperTrueTick";
 export { StepperChain } from "./stepper/StepperChain";
 export { SmallSpinner } from "./small-spinner/SmallSpinner";
+export { UserNameField } from "./username-field/UserNameField";
+export { FooterNav } from "./footer-navigation/FooterNav";

@@ -1,12 +1,14 @@
 import React from "react";
 import {
   AuthButton,
+  FooterNav,
   GridContainer,
   IconContainer,
   ImageContainer,
   ModalContainer,
   ModalContainerOverlay,
   StepperChain,
+  UserNameField,
 } from "./components";
 import "./styles/App.css";
 
@@ -41,6 +43,10 @@ function App() {
             },
           ]}
         />
+        <br />
+        <UserNameField />
+        <br />
+        <FooterNav />
       </ModalContainer>
     </div>
   );
