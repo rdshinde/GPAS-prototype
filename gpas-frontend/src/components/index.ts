@@ -9,3 +9,4 @@ export { StepperChain } from "./stepper/StepperChain";
 export { SmallSpinner } from "./small-spinner/SmallSpinner";
 export { UserNameField } from "./username-field/UserNameField";
 export { FooterNav } from "./footer-navigation/FooterNav";
+export { MnemonicPhraseContainer } from "./mnemonic-phrase-container/MnemonicPhraseContainer";
