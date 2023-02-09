@@ -17,7 +17,7 @@ import "./styles/App.css";
 function App() {
   return (
     <div className="App">
-      <ModalContainerOverlay styles={{ backgroundColor: "red" }} />
+      <ModalContainerOverlay  />
       <ModalContainer>
         <IconContainer />
         <GridContainer />

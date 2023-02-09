@@ -7,6 +7,16 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
+    screens: {
+      sm: "720px",
+      // => @media (min-width: 576px) { ... }
+
+      md: "960px",
+      // => @media (min-width: 960px) { ... }
+
+      lg: "1180px",
+      // => @media (min-width: 1440px) { ... }
+    },
     extend: {
       colors: {
         blue: "#0075F2",

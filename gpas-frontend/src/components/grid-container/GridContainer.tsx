@@ -12,7 +12,7 @@ export const GridContainer = (props: Props) => {
   const { children, styles, data, className } = props;
   return (
     <div
-      className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-1 md:my-1 md:p-2 sm:p-1`}
+      className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-1 md:my-1 md:p-2 sm:p-1 max-h-[40%]`}
       style={{ ...styles }}
     >
       {children}

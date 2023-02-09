@@ -15,7 +15,7 @@ export const ModalContainerOverlay = (props: Props) => {
   return createPortal(
     <div
       style={{ ...styles }}
-      className={`${className} absolute -z-10 h-[100vh] w-[100vw] bg-red-100 opacity-10 p-0 m-0 `}
+      className={`${className} absolute -z-20 top-0 left-0 bottom-0 right-0 h-full w-full bg-gray-400 opacity-10`}
     >
       {children}
     </div>,
