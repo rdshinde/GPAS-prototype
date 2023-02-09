@@ -7,9 +7,9 @@ type Props = {
 
 export const ImageContainer = ({ imageSrc, imageAlt }: Props) => {
   return (
-    <div className={`relative p-6 bg-gray-50 rounded-lg`}>
+    <div className={`relative rounded-lg`}>
       <img
-        className="w-full h-full object-cover rounded-lg max-w-sm"
+        className="object-cover rounded-lg p-0 w-[100px] h-[100px]"
         src={imageSrc}
         alt={imageAlt}
         loading="lazy"

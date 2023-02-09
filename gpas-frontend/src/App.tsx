@@ -10,6 +10,7 @@ import {
   ModalContainerOverlay,
   StepperChain,
   UserNameField,
+  PwdContainer,
 } from "./components";
 import "./styles/App.css";
 
@@ -18,6 +19,9 @@ function App() {
     <div className="App">
       <ModalContainerOverlay styles={{ backgroundColor: "red" }} />
       <ModalContainer>
+        <IconContainer />
+        <GridContainer />
+        <PwdContainer />
         <FooterNav />
       </ModalContainer>
     </div>
