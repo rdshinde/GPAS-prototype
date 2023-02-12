@@ -11,17 +11,20 @@ import {
   StepperChain,
   UserNameField,
   PwdContainer,
+  MnemonicInput,
 } from "./components";
 import "./styles/App.css";
 
 function App() {
   return (
     <div className="App">
-      <ModalContainerOverlay  />
+      <ModalContainerOverlay />
       <ModalContainer>
         <IconContainer />
-        <GridContainer />
-        <PwdContainer />
+        {/* <GridContainer />
+        <PwdContainer /> */}
+        {/* <UserNameField /> */}
+        <MnemonicInput />
         <FooterNav />
       </ModalContainer>
     </div>

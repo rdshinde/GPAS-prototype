@@ -11,3 +11,5 @@ export { UserNameField } from "./username-field/UserNameField";
 export { FooterNav } from "./footer-navigation/FooterNav";
 export { MnemonicPhraseContainer } from "./mnemonic-phrase-container/MnemonicPhraseContainer";
 export { PwdContainer } from "./pwd-container/PwdContainer";
+export { MnemonicInput } from "./mnemonic-input/MnemonicInput";
+export { InputField } from "./input-field/InputField";
