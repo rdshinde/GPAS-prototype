@@ -13,7 +13,9 @@ import {
   PwdContainer,
   MnemonicInput,
   AuthOptions,
+  PwdBuilder,
 } from "./components";
+
 import "./styles/App.css";
 
 function App() {
@@ -22,11 +24,7 @@ function App() {
       <ModalContainerOverlay />
       <ModalContainer>
         <IconContainer />
-        {/* <GridContainer />
-        <PwdContainer /> */}
-        {/* <UserNameField /> */}
-        {/* <MnemonicInput /> */}
-        <AuthOptions />
+        <PwdBuilder />
         <FooterNav />
       </ModalContainer>
     </div>
