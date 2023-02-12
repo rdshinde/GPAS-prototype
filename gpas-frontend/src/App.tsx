@@ -12,6 +12,7 @@ import {
   UserNameField,
   PwdContainer,
   MnemonicInput,
+  AuthOptions,
 } from "./components";
 import "./styles/App.css";
 
@@ -24,7 +25,8 @@ function App() {
         {/* <GridContainer />
         <PwdContainer /> */}
         {/* <UserNameField /> */}
-        <MnemonicInput />
+        {/* <MnemonicInput /> */}
+        <AuthOptions />
         <FooterNav />
       </ModalContainer>
     </div>

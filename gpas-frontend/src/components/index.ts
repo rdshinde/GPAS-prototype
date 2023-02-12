@@ -13,3 +13,4 @@ export { MnemonicPhraseContainer } from "./mnemonic-phrase-container/MnemonicPhr
 export { PwdContainer } from "./pwd-container/PwdContainer";
 export { MnemonicInput } from "./mnemonic-input/MnemonicInput";
 export { InputField } from "./input-field/InputField";
+export { AuthOptions } from "./auth-options/AuthOptions";
