@@ -1,10 +1,19 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  snapshot: any;
+};
 
 export const ImgCollector = (props: Props) => {
+  const {snapshot} = props;
   return (
-    <div className="w-[100px] h-[100px] border-dotted border-gray-300 border-[2px] rounded-lg flex items-center justify-center hover:border-gray-400 hover:scale-105 transition-all duration-200 ease-in-out">
+    <div
+      className="w-[100px] h-[100px] border-dotted border-gray-300 border-[2px] rounded-lg flex items-center justify-center hover:border-gray-400 hover:scale-105 transition-all duration-200 ease-in-out hover:cursor-move relative"
+      style={{
+        top: `${snapshot.isDragging ? "-50%" : "auto"}`,
+        left: `${snapshot.isDragging ? "-250%" : "auto"}`,
+      }}
+    >
       <span className="text-gray-300 hover:text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"

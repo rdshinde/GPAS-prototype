@@ -1,54 +1,58 @@
 import React from "react";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { ImageContainer } from "../image-container/ImageContainer";
 import { ImgCollector } from "../img-collector/ImgCollector";
-type Props = {};
+import { Images } from "../pwd-builder/PwdBuilder";
+type Props = {
+  pwdImages: Images[] | any;
+};
 
 export const PwdContainer = (props: Props) => {
-  const pwdImages = [
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 1",
-    },
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 1",
-    },
-    {
-      imageSrc: "",
-      imageAlt: "Image 1",
-    },
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 1",
-    },
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 2",
-    },
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 2",
-    },
-    {
-      imageSrc: "https://picsum.photos/200/300",
-      imageAlt: "Image 2",
-    },
-    {
-      imageSrc: "",
-      imageAlt: "Image 3",
-    },
-  ];
+  const { pwdImages } = props;
   return (
     <section className="w-full border border-gray-300 sm:p-1 md:p-2 xl:p-3 sm:my-1 md:my-2 xl:my-3 rounded-lg flex gap-7 items-center justify-center">
-      {pwdImages.map((img) => {
-        if (img.imageSrc) {
-          return (
-            <ImageContainer imageSrc={img.imageSrc} imageAlt={img.imageAlt} />
-          );
-        } else {
-          return <ImgCollector />;
-        }
-      })}
+      <Droppable droppableId="pwdContainer" direction="horizontal">
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="w-full flex gap-7 items-center justify-center"
+            // style={getListStyle(snapshot.isDraggingOver)}
+          >
+            {pwdImages.map((img: Images, i: number) => {
+              return (
+                <Draggable
+                  key={img.imageAlt}
+                  draggableId={img.id.toString()}
+                  index={i}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{
+                        ...provided.draggableProps.style,
+                      }}
+                    >
+                      {img.imageSrc ? (
+                        <ImageContainer
+                          imageSrc={img.imageSrc}
+                          imageAlt={img.imageAlt}
+                          snapshot={snapshot}
+                        />
+                      ) : (
+                        <ImgCollector snapshot={snapshot} />
+                      )}
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </section>
   );
 };
