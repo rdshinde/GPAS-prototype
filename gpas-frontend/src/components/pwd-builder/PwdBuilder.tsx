@@ -2,6 +2,7 @@ import React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { GridContainer } from "../grid-container/GridContainer";
+import { PwdContainer } from "../pwd-container/PwdContainer";
 
 type Props = {};
 
@@ -23,6 +24,7 @@ export const PwdBuilder = (props: Props) => {
           </span>
         </div>
         <GridContainer />
+        <PwdContainer />
       </section>
     </DragDropContext>
   );

@@ -15,3 +15,4 @@ export { MnemonicInput } from "./mnemonic-input/MnemonicInput";
 export { InputField } from "./input-field/InputField";
 export { AuthOptions } from "./auth-options/AuthOptions";
 export { PwdBuilder } from "./pwd-builder/PwdBuilder";
+export { ImgCollector } from "./img-collector/ImgCollector";

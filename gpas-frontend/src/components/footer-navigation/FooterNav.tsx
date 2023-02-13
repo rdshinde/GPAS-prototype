@@ -6,7 +6,7 @@ export const FooterNav = (props: Props) => {
   return (
     <nav className="flex justify-between items-center w-full">
       <button
-        className="bg-gray-50 border border-gray-300text-lg font-bold text-blue bg-inherit hover:border-bluelight focus:shadow-md focus:shadow-bluelight rounded-lg px-5 py-2 mr-2 mb-2 transition-all focus:outline-none focus:ring-bluelight flex items-center"
+        className="bg-gray-50 border border-gray-300text-lg font-bold text-gray-400 hover:text-blue bg-inherit hover:border-bluelight focus:shadow-md focus:shadow-bluelight rounded-lg px-5 py-2 mr-2 mb-2 transition-all focus:outline-none focus:ring-bluelight flex items-center"
         tabIndex={1}
       >
         <span className="mr-2">
