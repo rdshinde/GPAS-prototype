@@ -1,6 +1,6 @@
 import React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-
+import uuid from "react-uuid";
 import { GridContainer } from "../grid-container/GridContainer";
 import { PwdContainer } from "../pwd-container/PwdContainer";
 
@@ -8,31 +8,78 @@ type Props = {};
 export type Images = {
   imageSrc: string;
   imageAlt: string;
-  id: number;
+  id: string;
 };
 const gridImagesArray = [
-  { id: 1, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 1" },
   {
-    id: 2,
+    id: uuid(),
     imageSrc: "https://picsum.photos/200/300",
-    imageAlt: "Image 2",
+    imageAlt: uuid(),
   },
-  { id: 3, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 3" },
-  { id: 4, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 4" },
-  { id: 5, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 5" },
-  { id: 6, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 6" },
-  { id: 7, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 7" },
-  { id: 8, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 8" },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/200/300",
+    imageAlt: uuid(),
+  },
 ];
 const pwdImagesArray = [
-  { id: 1, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 1" },
-  { id: 2 },
-  { id: 3 },
-  { id: 4, imageSrc: "https://picsum.photos/200/300", imageAlt: "Image 2" },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
+  {
+    id: uuid(),
+  },
+  { id: uuid() },
+  { id: uuid() },
+  {
+    id: uuid(),
+  },
+  { id: uuid() },
+  { id: uuid() },
+  { id: uuid() },
+  { id: uuid() },
 ];
 export const PwdBuilder = (props: Props) => {
   const [gridImages, setGridImages] = React.useState<Images[]>([
@@ -56,6 +103,41 @@ export const PwdBuilder = (props: Props) => {
       newPwdImages.splice(result.source.index, 1);
       newPwdImages.splice(result.destination.index, 0, activeImage);
       setPwdImages(newPwdImages);
+    } else if (
+      result.destination.droppableId == result.source.droppableId &&
+      result.source.droppableId === "gridContainer"
+    ) {
+      let activeImage = gridImages[result.source.index];
+      let newGridImages = [...gridImages];
+      newGridImages.splice(result.source.index, 1);
+      newGridImages.splice(result.destination.index, 0, activeImage);
+      setGridImages(newGridImages);
+    } else if (
+      result.destination.droppableId !== result.source.droppableId &&
+      result.source.droppableId === "gridContainer"
+    ) {
+      let activeImage = gridImages[result.source.index];
+      let newGridImages = [...gridImages];
+
+      setGridImages(newGridImages);
+      let newPwdImages = [...pwdImages];
+      newPwdImages.splice(result.destination.index, 1);
+      newPwdImages.splice(result.destination.index, 0, activeImage);
+      setPwdImages(newPwdImages);
+    } else if (
+      result.source.droppableId === "pwdContainer" &&
+      result.destination.droppableId !== "gridContainer"
+    ) {
+      let activeImage = pwdImages[result.source.index];
+      let newPwdImages = [...pwdImages];
+      newPwdImages.splice(result.source.index, 1);
+      newPwdImages.splice(result.source.index, 0, {
+        ...activeImage,
+        imageSrc: "",
+        imageAlt: "",
+      });
+      setPwdImages(newPwdImages);
+      console.log(pwdImages);
     }
   };
   return (

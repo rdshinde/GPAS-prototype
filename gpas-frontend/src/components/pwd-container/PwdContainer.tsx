@@ -22,7 +22,7 @@ export const PwdContainer = (props: Props) => {
             {pwdImages.map((img: Images, i: number) => {
               return (
                 <Draggable
-                  key={img.imageAlt}
+                  key={img.id}
                   draggableId={img.id.toString()}
                   index={i}
                 >
@@ -31,9 +31,9 @@ export const PwdContainer = (props: Props) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={{
-                        ...provided.draggableProps.style,
-                      }}
+                      // style={{
+                      //   ...provided.draggableProps.style,
+                      // }}
                     >
                       {img.imageSrc ? (
                         <ImageContainer

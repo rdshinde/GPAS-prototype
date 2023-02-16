@@ -11,22 +11,66 @@ type Props = {
 };
 
 export const GridContainer = (props: Props) => {
+  function getStyle(style: any, snapshot: any) {
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    return {
+      ...style,
+      // cannot be 0, but make it super tiny
+      transitionDuration: `0.001s`,
+    };
+  }
   const { children, styles, data, className, gridImages } = props;
   return (
-    <div
-      className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-7 md:my-1 md:p-2 sm:p-1 max-h-[40%]`}
-      style={{ ...styles }}
-    >
-      {children}
-      {gridImages.map((img, index) => {
-        return (
-          <ImageContainer
-            imageSrc={img.imageSrc}
-            imageAlt={img.imageAlt}
-            snapshot={1}
-          />
-        );
-      })}
-    </div>
+    <Droppable droppableId="gridContainer" direction="horizontal">
+      {(provided, snapshot) => (
+        <div
+          className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-7 md:my-1 md:p-2 sm:p-1 max-h-[40%]`}
+          style={{ ...styles }}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          {children}
+          {gridImages.map((img, index) => {
+            return (
+              <Draggable
+                key={img.id}
+                draggableId={img.id.toString()}
+                index={index}
+              >
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    // style={{
+                    //   ...provided.draggableProps.style,
+                    // }}
+                    style={getStyle(provided.draggableProps.style, snapshot)}
+                  >
+                    <div
+                      className={`relative rounded-lg hover:cursor-move`}
+                      style={{
+                        top: `${snapshot.isDragging ? "-50%" : "auto"}`,
+                        left: `${snapshot.isDragging ? "-250%" : "auto"}`,
+                      }}
+                    >
+                      <img
+                        className="object-cover rounded-lg p-0 md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px] hover:scale-105 transition-all duration-200 ease-in-out"
+                        src={img.imageSrc}
+                        alt={img.imageAlt}
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                )}
+              </Draggable>
+            );
+          })}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 };
