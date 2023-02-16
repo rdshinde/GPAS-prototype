@@ -68,15 +68,7 @@ const gridImagesArray = [
   },
 ];
 const pwdImagesArray = [
-  {
-    id: uuid(),
-  },
-  { id: uuid() },
-  { id: uuid() },
-  {
-    id: uuid(),
-  },
-  { id: uuid() },
+ 
   { id: uuid() },
   { id: uuid() },
   { id: uuid() },
@@ -118,7 +110,11 @@ export const PwdBuilder = (props: Props) => {
     ) {
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
-
+      newGridImages.splice(result.source.index, 1);
+      newGridImages.splice(result.source.index, 0, {
+        ...activeImage,
+        id: uuid(),
+      });
       setGridImages(newGridImages);
       let newPwdImages = [...pwdImages];
       newPwdImages.splice(result.destination.index, 1);

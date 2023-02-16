@@ -31,9 +31,9 @@ export const PwdContainer = (props: Props) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      // style={{
-                      //   ...provided.draggableProps.style,
-                      // }}
+                      style={{
+                        ...provided.draggableProps.style,
+                      }}
                     >
                       {img.imageSrc ? (
                         <ImageContainer
