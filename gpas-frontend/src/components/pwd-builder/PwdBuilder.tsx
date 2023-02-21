@@ -195,25 +195,25 @@ export const PwdBuilder = (props: Props) => {
           <h3 className="text-xl font-extrabold text-gray-500 text-start">
             Your Password.
           </h3>
-          <div className="flex items-center gap-5">
-            {isPwdEmpty(pwdImages) ? (
+          {isPwdEmpty(pwdImages) ? (
+            <div className="flex items-center gap-5">
               <button
                 className="text-bluelighter ont-semibold"
                 onClick={() => setPwdImages([...pwdImagesArray])}
               >
                 Clear Password
               </button>
-            ) : (
-              ""
-            )}
-            <button
-              className="text-bluelighter flex items-center gap-2 font-semibold"
-              onClick={() => setPwdVisible((prev) => !prev)}
-            >
-              {pwdVisible ? "Hide Password" : "Show Password"}
-              <span>{pwdVisible ? <HidePwdEye /> : <ShowPwdEye />}</span>
-            </button>
-          </div>
+              <button
+                className="text-bluelighter flex items-center gap-2 font-semibold"
+                onClick={() => setPwdVisible((prev) => !prev)}
+              >
+                {pwdVisible ? "Hide Password" : "Show Password"}
+                <span>{pwdVisible ? <HidePwdEye /> : <ShowPwdEye />}</span>
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </section>
         <PwdContainer pwdImages={pwdImages} pwdVisibility={pwdVisible} />
       </section>

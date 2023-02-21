@@ -53,7 +53,7 @@ export const PwdContainer = (props: Props) => {
                 </Draggable>
               );
             })}
-           
+
             {provided.placeholder}
           </div>
         )}

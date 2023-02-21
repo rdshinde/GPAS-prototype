@@ -17,8 +17,13 @@ export const GridContainer = (props: Props) => {
       return {
         ...style,
         transform: "none",
-        opacity: "1",
         transition: "none",
+      };
+    } else if (snapshot.isDraggingOver) {
+      return {
+        border: "1px solid orange",
+        ...style,
+        transitionDuration: `all 0.1s ease-in-out`,
       };
     }
     return {
@@ -31,7 +36,7 @@ export const GridContainer = (props: Props) => {
     <Droppable droppableId="gridContainer" direction="horizontal">
       {(provided, snapshot) => (
         <div
-          className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-7 md:my-1 md:p-2 sm:p-1 max-h-[40%]`}
+          className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-7 md:my-1 md:p-2 sm:p-1 max-h-[40%] `}
           style={{
             ...styles,
             transform: snapshot.isDraggingOver ? "none" : "none",
