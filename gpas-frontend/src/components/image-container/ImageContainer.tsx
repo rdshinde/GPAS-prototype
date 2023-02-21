@@ -6,17 +6,21 @@ type Props = {
   imageSrc: string;
   imageAlt: string;
   snapshot: any;
+  pwdVisibility: boolean;
 };
 
 export const ImageContainer = ({
   imageSrc,
   imageAlt,
   snapshot,
+  pwdVisibility,
 }: Props) => {
   return (
     <>
       <div
-        className={`relative rounded-lg hover:cursor-move`}
+        className={`relative rounded-lg hover:cursor-move ${
+          pwdVisibility ? "opacity-100" : "opacity-5"
+        } transition-all duration-200 ease-in-out`}
         style={{
           top: `${snapshot.isDragging ? "-50%" : "auto"}`,
           left: `${snapshot.isDragging ? "-250%" : "auto"}`,

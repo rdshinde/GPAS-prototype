@@ -3,6 +3,8 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import { GridContainer } from "../grid-container/GridContainer";
 import { PwdContainer } from "../pwd-container/PwdContainer";
+import { HidePwdEye } from "../pwd-eye-icon/HidePwdEye";
+import { ShowPwdEye } from "../pwd-eye-icon/ShowPwdEye";
 
 type Props = {};
 export type Images = {
@@ -13,62 +15,101 @@ export type Images = {
 const gridImagesArray = [
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/1/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/12/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/13/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/14/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/15/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/16/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/17/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/18/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/19/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/20/200/300",
     imageAlt: uuid(),
   },
   {
     id: uuid(),
-    imageSrc: "https://picsum.photos/200/300",
+    imageSrc: "https://picsum.photos/id/91/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/81/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/71/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/61/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/51/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/41/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/31/200/300",
+    imageAlt: uuid(),
+  },
+  {
+    id: uuid(),
+    imageSrc: "https://picsum.photos/id/21/200/300",
     imageAlt: uuid(),
   },
 ];
 const pwdImagesArray = [
- 
+  { id: uuid() },
+  { id: uuid() },
+  { id: uuid() },
+  { id: uuid() },
+  { id: uuid() },
   { id: uuid() },
   { id: uuid() },
   { id: uuid() },
@@ -80,34 +121,42 @@ export const PwdBuilder = (props: Props) => {
   const [pwdImages, setPwdImages] = React.useState<Images[] | any>([
     ...pwdImagesArray,
   ]);
-
+  const [pwdVisible, setPwdVisible] = React.useState<boolean>(false);
   const dragEndHandler = (result: DropResult) => {
     console.log(result);
-    if (!result.destination) return;
-    else if (result.destination.index === result.source.index) return;
-    else if (result.destination.index === 0) return;
+    if (pwdImages.length > 8) {
+      console.log("here4");
+      return;
+    }
+    if (!result.destination) {
+      console.log("here3");
+      return;
+    } else if (result.destination.index === result.source.index) return;
     else if (
-      result.destination.droppableId == result.source.droppableId &&
+      result.destination.droppableId === result.source.droppableId &&
       result.source.droppableId === "pwdContainer"
     ) {
+      console.log("here2");
       let activeImage = pwdImages[result.source.index];
       let newPwdImages = [...pwdImages];
       newPwdImages.splice(result.source.index, 1);
       newPwdImages.splice(result.destination.index, 0, activeImage);
       setPwdImages(newPwdImages);
     } else if (
-      result.destination.droppableId == result.source.droppableId &&
+      result.destination.droppableId === result.source.droppableId &&
       result.source.droppableId === "gridContainer"
     ) {
+      console.log("here5");
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
       newGridImages.splice(result.source.index, 1);
       newGridImages.splice(result.destination.index, 0, activeImage);
       setGridImages(newGridImages);
     } else if (
-      result.destination.droppableId !== result.source.droppableId &&
+      result.destination.droppableId === "pwdContainer" &&
       result.source.droppableId === "gridContainer"
     ) {
+      console.log("here6");
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
       newGridImages.splice(result.source.index, 1);
@@ -120,22 +169,16 @@ export const PwdBuilder = (props: Props) => {
       newPwdImages.splice(result.destination.index, 1);
       newPwdImages.splice(result.destination.index, 0, activeImage);
       setPwdImages(newPwdImages);
-    } else if (
-      result.source.droppableId === "pwdContainer" &&
-      result.destination.droppableId !== "gridContainer"
-    ) {
-      let activeImage = pwdImages[result.source.index];
+    } else {
       let newPwdImages = [...pwdImages];
       newPwdImages.splice(result.source.index, 1);
       newPwdImages.splice(result.source.index, 0, {
-        ...activeImage,
-        imageSrc: "",
-        imageAlt: "",
+        id: uuid(),
       });
       setPwdImages(newPwdImages);
-      console.log(pwdImages);
     }
   };
+
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
       <section className="mb-3">
@@ -150,7 +193,19 @@ export const PwdBuilder = (props: Props) => {
           </span>
         </div>
         <GridContainer gridImages={gridImages} />
-        <PwdContainer pwdImages={pwdImages} />
+        <section className="flex justify-between items-center">
+          <h3 className="text-xl font-extrabold text-gray-500 text-start">
+            Your Password.
+          </h3>
+          <button
+            className="text-bluelighter flex items-center gap-2 font-semibold"
+            onClick={() => setPwdVisible((prev) => !prev)}
+          >
+            {pwdVisible ? "Hide Password" : "Show Password"}
+            <span>{pwdVisible ? <HidePwdEye /> : <ShowPwdEye />}</span>
+          </button>
+        </section>
+        <PwdContainer pwdImages={pwdImages} pwdVisibility={pwdVisible} />
       </section>
     </DragDropContext>
   );

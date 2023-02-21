@@ -13,12 +13,13 @@ type Props = {
 export const GridContainer = (props: Props) => {
   function getStyle(style: any, snapshot: any) {
     if (!snapshot.isDropAnimating) {
-      return style;
+      return {
+        ...style,
+      };
     }
     return {
       ...style,
-      // cannot be 0, but make it super tiny
-      transitionDuration: `0.001s`,
+      transitionDuration: `0.0001s`,
     };
   }
   const { children, styles, data, className, gridImages } = props;
@@ -27,7 +28,10 @@ export const GridContainer = (props: Props) => {
       {(provided, snapshot) => (
         <div
           className={`${className} w-full border rounded-lg border-gray-300 flex flex-wrap items-center justify-center gap-7 md:my-1 md:p-2 sm:p-1 max-h-[40%]`}
-          style={{ ...styles }}
+          style={{
+            ...styles,
+            transform: snapshot.isDraggingOver ? "none" : "none",
+          }}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
@@ -44,13 +48,10 @@ export const GridContainer = (props: Props) => {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    // style={{
-                    //   ...provided.draggableProps.style,
-                    // }}
                     style={getStyle(provided.draggableProps.style, snapshot)}
                   >
                     <div
-                      className={`relative rounded-lg hover:cursor-move`}
+                      className={`relative rounded-lg hover:cursor-move `}
                       style={{
                         top: `${snapshot.isDragging ? "-50%" : "auto"}`,
                         left: `${snapshot.isDragging ? "-250%" : "auto"}`,
@@ -61,6 +62,7 @@ export const GridContainer = (props: Props) => {
                         src={img.imageSrc}
                         alt={img.imageAlt}
                         loading="lazy"
+                        style={snapshot.isDragging ? { opacity: "5%" } : {}}
                       />
                     </div>
                   </div>

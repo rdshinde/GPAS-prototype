@@ -5,6 +5,7 @@ import { ImgCollector } from "../img-collector/ImgCollector";
 import { Images } from "../pwd-builder/PwdBuilder";
 type Props = {
   pwdImages: Images[] | any;
+  pwdVisibility: boolean;
 };
 
 export const PwdContainer = (props: Props) => {
@@ -40,6 +41,7 @@ export const PwdContainer = (props: Props) => {
                           imageSrc={img.imageSrc}
                           imageAlt={img.imageAlt}
                           snapshot={snapshot}
+                          pwdVisibility={props.pwdVisibility}
                         />
                       ) : (
                         <ImgCollector snapshot={snapshot} />
