@@ -10,6 +10,11 @@ type Props = {
 
 export const PwdContainer = (props: Props) => {
   const { pwdImages } = props;
+  function getStyle(style: any, snapshot: any) {
+    return {
+      ...style,
+    };
+  }
   return (
     <section className="w-full border border-gray-300 sm:p-1 md:p-2 xl:p-3 sm:my-1 md:my-2 xl:my-3 rounded-lg flex gap-7 items-center justify-center">
       <Droppable droppableId="pwdContainer" direction="horizontal">
@@ -18,7 +23,6 @@ export const PwdContainer = (props: Props) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
             className="w-full flex gap-7 items-center justify-center"
-            // style={getListStyle(snapshot.isDraggingOver)}
           >
             {pwdImages.map((img: Images, i: number) => {
               return (
@@ -32,9 +36,7 @@ export const PwdContainer = (props: Props) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      style={{
-                        ...provided.draggableProps.style,
-                      }}
+                      style={getStyle(provided.draggableProps.style, snapshot)}
                     >
                       {img.imageSrc ? (
                         <ImageContainer
@@ -51,6 +53,7 @@ export const PwdContainer = (props: Props) => {
                 </Draggable>
               );
             })}
+           
             {provided.placeholder}
           </div>
         )}

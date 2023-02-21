@@ -122,21 +122,21 @@ export const PwdBuilder = (props: Props) => {
     ...pwdImagesArray,
   ]);
   const [pwdVisible, setPwdVisible] = React.useState<boolean>(false);
+
+  function isPwdEmpty(objects: Images[]): boolean {
+    return objects.some((obj) => Boolean(obj.imageSrc));
+  }
   const dragEndHandler = (result: DropResult) => {
-    console.log(result);
     if (pwdImages.length > 8) {
-      console.log("here4");
       return;
     }
     if (!result.destination) {
-      console.log("here3");
       return;
     } else if (result.destination.index === result.source.index) return;
     else if (
       result.destination.droppableId === result.source.droppableId &&
       result.source.droppableId === "pwdContainer"
     ) {
-      console.log("here2");
       let activeImage = pwdImages[result.source.index];
       let newPwdImages = [...pwdImages];
       newPwdImages.splice(result.source.index, 1);
@@ -146,7 +146,6 @@ export const PwdBuilder = (props: Props) => {
       result.destination.droppableId === result.source.droppableId &&
       result.source.droppableId === "gridContainer"
     ) {
-      console.log("here5");
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
       newGridImages.splice(result.source.index, 1);
@@ -156,7 +155,6 @@ export const PwdBuilder = (props: Props) => {
       result.destination.droppableId === "pwdContainer" &&
       result.source.droppableId === "gridContainer"
     ) {
-      console.log("here6");
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
       newGridImages.splice(result.source.index, 1);
@@ -193,17 +191,29 @@ export const PwdBuilder = (props: Props) => {
           </span>
         </div>
         <GridContainer gridImages={gridImages} />
-        <section className="flex justify-between items-center">
+        <section className="flex justify-between items-center my-3">
           <h3 className="text-xl font-extrabold text-gray-500 text-start">
             Your Password.
           </h3>
-          <button
-            className="text-bluelighter flex items-center gap-2 font-semibold"
-            onClick={() => setPwdVisible((prev) => !prev)}
-          >
-            {pwdVisible ? "Hide Password" : "Show Password"}
-            <span>{pwdVisible ? <HidePwdEye /> : <ShowPwdEye />}</span>
-          </button>
+          <div className="flex items-center gap-5">
+            {isPwdEmpty(pwdImages) ? (
+              <button
+                className="text-bluelighter ont-semibold"
+                onClick={() => setPwdImages([...pwdImagesArray])}
+              >
+                Clear Password
+              </button>
+            ) : (
+              ""
+            )}
+            <button
+              className="text-bluelighter flex items-center gap-2 font-semibold"
+              onClick={() => setPwdVisible((prev) => !prev)}
+            >
+              {pwdVisible ? "Hide Password" : "Show Password"}
+              <span>{pwdVisible ? <HidePwdEye /> : <ShowPwdEye />}</span>
+            </button>
+          </div>
         </section>
         <PwdContainer pwdImages={pwdImages} pwdVisibility={pwdVisible} />
       </section>

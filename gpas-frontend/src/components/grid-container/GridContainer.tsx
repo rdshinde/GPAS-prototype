@@ -12,9 +12,13 @@ type Props = {
 
 export const GridContainer = (props: Props) => {
   function getStyle(style: any, snapshot: any) {
+    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
       return {
         ...style,
+        transform: "none",
+        opacity: "1",
+        transition: "none",
       };
     }
     return {
@@ -70,7 +74,7 @@ export const GridContainer = (props: Props) => {
               </Draggable>
             );
           })}
-          {provided.placeholder}
+          {/* {provided.placeholder} */}
         </div>
       )}
     </Droppable>
