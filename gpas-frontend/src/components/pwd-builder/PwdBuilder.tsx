@@ -201,7 +201,7 @@ export const PwdBuilder = (props: Props) => {
                 className="text-bluelighter ont-semibold"
                 onClick={() => setPwdImages([...pwdImagesArray])}
               >
-                Clear Password
+                Reset Password
               </button>
               <button
                 className="text-bluelighter flex items-center gap-2 font-semibold"
