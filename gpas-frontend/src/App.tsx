@@ -53,10 +53,10 @@ function App() {
       <ModalContainer>
         <IconContainer />
         <StepperChain steps={steps } />
-        <AuthOptions />
+        {/* <AuthOptions /> */}
         {/* <UserNameField /> */}
         {/* <PwdBuilder /> */}
-        {/* <MnemonicPhraseContainer /> */}
+        <MnemonicPhraseContainer />
         {/* <MnemonicInput /> */}
         <FooterNav />
       </ModalContainer>
