@@ -14,7 +14,7 @@ export const AuthOptions = (props: Props) => {
           </h2>
           <span className="font-bold text-md text-bluelight">
             If you have already registered with
-            <span className="text-orange font-semibold"> VisualDAuth </span>
+            <span className="text-orange font-bold"> VisualDAuth </span>
             please choose Login, otherwise choose register.
           </span>
         </div>
@@ -40,6 +40,14 @@ export const AuthOptions = (props: Props) => {
           </span>
           <span className="font-bold text-lg">Login as an existing user.</span>
         </button>
+      </section>
+      <section className="my-1">
+        <p className="p-1">
+          To recover your account or password{" "}
+          <button className="text-orange font-bold cursor-pointer hover:underline transition-all ease-in-out">
+            click here.
+          </button>
+        </p>
       </section>
     </>
   );
