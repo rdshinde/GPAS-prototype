@@ -18,12 +18,35 @@ import {
 
 import "./styles/App.css";
 
+const steps = [
+  {
+    stepName: "Username",
+    stepNumber: 1,
+    isActive: false,
+    isCompleted: true,
+  },
+  {
+    stepName: "Password",
+    stepNumber: 2,
+    isActive: true,
+    isCompleted: false,
+  },
+
+  {
+    stepName: "Done!",
+    stepNumber: 3,
+    isActive: false,
+    isCompleted: false,
+  },
+];
+
 function App() {
   return (
     <div className="App">
       <ModalContainerOverlay />
       <ModalContainer>
         <IconContainer />
+        <StepperChain steps={steps } />
         <PwdBuilder />
         <FooterNav />
       </ModalContainer>

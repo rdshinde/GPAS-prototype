@@ -6,13 +6,15 @@ import { Images } from "../pwd-builder/PwdBuilder";
 type Props = {
   pwdImages: Images[] | any;
   pwdVisibility: boolean;
+  dragSource: string;
 };
 
 export const PwdContainer = (props: Props) => {
-  const { pwdImages } = props;
+  const { pwdImages, dragSource } = props;
   function getStyle(style: any, snapshot: any) {
     return {
       ...style,
+      transform: dragSource === "gridContainer" ? "none" : style.transform,
     };
   }
   return (
@@ -54,7 +56,7 @@ export const PwdContainer = (props: Props) => {
               );
             })}
 
-            {provided.placeholder}
+            {dragSource === "gridContainer" ? "" : provided.placeholder}
           </div>
         )}
       </Droppable>

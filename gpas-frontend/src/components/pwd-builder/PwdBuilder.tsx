@@ -123,6 +123,12 @@ export const PwdBuilder = (props: Props) => {
   ]);
   const [pwdVisible, setPwdVisible] = React.useState<boolean>(false);
 
+  const [dragSource, setDragSource] = React.useState<string>("");
+
+  const onDragStartHandler = (result: any) => {
+    setDragSource(result.source.droppableId);
+  };
+
   function isPwdEmpty(objects: Images[]): boolean {
     return objects.some((obj) => Boolean(obj.imageSrc));
   }
@@ -178,7 +184,10 @@ export const PwdBuilder = (props: Props) => {
   };
 
   return (
-    <DragDropContext onDragEnd={dragEndHandler}>
+    <DragDropContext
+      onDragEnd={dragEndHandler}
+      onDragStart={onDragStartHandler}
+    >
       <section className="mb-3">
         <div className="text-start py-3 my-2">
           <h2 className="text-2xl font-extrabold text-gray-500">
@@ -215,7 +224,11 @@ export const PwdBuilder = (props: Props) => {
             ""
           )}
         </section>
-        <PwdContainer pwdImages={pwdImages} pwdVisibility={pwdVisible} />
+        <PwdContainer
+          pwdImages={pwdImages}
+          pwdVisibility={pwdVisible}
+          dragSource={dragSource}
+        />
       </section>
     </DragDropContext>
   );
