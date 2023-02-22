@@ -7,10 +7,11 @@ type Props = {
   pwdImages: Images[] | any;
   pwdVisibility: boolean;
   dragSource: string;
+  dragDestination: string;
 };
 
 export const PwdContainer = (props: Props) => {
-  const { pwdImages, dragSource } = props;
+  const { pwdImages, dragSource, dragDestination } = props;
   function getStyle(style: any, snapshot: any) {
     return {
       ...style,
@@ -39,6 +40,12 @@ export const PwdContainer = (props: Props) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       style={getStyle(provided.draggableProps.style, snapshot)}
+                      className={`${
+                        dragDestination === "gridContainer" &&
+                        dragSource === "pwdContainer"
+                          ? "transform-none"
+                          : ""
+                      }`}
                     >
                       {img.imageSrc ? (
                         <ImageContainer
@@ -57,6 +64,7 @@ export const PwdContainer = (props: Props) => {
             })}
 
             {dragSource === "gridContainer" ? "" : provided.placeholder}
+            
           </div>
         )}
       </Droppable>

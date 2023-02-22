@@ -21,7 +21,7 @@ export const StepperChain = ({ steps }: Props) => {
         return (
           <li
             className={`flex items-center ${
-              index < 2 ? "w-full" : ""
+              step.stepNumber < steps.length ? "w-full" : ""
             } after:inline-block after:content-[""] after:w-full after:h-[0.5px] ${
               step.isCompleted && "after:border-blue after:border-[1px]"
             }
@@ -54,9 +54,11 @@ export const StepperChain = ({ steps }: Props) => {
               {step.isActive ? (
                 <span className="text-blue font-bold">{step.stepName}</span>
               ) : step.isCompleted ? (
-                <span className="text-blue">{step.stepName}</span>
+                <span className="text-blue font-extrabold">
+                  {step.stepName}
+                </span>
               ) : (
-                step.stepName
+                <span className="font-semibold">{step.stepName}</span>
               )}
             </span>
           </li>

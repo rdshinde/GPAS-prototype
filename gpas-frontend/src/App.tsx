@@ -20,21 +20,27 @@ import "./styles/App.css";
 
 const steps = [
   {
-    stepName: "Username",
+    stepName: "Choose Route",
     stepNumber: 1,
+    isActive: true,
+    isCompleted: false,
+  },
+  {
+    stepName: "Username",
+    stepNumber: 2,
     isActive: false,
-    isCompleted: true,
+    isCompleted: false,
   },
   {
     stepName: "Password",
-    stepNumber: 2,
-    isActive: true,
+    stepNumber: 3,
+    isActive: false,
     isCompleted: false,
   },
 
   {
     stepName: "Done!",
-    stepNumber: 3,
+    stepNumber: 4,
     isActive: false,
     isCompleted: false,
   },
@@ -47,7 +53,11 @@ function App() {
       <ModalContainer>
         <IconContainer />
         <StepperChain steps={steps } />
-        <PwdBuilder />
+        <AuthOptions />
+        {/* <UserNameField /> */}
+        {/* <PwdBuilder /> */}
+        {/* <MnemonicPhraseContainer /> */}
+        {/* <MnemonicInput /> */}
         <FooterNav />
       </ModalContainer>
     </div>

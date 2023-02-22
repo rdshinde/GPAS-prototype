@@ -12,7 +12,6 @@ type Props = {
 
 export const GridContainer = (props: Props) => {
   function getStyle(style: any, snapshot: any) {
-    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
       return {
         ...style,
