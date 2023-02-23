@@ -9,22 +9,34 @@ import {
 import { Props } from "../../components/auth-button/AuthButton";
 type UiState = {
   isModalOpen: boolean;
-  chosenRoute: string;
-  currentStep: string;
-  previousStep: string;
+  chosenRoute: "login" | "register" | "recover" | "";
+  currentStep: "Choose Route" | "Username" | "Password" | "Verify" | "Done";
+  previousStep:
+    | "Choose Route"
+    | "Username"
+    | "Password"
+    | "Verify"
+    | "Done"
+    | "";
+  nextStep: "Choose Route" | "Username" | "Password" | "Verify" | "Done" | "";
   allSteps: {
-    stepName: string;
+    stepName: "Choose Route" | "Username" | "Password" | "Verify" | "Done!";
     stepNumber: number;
     isActive: boolean;
     isCompleted: boolean;
   }[];
 };
 
+const currentStep = {
+  
+};
+
 const initialUiState: UiState = {
   isModalOpen: false,
   chosenRoute: "",
-  currentStep: "",
+  currentStep: "Choose Route",
   previousStep: "",
+  nextStep: "",
   allSteps: [
     {
       stepName: "Choose Route",
@@ -83,6 +95,7 @@ export enum UiActionsTypes {
   SET_STEPS = "SET_STEPS",
   SET_CURRENT_STEP = "SET_CURRENT_STEP",
   SET_PREVIOUS_STEP = "SET_PREVIOUS_STEP",
+  SET_NEXT_STEP = "SET_NEXT_STEP",
 }
 
 type UiActions = {
@@ -240,6 +253,12 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
         ...state,
         previousStep: payload,
       };
+    case UiActionsTypes.SET_NEXT_STEP:
+      return {
+        ...state,
+        nextStep: payload,
+      };
+
     default:
       return state;
   }
