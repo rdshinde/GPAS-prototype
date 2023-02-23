@@ -1,20 +1,4 @@
 import React from "react";
-import {
-  AuthButton,
-  FooterNav,
-  GridContainer,
-  IconContainer,
-  ImageContainer,
-  MnemonicPhraseContainer,
-  ModalContainer,
-  ModalContainerOverlay,
-  StepperChain,
-  UserNameField,
-  PwdContainer,
-  MnemonicInput,
-  AuthOptions,
-  PwdBuilder,
-} from "./components";
 import { useUi } from "./context/ui/UiProvider";
 
 import "./styles/App.css";

@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import { createContext, useContext, useReducer } from "react";
 import {
   AuthButton,
@@ -248,14 +249,16 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const [uiState, uiDispatch] = useReducer(uiReducer, initialUiState);
   return (
     <UiContext.Provider value={{ uiState, uiDispatch, AuthButton }}>
-      {uiState.isModalOpen && (
-        <>
-          <ModalContainerOverlay />
-          <ModalContainer>
-            <AuthHandler />
-          </ModalContainer>
-        </>
-      )}
+      <AnimatePresence>
+        {uiState.isModalOpen && (
+          <>
+            <ModalContainerOverlay />
+            <ModalContainer>
+              <AuthHandler />
+            </ModalContainer>
+          </>
+        )}
+      </AnimatePresence>
       {children}
     </UiContext.Provider>
   );
