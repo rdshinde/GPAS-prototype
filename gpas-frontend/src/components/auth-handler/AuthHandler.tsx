@@ -15,58 +15,50 @@ export const AuthHandler = (props: Props) => {
   const { uiState, uiDispatch } = useUi();
   const { isModalOpen, chosenRoute, allSteps, currentStep, previousStep } =
     uiState;
-  const stepChainRenderingHandler = () => {
-    if (chosenRoute === "login") {
-      return (
-        <>
-          <StepperChain steps={allSteps} />
-          {componentRenderingHandler(currentStep)}
-        </>
-      );
-    } else if (chosenRoute === "register") {
-      return (
-        <>
-          <StepperChain steps={allSteps} />
-          {componentRenderingHandler(currentStep)}
-        </>
-      );
-    } else if (chosenRoute === "recover") {
-      return (
-        <>
-          <StepperChain steps={allSteps} />
-          {componentRenderingHandler(currentStep)}
-        </>
-      );
-    } else {
-      return (
-        <>
-          <StepperChain steps={allSteps} />
-          <AuthOptions />
-        </>
-      );
-    }
-  };
 
-  const componentRenderingHandler = (currentStep: string): ReactNode => {
-    if (currentStep === "username") {
-      return <UserNameField />;
-    } else if (currentStep === "password") {
-      return <PwdBuilder />;
-    } else if (currentStep === "done") {
-      return <MnemonicPhraseContainer />;
-    } else if (currentStep === "choose route") {
-      return <AuthOptions />;
-    } else if (currentStep === "verify") {
-      return <MnemonicInput />;
-    } else {
-      return <></>;
+  const componentRenderingHandler = (): ReactNode => {
+    switch (currentStep) {
+      case "Username":
+        return (
+          <>
+            <StepperChain steps={allSteps} />
+            <UserNameField />
+          </>
+        );
+
+      case "Password":
+        return (
+          <>
+            <StepperChain steps={allSteps} />
+            <PwdBuilder />
+          </>
+        );
+
+      case "Verify":
+        return (
+          <>
+            <StepperChain steps={allSteps} />
+            <MnemonicInput />
+          </>
+        );
+
+      case "Done!":
+        return (
+          <>
+            <StepperChain steps={allSteps} />
+            <MnemonicPhraseContainer />
+          </>
+        );
+
+      default:
+        return <AuthOptions />;
     }
   };
 
   return (
     <>
       <IconContainer />
-      {stepChainRenderingHandler()}
+      {componentRenderingHandler()}
       <FooterNav />
     </>
   );

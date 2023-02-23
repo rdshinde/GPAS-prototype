@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import {
   AuthButton,
   AuthHandler,
@@ -10,66 +10,24 @@ import { Props } from "../../components/auth-button/AuthButton";
 type UiState = {
   isModalOpen: boolean;
   chosenRoute: "login" | "register" | "recover" | "";
-  currentStep: "Choose Route" | "Username" | "Password" | "Verify" | "Done";
-  previousStep:
-    | "Choose Route"
-    | "Username"
-    | "Password"
-    | "Verify"
-    | "Done"
-    | "";
-  nextStep: "Choose Route" | "Username" | "Password" | "Verify" | "Done" | "";
+  currentStep: "Username" | "Password" | "Verify" | "Done!" | "";
+  previousStep: "Username" | "Password" | "Verify" | "Done!" | any;
+  nextStep: "Username" | "Password" | "Verify" | "Done!" | any;
   allSteps: {
-    stepName: "Choose Route" | "Username" | "Password" | "Verify" | "Done!";
+    stepName: "Username" | "Password" | "Verify" | "Done!";
     stepNumber: number;
     isActive: boolean;
     isCompleted: boolean;
   }[];
 };
 
-const currentStep = {
-  
-};
-
 const initialUiState: UiState = {
   isModalOpen: false,
   chosenRoute: "",
-  currentStep: "Choose Route",
+  currentStep: "",
   previousStep: "",
   nextStep: "",
-  allSteps: [
-    {
-      stepName: "Choose Route",
-      stepNumber: 1,
-      isActive: true,
-      isCompleted: false,
-    },
-    {
-      stepName: "Username",
-      stepNumber: 2,
-      isActive: false,
-      isCompleted: false,
-    },
-    {
-      stepName: "Password",
-      stepNumber: 3,
-      isActive: false,
-      isCompleted: false,
-    },
-    {
-      stepName: "Verify",
-      stepNumber: 4,
-      isActive: false,
-      isCompleted: false,
-    },
-
-    {
-      stepName: "Done!",
-      stepNumber: 5,
-      isActive: false,
-      isCompleted: false,
-    },
-  ],
+  allSteps: [],
 };
 
 const UiContext = createContext<{
@@ -93,9 +51,8 @@ export enum UiActionsTypes {
   CLOSE_MODAL = "CLOSE_MODAL",
   SET_ROUTE = "SET_ROUTE",
   SET_STEPS = "SET_STEPS",
-  SET_CURRENT_STEP = "SET_CURRENT_STEP",
-  SET_PREVIOUS_STEP = "SET_PREVIOUS_STEP",
-  SET_NEXT_STEP = "SET_NEXT_STEP",
+  GO_TO_NEXT_STEP = "GO_TO_NEXT_STEP",
+  GO_TO_PREVIOUS_STEP = "GO_TO_PREVIOUS_STEP",
 }
 
 type UiActions = {
@@ -105,29 +62,23 @@ type UiActions = {
 
 const getSteps = (payload: string): any => {
   switch (payload) {
-    case "create":
+    case "register":
       return [
         {
-          stepName: "Choose Route",
+          stepName: "Username",
           stepNumber: 1,
           isActive: true,
           isCompleted: false,
         },
         {
-          stepName: "Username",
-          stepNumber: 2,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
           stepName: "Password",
-          stepNumber: 3,
+          stepNumber: 2,
           isActive: false,
           isCompleted: false,
         },
         {
           stepName: "Done!",
-          stepNumber: 4,
+          stepNumber: 3,
           isActive: false,
           isCompleted: false,
         },
@@ -135,26 +86,20 @@ const getSteps = (payload: string): any => {
     case "recover":
       return [
         {
-          stepName: "Choose Route",
+          stepName: "Username",
           stepNumber: 1,
           isActive: true,
           isCompleted: false,
         },
         {
-          stepName: "Username",
-          stepNumber: 2,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
           stepName: "Verify",
-          stepNumber: 3,
+          stepNumber: 2,
           isActive: false,
           isCompleted: false,
         },
         {
           stepName: "Password",
-          stepNumber: 4,
+          stepNumber: 3,
           isActive: false,
           isCompleted: false,
         },
@@ -168,53 +113,21 @@ const getSteps = (payload: string): any => {
     case "login":
       return [
         {
-          stepName: "Choose Route",
+          stepName: "Username",
           stepNumber: 1,
           isActive: true,
           isCompleted: false,
         },
         {
-          stepName: "Username",
-          stepNumber: 2,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
           stepName: "Password",
-          stepNumber: 3,
+          stepNumber: 2,
           isActive: false,
           isCompleted: false,
         },
       ];
 
     default:
-      return [
-        {
-          stepName: "Choose Route",
-          stepNumber: 1,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
-          stepName: "Username",
-          stepNumber: 2,
-          isActive: false,
-          isCompleted: false,
-        },
-        {
-          stepName: "Password",
-          stepNumber: 3,
-          isActive: false,
-          isCompleted: false,
-        },
-
-        {
-          stepName: "Done!",
-          stepNumber: 4,
-          isActive: false,
-          isCompleted: false,
-        },
-      ];
+      return [];
   }
 };
 
@@ -239,24 +152,71 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
         chosenRoute: payload,
       };
     case UiActionsTypes.SET_STEPS:
+      const steps = getSteps(payload);
       return {
         ...state,
-        allSteps: [...getSteps(payload)],
+        currentStep: steps[0].stepName,
+        nextStep: steps[1].stepName,
+        previousStep: "",
+        allSteps: [...steps],
       };
-    case UiActionsTypes.SET_CURRENT_STEP:
+    case UiActionsTypes.GO_TO_NEXT_STEP:
+      let currentStepIndx = state.allSteps.findIndex(
+        (step) => step.stepName === state.currentStep
+      );
       return {
         ...state,
         currentStep: payload,
+        previousStep: state.currentStep,
+        nextStep: state.allSteps[currentStepIndx + 1].stepName,
+        allSteps: state.allSteps.map((step) => {
+          if (step.stepName === payload) {
+            return {
+              ...step,
+              isActive: true,
+              isCompleted: true,
+            };
+          } else if (step.stepName === state.nextStep) {
+            return {
+              ...step,
+              isActive: true,
+            };
+          } else {
+            return {
+              ...step,
+              isActive: false,
+            };
+          }
+        }),
       };
-    case UiActionsTypes.SET_PREVIOUS_STEP:
+    case UiActionsTypes.GO_TO_PREVIOUS_STEP:
+      let currentStepIndex = state.allSteps.findIndex(
+        (step) => step.stepName === state.currentStep
+      );
       return {
         ...state,
-        previousStep: payload,
-      };
-    case UiActionsTypes.SET_NEXT_STEP:
-      return {
-        ...state,
-        nextStep: payload,
+        currentStep: payload,
+        nextStep: state.currentStep,
+        previousStep: state.allSteps[currentStepIndex - 1].stepName ?? "",
+        allSteps: state.allSteps.map((step) => {
+          if (step.stepName === payload) {
+            return {
+              ...step,
+              isActive: true,
+              isCompleted: false,
+            };
+          } else if (step.stepName === state.previousStep) {
+            return {
+              ...step,
+              isActive: true,
+            };
+          } else {
+            return {
+              ...step,
+              isActive: false,
+            };
+          }
+        }),
       };
 
     default:
@@ -266,6 +226,15 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
 
 const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const [uiState, uiDispatch] = useReducer(uiReducer, initialUiState);
+  useEffect(() => {
+    if (uiState.chosenRoute) {
+      uiDispatch({
+        type: UiActionsTypes.SET_STEPS,
+        payload: uiState.chosenRoute,
+      });
+    }
+  }, [uiState.chosenRoute]);
+  console.log(uiState);
   return (
     <UiContext.Provider value={{ uiState, uiDispatch, AuthButton }}>
       <AnimatePresence>
