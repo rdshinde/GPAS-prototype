@@ -1,25 +1,35 @@
 import React from "react";
+import { UiActionsTypes, useUi } from "../../context/ui/UiProvider";
 
-type Props = {
-  children: React.ReactNode;
+export type Props = {
+  children?: React.ReactNode;
   styles?: React.CSSProperties;
   className?: string;
 };
 
 const authButtonStyles = {
   default:
-    "m-3 mx-auto bg-white border border-blue hover:border-none text-blue hover:text-white hover:bg-blue transition-all w-[350px] rounded-md shadow-sm shadow-blue flex flex-row justify-center items-center font-bold cursor-pointer duration-900 h-[50px]",
+    "m-3 mx-auto bg-inherit border border-gray-300 hover:border-none text-blue hover:text-white hover:bg-blue transition-all px-4 py-3 w-[content] rounded-md shadow-sm shadow-gray-300 flex flex-row justify-center items-center font-bold cursor-pointer duration-500 h-[content] z-0",
 };
 
 export const AuthButton = (props: Props) => {
+  const { uiState, uiDispatch } = useUi();
   const { styles, className } = props;
   return (
-    <div
-      style={{ ...styles }}
-      className={`${className} ${authButtonStyles.default}`}
-    >
-      {props.children}
-    </div>
+    <>
+      {uiState.isModalOpen ? (
+        ""
+      ) : (
+        <button
+          style={{ ...styles }}
+          className={`${className} ${authButtonStyles.default} `}
+          type="button"
+          title="Authenticate using VisualDAuth."
+          onClick={() => uiDispatch({ type: UiActionsTypes.OPEN_MODAL })}
+        >
+          {props.children ? props.children : `Authenticate using VisualDAuth.`}
+        </button>
+      )}
+    </>
   );
 };
-

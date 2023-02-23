@@ -3,13 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { UiProvider } from "./context/ui/UiProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   // <React.StrictMode>
+  <UiProvider>
     <App />
+  </UiProvider>
   // {/* </React.StrictMode> */}
 );
 

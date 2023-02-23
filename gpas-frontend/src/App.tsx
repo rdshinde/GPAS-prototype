@@ -15,6 +15,7 @@ import {
   AuthOptions,
   PwdBuilder,
 } from "./components";
+import { useUi } from "./context/ui/UiProvider";
 
 import "./styles/App.css";
 
@@ -47,19 +48,10 @@ const steps = [
 ];
 
 function App() {
+  const { AuthButton } = useUi();
   return (
     <div className="App">
-      <ModalContainerOverlay />
-      <ModalContainer>
-        <IconContainer />
-        <StepperChain steps={steps } />
-        <AuthOptions />
-        {/* <UserNameField /> */}
-        {/* <PwdBuilder /> */}
-        {/* <MnemonicPhraseContainer /> */}
-        {/* <MnemonicInput /> */}
-        <FooterNav />
-      </ModalContainer>
+      <AuthButton />
     </div>
   );
 }
