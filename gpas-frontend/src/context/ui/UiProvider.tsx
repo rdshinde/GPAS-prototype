@@ -21,7 +21,7 @@ type UiState = {
   }[];
 };
 
-const initialUiState: UiState = {
+export const initialUiState: UiState = {
   isModalOpen: false,
   chosenRoute: "",
   currentStep: "",
@@ -61,7 +61,7 @@ type UiActions = {
   payload?: any;
 };
 
-const getSteps = (payload: string): any => {
+export const getSteps = (payload: string): any => {
   switch (payload) {
     case "register":
       return [
@@ -139,7 +139,7 @@ const getSteps = (payload: string): any => {
 
 const useUi = (): UseUi => useContext(UiContext);
 
-const uiReducer = (state: UiState, action: UiActions): UiState => {
+export const uiReducer = (state: UiState, action: UiActions): UiState => {
   const { type, payload } = action;
   switch (type) {
     case UiActionsTypes.OPEN_MODAL:

@@ -11,6 +11,7 @@ export const ModalContainer = (props: Props) => {
   const { children, styles, className } = props;
   return (
     <motion.div
+      id="modal-container"
       layout
       initial={{ scale: 0.7, opacity: 0 }}
       animate={{
