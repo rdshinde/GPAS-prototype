@@ -20,8 +20,8 @@ export const StepperChain = ({ steps }: Props) => {
       {steps.map((step, index) => {
         return (
           <li
-            className={`flex items-center ${
-              step.stepNumber < steps.length ? "w-full" : ""
+            className={`flex items-center px-0 ${
+              step.stepNumber < steps.length ? "w-full" : "after:hidden"
             } after:inline-block after:content-[""] after:w-full after:h-[0.5px] ${
               step.isCompleted && "after:border-blue after:border-[1px]"
             }

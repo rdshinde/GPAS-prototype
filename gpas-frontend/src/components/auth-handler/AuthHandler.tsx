@@ -59,9 +59,18 @@ export const AuthHandler = (props: Props) => {
   return (
     <>
       <IconContainer />
-      {uiState.chosenRoute ? <StepperChain steps={allSteps} /> : ""}
-      {currentComponent}
-      <FooterNav />
+      <div className="w-full border border-gray-300 rounded-lg px-3 py-2 pt-5 my-5">
+        {uiState.chosenRoute ? <StepperChain steps={allSteps} /> : ""}
+        {currentComponent}
+        <FooterNav />
+      </div>
+      <footer className="mt-2">
+        <p className="text-center text-gray-500 text-xs">
+          &copy;2023{" "}
+          <span className="text-bluelight cursor-pointer">VisualDAuth</span>.
+          All rights reserved.
+        </p>
+      </footer>
     </>
   );
 };

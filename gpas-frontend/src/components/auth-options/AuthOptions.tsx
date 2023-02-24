@@ -67,7 +67,7 @@ export const AuthOptions = (props: Props) => {
           <span className="font-bold text-lg">Login as an existing user.</span>
         </button>
       </section>
-      <section className="my-1">
+      <section className="my-1 w-full text-center">
         <p className="p-1">
           To recover your account or password{" "}
           <button

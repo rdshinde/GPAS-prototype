@@ -79,13 +79,6 @@ export const FooterNav = (props: Props) => {
           </button>
         </nav>
       )}
-      <footer className="mt-2">
-        <p className="text-center text-gray-500 text-xs">
-          &copy;2023{" "}
-          <span className="text-bluelight cursor-pointer">VisualDAuth</span>.
-          All rights reserved.
-        </p>
-      </footer>
     </>
   );
 };
