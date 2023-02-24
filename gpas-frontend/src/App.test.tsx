@@ -1,12 +1,14 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, renderHook, screen } from "@testing-library/react";
 import App from "./App";
 import {
   getSteps,
   initialUiState,
   UiActionsTypes,
   uiReducer,
+  useUi,
 } from "./context/ui/UiProvider";
+import { act } from "react-dom/test-utils";
 
 // test("renders learn react link", () => {
 //   render(<App />);
@@ -151,3 +153,5 @@ test("getSteps should return the steps for the forgot password route", () => {
     },
   ]);
 });
+
+// Write tests for useReducer next step case
