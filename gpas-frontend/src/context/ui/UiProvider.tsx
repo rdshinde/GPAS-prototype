@@ -53,6 +53,7 @@ export enum UiActionsTypes {
   SET_STEPS = "SET_STEPS",
   GO_TO_NEXT_STEP = "GO_TO_NEXT_STEP",
   GO_TO_PREVIOUS_STEP = "GO_TO_PREVIOUS_STEP",
+  RESET = "RESET",
 }
 
 type UiActions = {
@@ -124,8 +125,13 @@ const getSteps = (payload: string): any => {
           isActive: false,
           isCompleted: false,
         },
+        {
+          stepName: "Done!",
+          stepNumber: 3,
+          isActive: false,
+          isCompleted: false,
+        },
       ];
-
     default:
       return [];
   }
@@ -168,25 +174,27 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
         ...state,
         currentStep: payload,
         previousStep: state.currentStep,
-        nextStep: state.allSteps[currentStepIndx + 1].stepName,
-        allSteps: state.allSteps.map((step) => {
-          if (step.stepName === payload) {
+        nextStep: state.allSteps[currentStepIndx + 1]?.stepName || "",
+        allSteps: state.allSteps.map((step, index) => {
+          if (index === currentStepIndx + 1) {
             return {
               ...step,
               isActive: true,
-              isCompleted: true,
+              isCompleted: false,
             };
-          } else if (step.stepName === state.nextStep) {
-            return {
-              ...step,
-              isActive: true,
-            };
-          } else {
+          } else if (index < currentStepIndx) {
             return {
               ...step,
               isActive: false,
+              isCompleted: true,
             };
-          }
+          } else if (index > currentStepIndx) {
+            return {
+              ...step,
+              isActive: false,
+              isCompleted: false,
+            };
+          } else return step;
         }),
       };
     case UiActionsTypes.GO_TO_PREVIOUS_STEP:
@@ -196,29 +204,39 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
       return {
         ...state,
         currentStep: payload,
-        nextStep: state.currentStep,
-        previousStep: state.allSteps[currentStepIndex - 1].stepName ?? "",
-        allSteps: state.allSteps.map((step) => {
+        nextStep: state.allSteps[currentStepIndex],
+        previousStep: state.allSteps[currentStepIndex - 1].stepName || "",
+        allSteps: state.allSteps.map((step, index) => {
           if (step.stepName === payload) {
             return {
               ...step,
               isActive: true,
               isCompleted: false,
             };
-          } else if (step.stepName === state.previousStep) {
-            return {
-              ...step,
-              isActive: true,
-            };
-          } else {
+          } else if (index > currentStepIndex) {
             return {
               ...step,
               isActive: false,
+              isCompleted: false,
             };
-          }
+          } else if (index < currentStepIndex) {
+            return {
+              ...step,
+              isActive: false,
+              isCompleted: true,
+            };
+          } else return step;
         }),
       };
-
+    case UiActionsTypes.RESET:
+      return {
+        ...state,
+        chosenRoute: "",
+        currentStep: "",
+        nextStep: "",
+        previousStep: "",
+        allSteps: [],
+      };
     default:
       return state;
   }
@@ -226,6 +244,7 @@ const uiReducer = (state: UiState, action: UiActions): UiState => {
 
 const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const [uiState, uiDispatch] = useReducer(uiReducer, initialUiState);
+
   useEffect(() => {
     if (uiState.chosenRoute) {
       uiDispatch({
@@ -234,6 +253,7 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
   }, [uiState.chosenRoute]);
+
   console.log(uiState);
   return (
     <UiContext.Provider value={{ uiState, uiDispatch, AuthButton }}>

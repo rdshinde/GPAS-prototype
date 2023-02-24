@@ -18,15 +18,10 @@ export const FooterNav = (props: Props) => {
   };
   const previousButtonHandler = () => {
     const { allSteps, currentStep, previousStep, nextStep } = uiState;
-    if (!previousStep) {
-      return;
-    } else if (uiState.currentStep === "Username") {
+    if (!previousStep || currentStep === allSteps[0].stepName) {
       uiDispatch({
-        type: UiActionsTypes.SET_ROUTE,
-        payload: "",
+        type: UiActionsTypes.RESET,
       });
-      return;
-    } else if (currentStep === allSteps[0].stepName) {
       return;
     } else {
       uiDispatch({

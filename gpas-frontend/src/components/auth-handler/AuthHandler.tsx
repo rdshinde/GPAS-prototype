@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { useUi } from "../../context/ui/UiProvider";
 import { AuthOptions } from "../auth-options/AuthOptions";
 import { FooterNav } from "../footer-navigation/FooterNav";
@@ -15,13 +15,14 @@ export const AuthHandler = (props: Props) => {
   const { uiState, uiDispatch } = useUi();
   const { isModalOpen, chosenRoute, allSteps, currentStep, previousStep } =
     uiState;
-
+  const [currentComponent, setCurrentComponent] = useState<ReactNode>(
+    <AuthOptions />
+  );
   const componentRenderingHandler = (): ReactNode => {
     switch (currentStep) {
       case "Username":
         return (
           <>
-            <StepperChain steps={allSteps} />
             <UserNameField />
           </>
         );
@@ -29,7 +30,6 @@ export const AuthHandler = (props: Props) => {
       case "Password":
         return (
           <>
-            <StepperChain steps={allSteps} />
             <PwdBuilder />
           </>
         );
@@ -37,7 +37,6 @@ export const AuthHandler = (props: Props) => {
       case "Verify":
         return (
           <>
-            <StepperChain steps={allSteps} />
             <MnemonicInput />
           </>
         );
@@ -45,7 +44,6 @@ export const AuthHandler = (props: Props) => {
       case "Done!":
         return (
           <>
-            <StepperChain steps={allSteps} />
             <MnemonicPhraseContainer />
           </>
         );
@@ -54,11 +52,14 @@ export const AuthHandler = (props: Props) => {
         return <AuthOptions />;
     }
   };
-
+  useEffect(() => {
+    setCurrentComponent(componentRenderingHandler());
+  }, [uiState, currentStep]);
   return (
     <>
       <IconContainer />
-      {componentRenderingHandler()}
+      {uiState.chosenRoute ? <StepperChain steps={allSteps} /> : ""}
+      {currentComponent}
       <FooterNav />
     </>
   );
