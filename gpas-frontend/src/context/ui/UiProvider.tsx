@@ -176,13 +176,13 @@ export const uiReducer = (state: UiState, action: UiActions): UiState => {
         previousStep: state.currentStep,
         nextStep: state.allSteps[currentStepIndx + 1]?.stepName || "",
         allSteps: state.allSteps.map((step, index) => {
-          if (index === currentStepIndx + 1) {
+          if (step.stepName === payload) {
             return {
               ...step,
               isActive: true,
               isCompleted: false,
             };
-          } else if (index < currentStepIndx) {
+          } else if (index <= currentStepIndx) {
             return {
               ...step,
               isActive: false,
@@ -213,7 +213,7 @@ export const uiReducer = (state: UiState, action: UiActions): UiState => {
               isActive: true,
               isCompleted: false,
             };
-          } else if (index > currentStepIndex) {
+          } else if (index >= currentStepIndex) {
             return {
               ...step,
               isActive: false,

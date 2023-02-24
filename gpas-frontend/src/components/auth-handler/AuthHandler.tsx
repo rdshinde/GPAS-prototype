@@ -1,3 +1,4 @@
+import {} from "framer-motion";
 import React, { ReactNode, useEffect, useState } from "react";
 import { useUi } from "../../context/ui/UiProvider";
 import { AuthOptions } from "../auth-options/AuthOptions";

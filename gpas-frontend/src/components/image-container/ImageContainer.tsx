@@ -22,12 +22,12 @@ export const ImageContainer = ({
           pwdVisibility ? "opacity-100" : "opacity-5"
         } transition-all duration-200 ease-in-out`}
         style={{
-          top: `${snapshot.isDragging ? "-50%" : "auto"}`,
-          left: `${snapshot.isDragging ? "-250%" : "auto"}`,
+          top: `${snapshot.isDragging ? "-20%" : "auto"}`,
+          left: `${snapshot.isDragging ? "-20%" : "auto"}`,
         }}
       >
         <img
-          className="object-cover rounded-lg p-0 md:w-[100px] md:h-[100px] sm:w-[60px] sm:h-[60px] hover:scale-105 transition-all duration-200 ease-in-out"
+          className="object-cover rounded-lg p-0 md:w-[80px] md:h-[80px] sm:w-[60px] sm:h-[60px] hover:scale-105 transition-all duration-200 ease-in-out"
           src={imageSrc}
           alt={imageAlt}
           loading="lazy"
