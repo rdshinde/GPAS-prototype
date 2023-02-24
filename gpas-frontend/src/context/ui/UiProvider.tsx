@@ -151,6 +151,11 @@ export const uiReducer = (state: UiState, action: UiActions): UiState => {
       return {
         ...state,
         isModalOpen: false,
+        chosenRoute: "",
+        currentStep: "",
+        previousStep: "",
+        nextStep: "",
+        allSteps: [],
       };
     case UiActionsTypes.SET_ROUTE:
       return {
@@ -204,7 +209,7 @@ export const uiReducer = (state: UiState, action: UiActions): UiState => {
       return {
         ...state,
         currentStep: payload,
-        nextStep: state.allSteps[currentStepIndex],
+        nextStep: state.allSteps[currentStepIndex].stepName,
         previousStep: state.allSteps[currentStepIndex - 1].stepName || "",
         allSteps: state.allSteps.map((step, index) => {
           if (step.stepName === payload) {

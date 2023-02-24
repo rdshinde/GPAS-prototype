@@ -25,7 +25,7 @@ export const PwdContainer = (props: Props) => {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="w-full flex gap-7 items-center justify-center"
+            className="w-full flex sm:flex-wrap gap-7 items-center justify-center"
           >
             {pwdImages.map((img: Images, i: number) => {
               return (

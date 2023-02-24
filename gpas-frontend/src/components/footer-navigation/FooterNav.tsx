@@ -5,19 +5,25 @@ type Props = {};
 
 export const FooterNav = (props: Props) => {
   const { uiState, uiDispatch } = useUi();
+  const { allSteps, currentStep, previousStep, nextStep } = uiState;
   const nextButtonHandler = () => {
-    const { allSteps, currentStep, previousStep, nextStep } = uiState;
+    const currentStepIndex = allSteps.findIndex(
+      (step) => step.stepName === currentStep
+    );
     if (!nextStep) {
       return;
     } else {
       uiDispatch({
         type: UiActionsTypes.GO_TO_NEXT_STEP,
-        payload: nextStep,
+        payload: allSteps[currentStepIndex + 1].stepName || "",
       });
     }
   };
   const previousButtonHandler = () => {
-    const { allSteps, currentStep, previousStep, nextStep } = uiState;
+    const currentStepIndex = allSteps.findIndex(
+      (step) => step.stepName === currentStep
+    );
+
     if (!previousStep || currentStep === allSteps[0].stepName) {
       uiDispatch({
         type: UiActionsTypes.RESET,
@@ -26,7 +32,7 @@ export const FooterNav = (props: Props) => {
     } else {
       uiDispatch({
         type: UiActionsTypes.GO_TO_PREVIOUS_STEP,
-        payload: previousStep,
+        payload: allSteps[currentStepIndex - 1].stepName || "",
       });
     }
   };
