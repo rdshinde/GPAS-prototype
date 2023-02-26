@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import { GridContainer } from "../grid-container/GridContainer";
@@ -12,98 +12,18 @@ export type Images = {
   imageAlt: string;
   id: string;
 };
-const gridImagesArray = [
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/1/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/12/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/13/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/14/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/15/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/16/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/17/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/18/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/19/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/20/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/91/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/81/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/71/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/61/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/51/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/41/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/31/200/300",
-    imageAlt: uuid(),
-  },
-  {
-    id: uuid(),
-    imageSrc: "https://picsum.photos/id/21/200/300",
-    imageAlt: uuid(),
-  },
-];
+const gridImagesArray: Images[] = [];
+const readImages = () => {
+  const images = [];
+  for (let i = 1; i <= 24; i++) {
+    images.push({
+      id: uuid(),
+      imageSrc: `images/image_${i}.jpg`,
+      imageAlt: uuid(),
+    });
+  }
+  return images;
+};
 const pwdImagesArray = [
   { id: uuid() },
   { id: uuid() },
@@ -188,6 +108,10 @@ export const PwdBuilder = (props: Props) => {
       setPwdImages(newPwdImages);
     }
   };
+
+  useEffect(() => {
+    setGridImages([...readImages()]);
+  }, []);
 
   return (
     <DragDropContext

@@ -4,15 +4,21 @@ import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UiProvider } from "./context/ui/UiProvider";
+import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  <UiProvider>
+  <VisualDAuthProvider
+    publicKey={"mypublickey"}
+    privateKey={"myPrivateKey"}
+    mode={"development"}
+    useWindowWallet={false}
+  >
     <App />
-  </UiProvider>
+  </VisualDAuthProvider>
   // {/* </React.StrictMode> */}
 );
 
@@ -20,3 +26,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
