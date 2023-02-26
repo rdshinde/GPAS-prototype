@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { UiProvider } from "./context/ui/UiProvider";
 import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
 
 const root = ReactDOM.createRoot(
