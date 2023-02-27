@@ -13,6 +13,11 @@ declare global {
 
 const web3 = new Web3(window.ethereum);
 
+/*
+
+
+*/
+
 export const createNewUser = async (
   userName: string,
   password: string,
