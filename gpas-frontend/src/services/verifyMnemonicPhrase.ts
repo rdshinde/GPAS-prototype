@@ -9,23 +9,24 @@ declare global {
     ethereum: any;
   }
 }
+
 const web3 = new Web3(window.ethereum);
 
 /*
     * @param {string} username
-    * @param {string} password
-    * @param {string} walletAddress
+    * @param {string} mnemonicPhrase
+    *  @param {string} walletAddress
     * @param {string} privateKey
     * @returns {object} resultObj
     * @returns {string} resultObj.message
     * @returns {boolean} resultObj.status
     * @returns {boolean} resultObj.result
-   
+
 */
 
-export const loginRegisteredUser = async (
+export const verifyMnemonicPhrase = async (
   username: string,
-  password: string,
+  mnemonicPhrase: string,
   walletAddress: string,
   privateKey: string
 ) => {
@@ -40,16 +41,15 @@ export const loginRegisteredUser = async (
   }
   try {
     contract.methods
-      .loginRegisteredUser(username, password)
+      .verifyMnemonicPhrase(username, mnemonicPhrase)
       .call(async (err: any, result: any) => {
         if (err) {
           console.log(err.message);
         } else {
-          console.log(result);
           const resultObj = {
             message: result[0],
-            result: result[1],
-            status: result[2],
+            status: result[1],
+            result: result[2],
           };
           return resultObj;
         }
@@ -58,8 +58,8 @@ export const loginRegisteredUser = async (
     console.log(err.message);
     const resultObj = {
       message: err.message,
-      result: null,
       status: false,
+      result: null,
     };
     return resultObj;
   }
