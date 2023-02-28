@@ -14,9 +14,20 @@ declare global {
 const web3 = new Web3(window.ethereum);
 
 /*
-
-
-*/
+ * @param {string} userName
+ * @param {string} password
+ * @param {string} mnemonicPhrase
+ * @param {string} walletAddress
+ * @param {string} privateKey
+ * @returns {object} resultObj
+ * @returns {object} resultObj.result
+ * @returns {number} resultObj.result.userCount
+ * @returns {string} resultObj.result.userId
+ * @returns {string} resultObj.result.userName
+ * @returns {string} resultObj.result.message
+ * @returns {boolean} resultObj.status
+ * @returns {string} resultObj.transactionHash
+ */
 
 export const createNewUser = async (
   userName: string,
@@ -63,16 +74,18 @@ export const createNewUser = async (
         });
 
         const { userCount, userId, username, message } = events[0].returnValues;
-        result = {
-          userCount: userCount,
-          userId: userId,
-          userName: username,
-          message: message,
+        const resultObj = {
+          result: {
+            userCount: userCount,
+            userId: userId,
+            userName: username,
+            message: message,
+          },
+          status: true,
           transactionHash: txReceipt.transactionHash,
         };
-        console.log(
-          `User added: count=${userCount}, id=${userId}, username=${username}, message=${message}`
-        );
+
+        return resultObj;
       } else {
         console.log("Transaction Failed");
       }
@@ -89,21 +102,28 @@ export const createNewUser = async (
           toBlock: txReceipt.blockNumber,
         });
         const { userCount, userId, username, message } = events[0].returnValues;
-        result = {
-          userCount: userCount,
-          userId: userId,
-          userName: username,
-          message: message,
+        const resultObj = {
+          result: {
+            userCount: userCount,
+            userId: userId,
+            userName: username,
+            message: message,
+          },
+          status: true,
           transactionHash: txReceipt.transactionHash,
         };
-        console.log(
-          `User added: count=${userCount}, id=${userId}, username=${username}, message=${message}`
-        );
+        return resultObj;
       } else {
         console.log("Transaction Failed");
       }
     }
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    // console.error(error);
+    const resultObj = {
+      message: error.message,
+      status: false,
+      result: null,
+    };
+    return resultObj;
   }
 };
