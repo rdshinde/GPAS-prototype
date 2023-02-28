@@ -153,5 +153,3 @@ test("getSteps should return the steps for the forgot password route", () => {
     },
   ]);
 });
-
-// Write tests for useReducer next step case
