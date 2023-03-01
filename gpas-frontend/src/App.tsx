@@ -32,15 +32,8 @@ const steps = [
 ];
 
 function App() {
-
-
   const { AuthButton } = useUi();
 
-
-
-
-
-  
   return (
     <div className="App">
       <AuthButton />
