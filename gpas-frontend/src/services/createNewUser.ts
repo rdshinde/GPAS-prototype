@@ -13,7 +13,7 @@ declare global {
 
 const web3 = new Web3(window.ethereum);
 
-/*
+/**
  * @param {string} userName
  * @param {string} password
  * @param {string} mnemonicPhrase

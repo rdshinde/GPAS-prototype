@@ -11,17 +11,17 @@ declare global {
 }
 const web3 = new Web3(window.ethereum);
 
-/*
-    * @param {string} username
-    * @param {string} newPassword
-    * @param {string} walletAddress
-    * @param {string} privateKey
-    * @returns {object} resultObj
-    * @returns {string} resultObj.message
-    * @returns {boolean} resultObj.status
-    * @returns {boolean} resultObj.result
-    * @returns {string} resultObj.transactionHash
-    * @returns {string} resultObj.userName
+/**
+  * @param {string} username
+  * @param {string} newPassword
+  * @param {string} walletAddress
+  * @param {string} privateKey
+  * @returns {object} resultObj
+  * @returns {string} resultObj.message
+  * @returns {boolean} resultObj.status
+  * @returns {boolean} resultObj.result
+  * @returns {string} resultObj.transactionHash
+  * @returns {string} resultObj.userName
 
 */
 

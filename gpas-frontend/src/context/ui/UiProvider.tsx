@@ -7,7 +7,8 @@ import {
   ModalContainerOverlay,
 } from "../../components";
 import { Props } from "../../components/auth-button/AuthButton";
-type UiState = {
+import { uiReducer } from "./uiReducer";
+export type UiState = {
   isModalOpen: boolean;
   chosenRoute: "login" | "register" | "recover" | "";
   currentStep: "Username" | "Password" | "Verify" | "Done!" | "";
@@ -40,7 +41,7 @@ const UiContext = createContext<{
   AuthButton: AuthButton,
 });
 
-type UseUi = {
+export type UseUi = {
   uiState: UiState;
   uiDispatch: React.Dispatch<any>;
   AuthButton: React.FC<Props>;
@@ -56,196 +57,12 @@ export enum UiActionsTypes {
   RESET = "RESET",
 }
 
-type UiActions = {
+export type UiActions = {
   type: UiActionsTypes;
   payload?: any;
 };
 
-export const getSteps = (payload: string): any => {
-  switch (payload) {
-    case "register":
-      return [
-        {
-          stepName: "Username",
-          stepNumber: 1,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
-          stepName: "Password",
-          stepNumber: 2,
-          isActive: false,
-          isCompleted: false,
-        },
-        {
-          stepName: "Done!",
-          stepNumber: 3,
-          isActive: false,
-          isCompleted: false,
-        },
-      ];
-    case "recover":
-      return [
-        {
-          stepName: "Username",
-          stepNumber: 1,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
-          stepName: "Verify",
-          stepNumber: 2,
-          isActive: false,
-          isCompleted: false,
-        },
-        {
-          stepName: "Password",
-          stepNumber: 3,
-          isActive: false,
-          isCompleted: false,
-        },
-        {
-          stepName: "Done!",
-          stepNumber: 4,
-          isActive: false,
-          isCompleted: false,
-        },
-      ];
-    case "login":
-      return [
-        {
-          stepName: "Username",
-          stepNumber: 1,
-          isActive: true,
-          isCompleted: false,
-        },
-        {
-          stepName: "Password",
-          stepNumber: 2,
-          isActive: false,
-          isCompleted: false,
-        },
-        {
-          stepName: "Done!",
-          stepNumber: 3,
-          isActive: false,
-          isCompleted: false,
-        },
-      ];
-    default:
-      return [];
-  }
-};
-
 const useUi = (): UseUi => useContext(UiContext);
-
-export const uiReducer = (state: UiState, action: UiActions): UiState => {
-  const { type, payload } = action;
-  switch (type) {
-    case UiActionsTypes.OPEN_MODAL:
-      return {
-        ...state,
-        isModalOpen: true,
-      };
-    case UiActionsTypes.CLOSE_MODAL:
-      return {
-        ...state,
-        isModalOpen: false,
-        chosenRoute: "",
-        currentStep: "",
-        previousStep: "",
-        nextStep: "",
-        allSteps: [],
-      };
-    case UiActionsTypes.SET_ROUTE:
-      return {
-        ...state,
-        chosenRoute: payload,
-      };
-    case UiActionsTypes.SET_STEPS:
-      const steps = getSteps(payload);
-      return {
-        ...state,
-        currentStep: steps[0].stepName,
-        nextStep: steps[1].stepName,
-        previousStep: "",
-        allSteps: [...steps],
-      };
-    case UiActionsTypes.GO_TO_NEXT_STEP:
-      let currentStepIndx = state.allSteps.findIndex(
-        (step) => step.stepName === state.currentStep
-      );
-      return {
-        ...state,
-        currentStep: payload,
-        previousStep: state.currentStep,
-        nextStep: state.allSteps[currentStepIndx + 1]?.stepName || "",
-        allSteps: state.allSteps.map((step, index) => {
-          if (step.stepName === payload) {
-            return {
-              ...step,
-              isActive: true,
-              isCompleted: false,
-            };
-          } else if (index <= currentStepIndx) {
-            return {
-              ...step,
-              isActive: false,
-              isCompleted: true,
-            };
-          } else if (index > currentStepIndx) {
-            return {
-              ...step,
-              isActive: false,
-              isCompleted: false,
-            };
-          } else return step;
-        }),
-      };
-    case UiActionsTypes.GO_TO_PREVIOUS_STEP:
-      let currentStepIndex = state.allSteps.findIndex(
-        (step) => step.stepName === state.currentStep
-      );
-      return {
-        ...state,
-        currentStep: payload,
-        nextStep: state.allSteps[currentStepIndex].stepName,
-        previousStep: state.allSteps[currentStepIndex - 1].stepName || "",
-        allSteps: state.allSteps.map((step, index) => {
-          if (step.stepName === payload) {
-            return {
-              ...step,
-              isActive: true,
-              isCompleted: false,
-            };
-          } else if (index >= currentStepIndex) {
-            return {
-              ...step,
-              isActive: false,
-              isCompleted: false,
-            };
-          } else if (index < currentStepIndex) {
-            return {
-              ...step,
-              isActive: false,
-              isCompleted: true,
-            };
-          } else return step;
-        }),
-      };
-    case UiActionsTypes.RESET:
-      return {
-        ...state,
-        chosenRoute: "",
-        currentStep: "",
-        nextStep: "",
-        previousStep: "",
-        allSteps: [],
-      };
-    default:
-      return state;
-  }
-};
 
 const UiProvider = ({ children }: { children: React.ReactNode }) => {
   const [uiState, uiDispatch] = useReducer(uiReducer, initialUiState);

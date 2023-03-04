@@ -5,4 +5,4 @@ export { getMnemonicPhrase } from "./getMnemonicPhrase";
 export { loginRegisteredUser } from "./loginRegisteredUser";
 export { resetUserPwd } from "./resetUserPwd";
 export { verifyMnemonicPhrase } from "./verifyMnemonicPhrase";
-
+export { getPasswordHash } from "./getPasswordHash";

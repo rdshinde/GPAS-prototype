@@ -1,14 +1,11 @@
 import React from "react";
 import { render, renderHook, screen } from "@testing-library/react";
 import App from "./App";
-import {
-  getSteps,
-  initialUiState,
-  UiActionsTypes,
-  uiReducer,
-  useUi,
-} from "./context/ui/UiProvider";
+import { initialUiState, UiActionsTypes, useUi } from "./context/ui/UiProvider";
 import { act } from "react-dom/test-utils";
+import { getPasswordHash } from "./services/getPasswordHash";
+import { uiReducer } from "./context/ui/uiReducer";
+import { getSteps } from "./utility";
 
 // test("renders learn react link", () => {
 //   render(<App />);
@@ -153,3 +150,5 @@ test("getSteps should return the steps for the forgot password route", () => {
     },
   ]);
 });
+
+// Write tests for getPasswordHash function

@@ -11,6 +11,16 @@ declare global {
 }
 const web3 = new Web3(window.ethereum);
 
+/**
+ * 
+ * @param username 
+ * @param newUsername 
+ * @param walletAddress 
+ * @param privateKey 
+ * @returns  The result object with the transaction hash and the status of the transaction.
+ * @description This function changes the username of a user in the blockchain and returns the result object with the transaction hash and the status of the transaction.
+ */
+
 export const changeUsername = async (
   username: string,
   newUsername: string,

@@ -12,6 +12,16 @@ declare global {
 
 const web3 = new Web3(window.ethereum);
 
+/**
+ * @param {string} username
+ * @param {string} walletAddress
+ * @param {string} privateKey
+ * @returns {object} resultObj
+ * @returns {string} resultObj.message
+ * @returns {boolean} resultObj.status
+ * @returns {string} resultObj.result
+ */
+
 export const getMnemonicPhrase = async (
   username: string,
   walletAddress: string,
