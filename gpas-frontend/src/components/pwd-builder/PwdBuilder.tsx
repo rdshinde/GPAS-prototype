@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import uuid from "react-uuid";
 import { GridContainer } from "../grid-container/GridContainer";
+import { HidePwdEye } from "../icons/pwd-eye-icon/HidePwdEye";
+import { ShowPwdEye } from "../icons/pwd-eye-icon/ShowPwdEye";
 import { PwdContainer } from "../pwd-container/PwdContainer";
-import { HidePwdEye } from "../pwd-eye-icon/HidePwdEye";
-import { ShowPwdEye } from "../pwd-eye-icon/ShowPwdEye";
+
 
 type Props = {};
 export type Images = {

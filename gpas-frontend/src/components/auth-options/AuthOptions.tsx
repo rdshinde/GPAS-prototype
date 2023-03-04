@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { UiActionsTypes, useUi } from "../../context/ui/UiProvider";
-import { LoginIcon } from "../user-icons/LoginIcon";
-import { RegisterIcon } from "../user-icons/RegisterIcon";
+import { UiActionsTypes } from "../../context/typings.context";
+import { useUi } from "../../context/ui/UiProvider";
+import { LoginIcon } from "../icons/user-icons/LoginIcon";
+import { RegisterIcon } from "../icons/user-icons/RegisterIcon";
 
 type Props = {};
 

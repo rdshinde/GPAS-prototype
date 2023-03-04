@@ -1,5 +1,5 @@
 import { getSteps } from "../../utility";
-import { UiActions, UiActionsTypes, UiState } from "./UiProvider";
+import { UiActions, UiActionsTypes, UiState } from "../typings.context";
 
 export const uiReducer = (state: UiState, action: UiActions): UiState => {
   const { type, payload } = action;

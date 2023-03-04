@@ -7,20 +7,8 @@ import {
   ModalContainerOverlay,
 } from "../../components";
 import { Props } from "../../components/auth-button/AuthButton";
+import { UiActionsTypes, UiState, UseUi } from "../typings.context";
 import { uiReducer } from "./uiReducer";
-export type UiState = {
-  isModalOpen: boolean;
-  chosenRoute: "login" | "register" | "recover" | "";
-  currentStep: "Username" | "Password" | "Verify" | "Done!" | "";
-  previousStep: "Username" | "Password" | "Verify" | "Done!" | any;
-  nextStep: "Username" | "Password" | "Verify" | "Done!" | any;
-  allSteps: {
-    stepName: "Username" | "Password" | "Verify" | "Done!";
-    stepNumber: number;
-    isActive: boolean;
-    isCompleted: boolean;
-  }[];
-};
 
 export const initialUiState: UiState = {
   isModalOpen: false,
@@ -40,27 +28,6 @@ const UiContext = createContext<{
   uiDispatch: () => null,
   AuthButton: AuthButton,
 });
-
-export type UseUi = {
-  uiState: UiState;
-  uiDispatch: React.Dispatch<any>;
-  AuthButton: React.FC<Props>;
-};
-
-export enum UiActionsTypes {
-  OPEN_MODAL = "OPEN_MODAL",
-  CLOSE_MODAL = "CLOSE_MODAL",
-  SET_ROUTE = "SET_ROUTE",
-  SET_STEPS = "SET_STEPS",
-  GO_TO_NEXT_STEP = "GO_TO_NEXT_STEP",
-  GO_TO_PREVIOUS_STEP = "GO_TO_PREVIOUS_STEP",
-  RESET = "RESET",
-}
-
-export type UiActions = {
-  type: UiActionsTypes;
-  payload?: any;
-};
 
 const useUi = (): UseUi => useContext(UiContext);
 

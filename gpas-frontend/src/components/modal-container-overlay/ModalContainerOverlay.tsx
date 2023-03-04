@@ -1,6 +1,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import { UiActionsTypes, useUi } from "../../context/ui/UiProvider";
+import { UiActionsTypes } from "../../context/typings.context";
+import { useUi } from "../../context/ui/UiProvider";
 type Props = {
   children?: React.ReactNode;
   styles?: React.CSSProperties;

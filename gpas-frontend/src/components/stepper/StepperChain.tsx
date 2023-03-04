@@ -1,5 +1,5 @@
-import { SmallSpinner } from "../small-spinner/SmallSpinner";
-import { StepperTrueTick } from "../stepper-true-tick/StepperTrueTick";
+import { SmallSpinner } from "../icons/small-spinner/SmallSpinner";
+import { StepperTrueTick } from "../icons/stepper-true-tick/StepperTrueTick";
 import "./stepper-chain.css";
 type step = {
   stepName: string;

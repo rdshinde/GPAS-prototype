@@ -4,9 +4,9 @@ export { ModalContainerOverlay } from "./modal-container-overlay/ModalContainerO
 export { GridContainer } from "./grid-container/GridContainer";
 export { ModalContainer } from "./modal-container/ModalContainer";
 export { IconContainer } from "./icon-container/IconContainer";
-export { StepperTrueTick } from "./stepper-true-tick/StepperTrueTick";
+export { StepperTrueTick } from "./icons/stepper-true-tick/StepperTrueTick";
 export { StepperChain } from "./stepper/StepperChain";
-export { SmallSpinner } from "./small-spinner/SmallSpinner";
+export { SmallSpinner } from "./icons/small-spinner/SmallSpinner";
 export { UserNameField } from "./username-field/UserNameField";
 export { FooterNav } from "./footer-navigation/FooterNav";
 export { MnemonicPhraseContainer } from "./mnemonic-phrase-container/MnemonicPhraseContainer";
@@ -17,3 +17,5 @@ export { AuthOptions } from "./auth-options/AuthOptions";
 export { PwdBuilder } from "./pwd-builder/PwdBuilder";
 export { ImgCollector } from "./img-collector/ImgCollector";
 export { AuthHandler } from "./auth-handler/AuthHandler";
+export { HidePwdEye } from "./icons/pwd-eye-icon/HidePwdEye";
+export { ShowPwdEye } from "./icons/pwd-eye-icon/ShowPwdEye";

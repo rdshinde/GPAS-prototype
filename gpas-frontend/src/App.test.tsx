@@ -1,11 +1,12 @@
 import React from "react";
 import { render, renderHook, screen } from "@testing-library/react";
 import App from "./App";
-import { initialUiState, UiActionsTypes, useUi } from "./context/ui/UiProvider";
+import { initialUiState, useUi } from "./context/ui/UiProvider";
 import { act } from "react-dom/test-utils";
 import { getPasswordHash } from "./services/getPasswordHash";
 import { uiReducer } from "./context/ui/uiReducer";
 import { getSteps } from "./utility";
+import { UiActionsTypes } from "./context/typings.context";
 
 // test("renders learn react link", () => {
 //   render(<App />);

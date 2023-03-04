@@ -1,5 +1,6 @@
 import React from "react";
-import { UiActionsTypes, useUi } from "../../context/ui/UiProvider";
+import { UiActionsTypes } from "../../context/typings.context";
+import { useUi } from "../../context/ui/UiProvider";
 
 type Props = {};
 
