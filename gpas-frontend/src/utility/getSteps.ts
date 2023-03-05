@@ -7,7 +7,7 @@ export enum StepNames {
   USERNAME = "Username",
   PASSWORD = "Password",
   VERIFY = "Verify",
-  DONE = "Done!",
+  DONE = "Done!", 
 }
 export interface Step {
   stepName: StepNames;

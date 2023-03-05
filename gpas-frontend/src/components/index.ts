@@ -19,3 +19,4 @@ export { ImgCollector } from "./img-collector/ImgCollector";
 export { AuthHandler } from "./auth-handler/AuthHandler";
 export { HidePwdEye } from "./icons/pwd-eye-icon/HidePwdEye";
 export { ShowPwdEye } from "./icons/pwd-eye-icon/ShowPwdEye";
+export { Loader } from "./loader/Loader";

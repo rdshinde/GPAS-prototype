@@ -1,9 +1,9 @@
 import crypto from "crypto";
 
 /**
- * @param passwordData - The password data to hash
- * @param username - The username of the user
- * @returns The hashed password
+ * @param {object} passwordData - The password data to hash
+ * @param {string} username - The username of the user
+ * @returns {string} The hashed password
  * @description This function hashes the password data and returns the hash
  **/
 
@@ -13,9 +13,8 @@ export const getPasswordHash = (passwordData: any, username: string) => {
     if (Object.keys(obj).length > 0) {
       hash.update(JSON.stringify(obj));
     } else {
-      hash.update(username);  
+      hash.update(username);
     }
   }
   return hash.digest("hex");
 };
-

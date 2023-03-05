@@ -1,14 +1,12 @@
-import {} from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import React, { ReactNode, useEffect, useState } from "react";
 import { useUi } from "../../context/ui/UiProvider";
+import { componentRenderingHandler } from "../../utility/componentRenderingHandler";
 import { AuthOptions } from "../auth-options/AuthOptions";
 import { FooterNav } from "../footer-navigation/FooterNav";
 import { IconContainer } from "../icon-container/IconContainer";
-import { MnemonicInput } from "../mnemonic-input/MnemonicInput";
-import { MnemonicPhraseContainer } from "../mnemonic-phrase-container/MnemonicPhraseContainer";
-import { PwdBuilder } from "../pwd-builder/PwdBuilder";
+import { Loader } from "../loader/Loader";
 import { StepperChain } from "../stepper/StepperChain";
-import { UserNameField } from "../username-field/UserNameField";
 
 type Props = {};
 
@@ -19,45 +17,22 @@ export const AuthHandler = (props: Props) => {
   const [currentComponent, setCurrentComponent] = useState<ReactNode>(
     <AuthOptions />
   );
-  const componentRenderingHandler = (): ReactNode => {
-    switch (currentStep) {
-      case "Username":
-        return (
-          <>
-            <UserNameField />
-          </>
-        );
 
-      case "Password":
-        return (
-          <>
-            <PwdBuilder />
-          </>
-        );
-
-      case "Verify":
-        return (
-          <>
-            <MnemonicInput />
-          </>
-        );
-
-      case "Done!":
-        return (
-          <>
-            <MnemonicPhraseContainer />
-          </>
-        );
-
-      default:
-        return <AuthOptions />;
-    }
-  };
   useEffect(() => {
-    setCurrentComponent(componentRenderingHandler());
+    setCurrentComponent(componentRenderingHandler(currentStep));
   }, [uiState, currentStep]);
   return (
-    <>
+    <div className={`relative w-full`}>
+      <AnimatePresence>
+        {false ? (
+          <>
+            <div className="absolute z-10 -inset-0 p-5 h-full w-full bg-[#fff] opacity-90"></div>
+            <Loader />
+          </>
+        ) : (
+          ""
+        )}
+      </AnimatePresence>
       <IconContainer />
       <div className="w-full border border-gray-300 rounded-lg px-3 py-2 pt-5 my-5">
         {uiState.chosenRoute ? <StepperChain steps={allSteps} /> : ""}
@@ -71,6 +46,6 @@ export const AuthHandler = (props: Props) => {
           All rights reserved.
         </p>
       </footer>
-    </>
+    </div>
   );
 };

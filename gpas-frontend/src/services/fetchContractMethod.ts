@@ -26,19 +26,19 @@ const web3 = new Web3(window.ethereum);
 let contractAddress: any;
 
 /**
- * @param {string} route
- * @param {string} currentStep
- * @param {string} mode
- * @param {string} walletAddress
- * @param {string} privateKey
- * @param {boolean} useWindowWallet
- * @param {object} methodParams
- * @param {function} setLoader
- * @returns {object} contractResponse
- * @returns {string} contractResponse.message
- * @returns {boolean} contractResponse.status
- * @returns {string} contractResponse.result
- * @description This function is used to call the contract methods
+ * @param {string} route - RouteNames enum value from utility/getSteps.ts
+ * @param {string} currentStep - StepNames enum value from utility/getSteps.ts
+ * @param {string} mode - "Production" or "Development"
+ * @param {string} walletAddress - wallet address of the user who is calling the contract method
+ * @param {string} privateKey - private key of the user who is calling the contract method
+ * @param {boolean} useWindowWallet - boolean value to determine if the user is using their browser wallet
+ * @param {object} methodParams - object containing the parameters required to call the contract method
+ * @param {function} setLoader - function to set the loader state
+ * @returns {object} contractResponse - object containing the response from the contract method
+ * @returns {string} contractResponse.message - message from the contract method
+ * @returns {boolean} contractResponse.status - status from the contract method
+ * @returns {string} contractResponse.result - result from the contract method
+ * @description This function is used to call the contract methods from the services
  */
 
 export const fetchContractMethod = async (
@@ -50,7 +50,7 @@ export const fetchContractMethod = async (
   useWindowWallet: boolean,
   methodParams: any | null,
   setLoader: (value: boolean) => void
-) => {
+): Promise<any> => {
   const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
   if (mode === "Production") {
     contractAddress = productionContractAddress;
