@@ -1,44 +1,22 @@
-import Web3 from "web3";
-import {
-  contractABI,
-  productionContractAddress,
-} from "../contract/contractABI";
-
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
-const web3 = new Web3(window.ethereum);
-
-/** 
-  * @param {string} username
-  * @param {string} mnemonicPhrase
-  *  @param {string} walletAddress
-  * @param {string} privateKey
-  * @returns {object} resultObj
-  * @returns {string} resultObj.message
-  * @returns {boolean} resultObj.status
-  * @returns {boolean} resultObj.result
-*/
+/**
+ * @param {string} username
+ * @param {string} mnemonicPhrase
+ *  @param {string} walletAddress
+ * @param {string} privateKey
+ * @returns {object} resultObj
+ * @returns {string} resultObj.message
+ * @returns {boolean} resultObj.status
+ * @returns {boolean} resultObj.result
+ */
 
 export const verifyMnemonicPhrase = async (
   username: string,
   mnemonicPhrase: string,
-  walletAddress: string,
-  privateKey: string
+  contract: any,
+  setLoader: (value: boolean) => void
 ) => {
-  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
-  const contract = new web3.eth.Contract(
-    contractABI,
-    productionContractAddress
-  );
-
-  if (!walletAddress && !privateKey && account) {
-    walletAddress = account;
-  }
   try {
+    setLoader(true);
     contract.methods
       .verifyMnemonicPhrase(username, mnemonicPhrase)
       .call(async (err: any, result: any) => {
@@ -61,5 +39,7 @@ export const verifyMnemonicPhrase = async (
       result: null,
     };
     return resultObj;
+  } finally {
+    setLoader(false);
   }
 };

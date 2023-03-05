@@ -1,17 +1,3 @@
-import Web3 from "web3";
-import {
-  contractABI,
-  productionContractAddress,
-} from "../contract/contractABI";
-
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
-const web3 = new Web3(window.ethereum);
-
 /**
  * @param {string} username
  * @param {string} walletAddress
@@ -24,19 +10,11 @@ const web3 = new Web3(window.ethereum);
 
 export const getMnemonicPhrase = async (
   username: string,
-  walletAddress: string,
-  privateKey: string
+  contract: any,
+  setLoader: (value: boolean) => void
 ) => {
-  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
-  const contract = new web3.eth.Contract(
-    contractABI,
-    productionContractAddress
-  );
-
-  if (!walletAddress && !privateKey && account) {
-    walletAddress = account;
-  }
   try {
+    setLoader(true);
     contract.methods
       .getMnemonicPhrase(username)
       .call(async (err: any, result: any) => {
@@ -54,5 +32,7 @@ export const getMnemonicPhrase = async (
       });
   } catch (err: any) {
     console.log(err.message);
+  } finally {
+    setLoader(false);
   }
 };

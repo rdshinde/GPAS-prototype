@@ -1,24 +1,13 @@
-import Web3 from "web3";
-import {
-  contractABI,
-  developmentContractAddress,
-  productionContractAddress,
-} from "../contract/contractABI";
-
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
-const web3 = new Web3(window.ethereum);
-
 /**
  * @param {string} userName
  * @param {string} password
  * @param {string} mnemonicPhrase
- * @param {string} walletAddress
  * @param {string} privateKey
+ * @param {boolean} useWindowWallet
+ * @param {object} contract
+ * @param {object} web3
+ * @param {object} transactionObj
+ * @param {function} setLoader
  * @returns {object} resultObj
  * @returns {object} resultObj.result
  * @returns {number} resultObj.result.userCount
@@ -27,37 +16,30 @@ const web3 = new Web3(window.ethereum);
  * @returns {string} resultObj.result.message
  * @returns {boolean} resultObj.status
  * @returns {string} resultObj.transactionHash
+ * @description Creates a new user in the blockchain
  */
 
 export const createNewUser = async (
   userName: string,
   password: string,
   mnemonicPhrase: string,
-  walletAddress: string,
-  privateKey: string
+  privateKey: string,
+  useWindowWallet: boolean,
+  contract: any,
+  web3: any,
+  transactionObj: any,
+  setLoader: (value: boolean) => void
 ) => {
-  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
-  const contract = new web3.eth.Contract(
-    contractABI,
-    developmentContractAddress
-  );
-  if (!walletAddress && !privateKey && account) {
-    // If wallet address and private key are not given, but there's an active account in the browser wallet like Metamask
-    walletAddress = account;
-  }
-
   const transaction = {
-    from: walletAddress,
-    to: developmentContractAddress,
+    ...transactionObj,
     data: contract.methods
       .addNewUser(userName, password, mnemonicPhrase)
       .encodeABI(),
-    gas: "3000000",
   };
 
   try {
-    let result;
-    if (privateKey) {
+    setLoader(true);
+    if (privateKey && !useWindowWallet) {
       // If a private key is provided, sign the transaction with it
       const signedTx: any = await web3.eth.accounts.signTransaction(
         transaction,
@@ -118,12 +100,13 @@ export const createNewUser = async (
       }
     }
   } catch (error: any) {
-    // console.error(error);
     const resultObj = {
       message: error.message,
       status: false,
       result: null,
     };
     return resultObj;
+  } finally {
+    setLoader(false);
   }
 };
