@@ -5,7 +5,6 @@ import {
   productionContractAddress,
 } from "../contract/contractABI";
 
-import { RouteNames, StepNames } from "../utility/getSteps";
 import {
   isUsernameTaken,
   createNewUser,
@@ -39,7 +38,7 @@ let contractAddress: any;
  * @returns {string} contractResponse.result - result from the contract method
  * @description This function is used to call the contract methods from the services
  */
-enum ContractMethods {
+export enum ContractMethods {
   IS_USERNAME_TAKEN = "isUsernameTaken",
   CREATE_NEW_USER = "createNewUser",
   GET_MNEMONIC_PHRASE = "getMnemonicPhrase",

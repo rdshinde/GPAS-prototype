@@ -31,7 +31,7 @@ export const isUsernameTaken = async (
           const resultObj = {
             message: result[0],
             status: result[1],
-            result: result[2],
+            isUsernameTaken: result[2],
           };
           console.log("isUserAlreadyRegistered", resultObj);
           return resultObj;

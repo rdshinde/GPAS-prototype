@@ -6,11 +6,14 @@ import {
   useState,
 } from "react";
 import { fetchContractMethod, getPasswordHash } from "../../services";
+import { ContractMethods } from "../../services/fetchContractMethod";
+import { goToNextStep } from "../../utility";
 import { RouteNames, StepNames } from "../../utility/getSteps";
 import {
   AuthFormActionsTypes,
   AuthFormState,
   Message,
+  UiActionsTypes,
   UseAuthProvider,
 } from "../typings.context";
 import { UiProvider, useUi } from "../ui/UiProvider";
@@ -75,6 +78,9 @@ export const VisualDAuthProvider = ({
     description: "",
   });
 
+  const [onSuccess, setOnSuccess] = useState<any>({});
+  const [onError, setOnError] = useState<any>({});
+
   useEffect(() => {
     if (privateKey && publicKey && mode) {
       authFormDispatch({
@@ -86,9 +92,8 @@ export const VisualDAuthProvider = ({
           useWindowWallet,
         },
       });
-    }
-    else{
-      console.log("privateKey, publicKey, mode not found")
+    } else {
+      console.log("privateKey, publicKey, mode not found");
     }
   }, [privateKey, publicKey, mode, useWindowWallet]);
 
@@ -104,9 +109,10 @@ export const VisualDAuthProvider = ({
     }
   }, [authFormState.pwdImages]);
 
-  const { uiState } = useUi();
+  const { uiState, uiDispatch } = useUi();
   const contractMethodResponseHandler = () => {
-    const { currentStep, nextStep, previousStep, chosenRoute } = uiState;
+    const { currentStep, nextStep, previousStep, chosenRoute, allSteps } =
+      uiState;
     const {
       username,
       pwdHash,
@@ -117,9 +123,86 @@ export const VisualDAuthProvider = ({
       switch (currentStep) {
         case StepNames.USERNAME:
           let response: any;
-
-           
+          usernameResponseHandler(response);
           break;
+        case StepNames.PASSWORD:
+          if (pwdHash && username) {
+            response = fetchContractMethod(
+              ContractMethods.CREATE_NEW_USER,
+              mode,
+              walletAddress,
+              privateKey,
+              useWindowWallet,
+              { username, pwdHash },
+              setLoader
+            );
+          } else {
+            setMessage({
+              type: "error",
+              description: "Password are required.",
+            });
+          }
+          if (response.status) {
+            setOnSuccess(response);
+            setMessage({
+              type: "success",
+              description: response?.message,
+            });
+            goToNextStep(allSteps, currentStep, uiDispatch);
+          } else {
+            setMessage({
+              type: "error",
+              description: response?.message,
+            });
+            setOnError(response);
+          }
+          break;
+        case StepNames.DONE:
+          if (onSuccess?.status) {
+            setMessage({
+              type: "success",
+              description: onSuccess?.message,
+            });
+          } else {
+            setMessage({
+              type: "error",
+              description: onError?.message,
+            });
+          }
+          break;
+      }
+    }
+
+    function usernameResponseHandler(response: any) {
+      if (username) {
+        response = fetchContractMethod(
+          ContractMethods.IS_USERNAME_TAKEN,
+          mode,
+          walletAddress,
+          privateKey,
+          useWindowWallet,
+          { username },
+          setLoader
+        );
+      } else {
+        setMessage({
+          type: "error",
+          description: "Username is required.",
+        });
+      }
+      if (response) {
+        if (response.isUsernameTaken) {
+          setMessage({
+            type: "error",
+            description: response?.message,
+          });
+        } else {
+          setMessage({
+            type: "success",
+            description: response?.message,
+          });
+          goToNextStep(allSteps, currentStep, uiDispatch);
+        }
       }
     }
   };
@@ -132,5 +215,3 @@ export const VisualDAuthProvider = ({
     </AuthFormContext.Provider>
   );
 };
-
-// export { useAuthProvider, VisualDAuthProvider }
