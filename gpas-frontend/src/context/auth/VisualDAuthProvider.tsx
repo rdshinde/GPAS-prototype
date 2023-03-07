@@ -1,6 +1,19 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
-import { AuthFormState, UseAuthProvider } from "../typings.context";
-import { UiProvider } from "../ui/UiProvider";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
+import { fetchContractMethod, getPasswordHash } from "../../services";
+import { RouteNames, StepNames } from "../../utility/getSteps";
+import {
+  AuthFormActionsTypes,
+  AuthFormState,
+  Message,
+  UseAuthProvider,
+} from "../typings.context";
+import { UiProvider, useUi } from "../ui/UiProvider";
 import { authFormReducer } from "./authFormReducer";
 
 export const initialAuthFormState = {
@@ -14,16 +27,23 @@ export const initialAuthFormState = {
     mode: "",
     privatekey: "",
     publicKey: "",
-    useWindowWallet: false,
+    useWindowWallet: true,
   },
 };
 
 const AuthFormContext = createContext<{
   authFormState: AuthFormState;
   authFormDispatch: React.Dispatch<any>;
+  isLoading: boolean;
+  message?: Message;
 }>({
   authFormState: initialAuthFormState,
   authFormDispatch: () => null,
+  isLoading: false,
+  message: {
+    type: "",
+    description: "",
+  },
 });
 
 export type Props = {
@@ -34,25 +54,83 @@ export type Props = {
   useWindowWallet?: boolean;
 };
 
-const useAuthProvider = (): UseAuthProvider => useContext(AuthFormContext);
+export const useAuthProvider = (): UseAuthProvider =>
+  useContext(AuthFormContext);
 
-const VisualDAuthProvider = ({
+export const VisualDAuthProvider = ({
   privateKey,
   publicKey,
   mode,
   useWindowWallet,
   children,
-}: Props) => {
+}: Props): any => {
   const [authFormState, authFormDispatch] = useReducer(
     authFormReducer,
     initialAuthFormState
   );
-  console.log(privateKey, publicKey, mode, useWindowWallet);
+
+  const [isLoading, setLoader] = useState<boolean>(false);
+  const [message, setMessage] = useState<Message>({
+    type: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    if (privateKey && publicKey && mode) {
+      authFormDispatch({
+        type: AuthFormActionsTypes.SET_DEVELOPER_DETAILS,
+        payload: {
+          mode,
+          privateKey,
+          publicKey,
+          useWindowWallet,
+        },
+      });
+    }
+    else{
+      console.log("privateKey, publicKey, mode not found")
+    }
+  }, [privateKey, publicKey, mode, useWindowWallet]);
+
+  useEffect(() => {
+    if (authFormState.pwdImages.length > 0 && authFormState.username) {
+      authFormDispatch({
+        type: AuthFormActionsTypes.SET_PWD_HASH,
+        payload: getPasswordHash(
+          authFormState.pwdImages,
+          authFormState.username
+        ),
+      });
+    }
+  }, [authFormState.pwdImages]);
+
+  const { uiState } = useUi();
+  const contractMethodResponseHandler = () => {
+    const { currentStep, nextStep, previousStep, chosenRoute } = uiState;
+    const {
+      username,
+      pwdHash,
+      mnemonicPhrase,
+      developerDetails: { mode, privateKey, useWindowWallet, walletAddress },
+    } = authFormState;
+    if (chosenRoute === RouteNames.REGISTER) {
+      switch (currentStep) {
+        case StepNames.USERNAME:
+          let response: any;
+
+           
+          break;
+      }
+    }
+  };
+
   return (
-    <AuthFormContext.Provider value={{ authFormState, authFormDispatch }}>
+    <AuthFormContext.Provider
+      value={{ authFormState, authFormDispatch, isLoading, message }}
+    >
       <UiProvider>{children}</UiProvider>
     </AuthFormContext.Provider>
   );
 };
 
-export { useAuthProvider, VisualDAuthProvider };
+// export { useAuthProvider, VisualDAuthProvider }

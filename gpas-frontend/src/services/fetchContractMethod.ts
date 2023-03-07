@@ -26,8 +26,7 @@ const web3 = new Web3(window.ethereum);
 let contractAddress: any;
 
 /**
- * @param {string} route - RouteNames enum value from utility/getSteps.ts
- * @param {string} currentStep - StepNames enum value from utility/getSteps.ts
+ * @param {string} contractMethod - Any method from ContractMethods
  * @param {string} mode - "Production" or "Development"
  * @param {string} walletAddress - wallet address of the user who is calling the contract method
  * @param {string} privateKey - private key of the user who is calling the contract method
@@ -40,10 +39,17 @@ let contractAddress: any;
  * @returns {string} contractResponse.result - result from the contract method
  * @description This function is used to call the contract methods from the services
  */
+enum ContractMethods {
+  IS_USERNAME_TAKEN = "isUsernameTaken",
+  CREATE_NEW_USER = "createNewUser",
+  GET_MNEMONIC_PHRASE = "getMnemonicPhrase",
+  LOGIN_REGISTERED_USER = "loginRegisteredUser",
+  RESET_USER_PASSWORD = "resetUserPwd",
+  VERIFY_MNEMONIC_PHRASE = "verifyMnemonicPhrase",
+}
 
 export const fetchContractMethod = async (
-  route: RouteNames,
-  currentStep: StepNames,
+  ContractMethod: ContractMethods,
   mode: "Production" | "Development",
   walletAddress: string,
   privateKey: string,
@@ -68,95 +74,65 @@ export const fetchContractMethod = async (
   };
 
   let contractResponse;
-  switch (route) {
-    case RouteNames.REGISTER:
-      switch (currentStep) {
-        case StepNames.USERNAME:
-          contractResponse = await isUsernameTaken(
-            methodParams.username,
-            contract,
-            setLoader
-          );
-          break;
-        case StepNames.DONE:
-          contractResponse = createNewUser(
-            methodParams.username,
-            methodParams.password,
-            methodParams.mnemonicPhrase,
-            privateKey,
-            useWindowWallet,
-            contract,
-            web3,
-            transaction,
-            setLoader
-          );
-
-          break;
-        default:
-          break;
-      }
+  switch (ContractMethod) {
+    case ContractMethods.IS_USERNAME_TAKEN:
+      contractResponse = await isUsernameTaken(
+        methodParams.username,
+        contract,
+        setLoader
+      );
       break;
-    case RouteNames.LOGIN:
-      switch (currentStep) {
-        case StepNames.USERNAME:
-          contractResponse = await isUsernameTaken(
-            methodParams.username,
-            contract,
-            setLoader
-          );
-          break;
-        case StepNames.DONE:
-          contractResponse = await loginRegisteredUser(
-            methodParams.username,
-            methodParams.password,
-            contract,
-            setLoader
-          );
-          break;
+    case ContractMethods.CREATE_NEW_USER:
+      contractResponse = await createNewUser(
+        methodParams.username,
+        methodParams.passwordHash,
+        methodParams.mnemonicPhrase,
+        privateKey,
+        useWindowWallet,
+        contract,
+        web3,
+        transaction,
+        setLoader
+      );
+      break;
 
-        default:
-          break;
-      }
-    case RouteNames.RECOVER:
-      switch (currentStep) {
-        case StepNames.USERNAME:
-          contractResponse = await isUsernameTaken(
-            methodParams.username,
-            contract,
-            setLoader
-          );
-          if (contractResponse?.status && contractResponse?.result) {
-            contractResponse = await getMnemonicPhrase(
-              methodParams.username,
-              contract,
-              setLoader
-            );
-          }
-          break;
-        case StepNames.VERIFY:
-          contractResponse = await verifyMnemonicPhrase(
-            methodParams.username,
-            methodParams.mnemonicPhrase,
-            contract,
-            setLoader
-          );
-          break;
-        case StepNames.DONE:
-          contractResponse = await resetUserPwd(
-            methodParams.username,
-            methodParams.newPassword,
-            privateKey,
-            contract,
-            transaction,
-            web3,
-            useWindowWallet,
-            setLoader
-          );
-          break;
-        default:
-          break;
-      }
-    default:
+    case ContractMethods.LOGIN_REGISTERED_USER:
+      contractResponse = await loginRegisteredUser(
+        methodParams.username,
+        methodParams.password,
+        contract,
+        setLoader
+      );
+      break;
+
+    case ContractMethods.GET_MNEMONIC_PHRASE:
+      contractResponse = await getMnemonicPhrase(
+        methodParams.username,
+        contract,
+        setLoader
+      );
+      break;
+
+    case ContractMethods.VERIFY_MNEMONIC_PHRASE:
+      contractResponse = await verifyMnemonicPhrase(
+        methodParams.username,
+        methodParams.mnemonicPhrase,
+        contract,
+        setLoader
+      );
+      break;
+
+    case ContractMethods.RESET_USER_PASSWORD:
+      contractResponse = await resetUserPwd(
+        methodParams.username,
+        methodParams.newPassword,
+        privateKey,
+        contract,
+        transaction,
+        web3,
+        useWindowWallet,
+        setLoader
+      );
       break;
   }
   return contractResponse;

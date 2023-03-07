@@ -1,5 +1,4 @@
-import crypto from "crypto";
-
+import { SHA256 } from "crypto-js";
 /**
  * @param {object} passwordData - The password data to hash
  * @param {string} username - The username of the user
@@ -7,14 +6,18 @@ import crypto from "crypto";
  * @description This function hashes the password data and returns the hash
  **/
 
-export const getPasswordHash = (passwordData: any, username: string) => {
-  const hash = crypto.createHash("sha256");
+
+export const getPasswordHash = (
+  passwordData: any,
+  username: string
+): string => {
+  let dataToHash = "";
   for (const obj of passwordData) {
     if (Object.keys(obj).length > 0) {
-      hash.update(JSON.stringify(obj));
+      dataToHash += JSON.stringify(obj);
     } else {
-      hash.update(username);
+      dataToHash += username;
     }
   }
-  return hash.digest("hex");
+  return SHA256(dataToHash).toString();
 };

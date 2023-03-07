@@ -40,7 +40,10 @@ export type AuthFormActions = {
   type: AuthFormActionsTypes;
   payload?: any;
 };
-
+export type Message = {
+  type?: "success" | "error" | "warning" | "info" | "";
+  description?: string | "";
+};
 export type UiState = {
   isModalOpen: boolean;
   chosenRoute: "login" | "register" | "recover" | "";
