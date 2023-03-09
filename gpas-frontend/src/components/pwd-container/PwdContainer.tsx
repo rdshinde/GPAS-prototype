@@ -19,13 +19,16 @@ export const PwdContainer = (props: Props) => {
     };
   }
   return (
-    <section className="w-full border border-gray-300 sm:p-1 md:p-2 xl:p-3 sm:my-1 md:my-2 xl:my-3 rounded-lg flex gap-7 items-center justify-center">
+    <section
+      className={`w-full border border-gray-300
+       sm:p-1 md:p-2 xl:p-3 sm:my-1 md:my-2 xl:my-3 rounded-lg flex gap-7 items-center justify-center`}
+    >
       <Droppable droppableId="pwdContainer" direction="horizontal">
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="w-full flex sm:flex-wrap gap-7 items-center justify-center"
+            className={`w-full flex sm:flex-wrap gap-7 items-center justify-center`}
           >
             {pwdImages.map((img: Images, i: number) => {
               return (
@@ -64,7 +67,6 @@ export const PwdContainer = (props: Props) => {
             })}
 
             {dragSource === "gridContainer" ? "" : provided.placeholder}
-            
           </div>
         )}
       </Droppable>

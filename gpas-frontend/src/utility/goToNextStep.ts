@@ -1,12 +1,11 @@
 import { UiActionsTypes } from "../context/typings.context";
-import { StepNames } from "./getSteps";
+// import { StepNames } from "./getSteps";
 
 export const goToNextStep = (
   allSteps: any,
   currentStep: string,
   uiDispatch: any
 ) => {
-  
   const currentStepIndex = allSteps.findIndex(
     (step: any) => step.stepName === currentStep
   );

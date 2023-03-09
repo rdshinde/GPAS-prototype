@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import uuid from "react-uuid";
+import { getImageMetaData } from "../../utility";
 import { GridContainer } from "../grid-container/GridContainer";
 import { HidePwdEye } from "../icons/pwd-eye-icon/HidePwdEye";
 import { ShowPwdEye } from "../icons/pwd-eye-icon/ShowPwdEye";
 import { PwdContainer } from "../pwd-container/PwdContainer";
-
 
 type Props = {};
 export type Images = {
@@ -21,6 +21,7 @@ const readImages = () => {
       id: uuid(),
       imageSrc: `images/image_${i}.jpg`,
       imageAlt: uuid(),
+      ...getImageMetaData(`images/image_${i}.jpg`),
     });
   }
   return images;
@@ -48,7 +49,6 @@ export const PwdBuilder = (props: Props) => {
 
   const [dragDestination, setDragDestination] = React.useState<string>("");
   const onDragStartHandler = (result: any) => {
-    console.log("result", result);
     setDragSource(result.source.droppableId);
   };
 

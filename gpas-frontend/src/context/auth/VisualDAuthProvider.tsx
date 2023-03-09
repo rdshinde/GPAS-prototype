@@ -207,7 +207,7 @@ export const VisualDAuthProvider = ({
             "Please provide the onErrorHandler function in VisualDAuthProvider"
           );
     }
-  }, [onError]);
+  }, [onError]); 
   // console.log("authFormState", authFormState);
   return (
     <AuthFormContext.Provider

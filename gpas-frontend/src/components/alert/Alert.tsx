@@ -14,14 +14,14 @@ export const Alert = (props: Props) => {
       toastOptions={{
         // Define default options
         className: "",
-        duration: 9000,
+        duration: 3000,
         style: {
           background: "#363636",
           color: "#fff",
         },
         // Default options for specific types
         success: {
-          duration: 5000,
+          duration: 4000,
         },
       }}
     />
