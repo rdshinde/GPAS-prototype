@@ -189,7 +189,6 @@ export const VisualDAuthProvider = ({
           break;
       }
     }
-    return false;
   };
   useEffect(() => {
     if (onSuccess) {

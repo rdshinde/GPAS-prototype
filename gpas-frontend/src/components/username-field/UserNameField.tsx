@@ -5,7 +5,6 @@ import { AuthFormActionsTypes } from "../../context/typings.context";
 type Props = {};
 
 export const UserNameField = (props: Props) => {
-  // const [usernameInput, setUsernameInput] = React.useState<string>("");
   const {
     authFormDispatch,
     authFormState: { username },
@@ -17,7 +16,6 @@ export const UserNameField = (props: Props) => {
       payload: e.target.value,
     });
   };
-
   return (
     <>
       <section className="w-full">
