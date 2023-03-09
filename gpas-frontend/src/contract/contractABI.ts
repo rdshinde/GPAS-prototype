@@ -1,9 +1,36 @@
 export const developmentContractAddress =
-  process.env.DEVELOPMENT_CONTRACT_ADDRESS;
+  process.env.DEVELOPMENT_CONTRACT_ADDRESS ||
+  "0xA40566f39ca3ad0281E8952226fF3e6918274394";
 
 export const productionContractAddress =
-  process.env.PRODUCTION_CONTRACT_ADDRESS;
+  process.env.PRODUCTION_CONTRACT_ADDRESS ||
+  "0xA40566f39ca3ad0281E8952226fF3e6918274394";
 export const contractABI: any = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+      {
+        indexed: false,
+        internalType: "bytes32",
+        name: "userId",
+        type: "bytes32",
+      },
+    ],
+    name: "ChangeUsername",
+    type: "event",
+  },
   {
     anonymous: false,
     inputs: [
@@ -31,8 +58,45 @@ export const contractABI: any = [
         name: "message",
         type: "string",
       },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
     ],
     name: "NewUserAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "username",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "status",
+        type: "bool",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "result",
+        type: "bool",
+      },
+    ],
+    name: "ResetUserPwd",
     type: "event",
   },
   {
@@ -62,11 +126,6 @@ export const contractABI: any = [
     inputs: [
       {
         internalType: "string",
-        name: "mnemonicPhrase",
-        type: "string",
-      },
-      {
-        internalType: "string",
         name: "username",
         type: "string",
       },
@@ -77,14 +136,44 @@ export const contractABI: any = [
       },
     ],
     name: "changeUsername",
-    outputs: [
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "string",
-        name: "",
+        name: "username",
         type: "string",
       },
     ],
-    stateMutability: "nonpayable",
+    name: "getMnemonicPhrase",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "status",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "result",
+            type: "string",
+          },
+        ],
+        internalType: "struct Users.GetMnemonicMsg",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -98,9 +187,26 @@ export const contractABI: any = [
     name: "isUserAlreadyRegistered",
     outputs: [
       {
-        internalType: "bool",
+        components: [
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "status",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "result",
+            type: "bool",
+          },
+        ],
+        internalType: "struct Users.IsUsernameAvailable",
         name: "",
-        type: "bool",
+        type: "tuple",
       },
     ],
     stateMutability: "view",
@@ -122,9 +228,26 @@ export const contractABI: any = [
     name: "loginRegisteredUser",
     outputs: [
       {
-        internalType: "bool",
+        components: [
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "result",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "status",
+            type: "bool",
+          },
+        ],
+        internalType: "struct Users.LoginUserMsg",
         name: "",
-        type: "bool",
+        type: "tuple",
       },
     ],
     stateMutability: "view",
@@ -144,13 +267,7 @@ export const contractABI: any = [
       },
     ],
     name: "resetUserPassword",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -158,21 +275,38 @@ export const contractABI: any = [
     inputs: [
       {
         internalType: "string",
-        name: "mnemonicPhrase",
+        name: "username",
         type: "string",
       },
       {
         internalType: "string",
-        name: "username",
+        name: "mnemonicPhrase",
         type: "string",
       },
     ],
-    name: "verifyUserWithMnemonicPhrase",
+    name: "verifyMnemonicPhrase",
     outputs: [
       {
-        internalType: "bool",
+        components: [
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "status",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "result",
+            type: "bool",
+          },
+        ],
+        internalType: "struct Users.VerifyMnemonicMsg",
         name: "",
-        type: "bool",
+        type: "tuple",
       },
     ],
     stateMutability: "view",

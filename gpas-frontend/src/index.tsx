@@ -11,10 +11,15 @@ const root = ReactDOM.createRoot(
 root.render(
   // <React.StrictMode>
   <VisualDAuthProvider
-    publicKey={"mypublickey"}
-    privateKey={"myPrivateKey"}
-    mode={"development"}
-    useWindowWallet={false}
+    // publicKey={""}
+    // privateKey={""}
+    mode={"Development"}
+    useWindowWallet={true}
+    onErrorHandler={(result) => {
+      console.log("error");
+      console.log(result);
+    }}
+    onSuccessHandler={(result) => console.log(result)}
   >
     <App />
   </VisualDAuthProvider>
@@ -25,4 +30,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-

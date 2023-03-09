@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
 import { UiActionsTypes } from "../../context/typings.context";
 import { useUi } from "../../context/ui/UiProvider";
 
@@ -6,7 +7,9 @@ type Props = {};
 
 export const FooterNav = (props: Props) => {
   const { uiState, uiDispatch } = useUi();
-  const { allSteps, currentStep, previousStep, nextStep } = uiState;
+  const { allSteps, currentStep, previousStep, nextStep, chosenRoute } =
+    uiState;
+  const { contractMethodResponseHandler } = useAuthProvider();
   const nextButtonHandler = () => {
     const currentStepIndex = allSteps.findIndex(
       (step) => step.stepName === currentStep
@@ -14,10 +17,19 @@ export const FooterNav = (props: Props) => {
     if (!nextStep) {
       return;
     } else {
-      uiDispatch({
-        type: UiActionsTypes.GO_TO_NEXT_STEP,
-        payload: allSteps[currentStepIndex + 1].stepName || "",
-      });
+      contractMethodResponseHandler(
+        currentStep,
+        nextStep,
+        previousStep,
+        chosenRoute,
+        allSteps,
+        currentStepIndex,
+        uiDispatch
+      );
+      // uiDispatch({
+      //   type: UiActionsTypes.GO_TO_NEXT_STEP,
+      //   payload: allSteps[currentStepIndex + 1].stepName || "",
+      // });
     }
   };
   const previousButtonHandler = () => {
@@ -59,7 +71,7 @@ export const FooterNav = (props: Props) => {
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z"
                 />
               </svg>

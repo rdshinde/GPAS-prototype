@@ -23,6 +23,8 @@ export type AuthFormState = {
 export type UseAuthProvider = {
   authFormState: AuthFormState;
   authFormDispatch: React.Dispatch<any>;
+  isLoading: boolean;
+  contractMethodResponseHandler: Function;
 };
 
 export enum AuthFormActionsTypes {

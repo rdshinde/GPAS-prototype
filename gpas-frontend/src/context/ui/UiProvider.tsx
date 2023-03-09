@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import {
+  Alert,
   AuthButton,
   AuthHandler,
   ModalContainer,
@@ -43,12 +44,12 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [uiState.chosenRoute]);
 
-  console.log(uiState);
   return (
     <UiContext.Provider value={{ uiState, uiDispatch, AuthButton }}>
       <AnimatePresence>
         {uiState.isModalOpen && (
           <>
+            <Alert />
             <ModalContainerOverlay />
             <ModalContainer>
               <AuthHandler />

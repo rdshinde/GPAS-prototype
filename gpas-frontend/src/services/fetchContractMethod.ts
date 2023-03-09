@@ -58,11 +58,17 @@ export const fetchContractMethod = async (
 ): Promise<any> => {
   const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
   if (mode === "Production") {
-    contractAddress = productionContractAddress;
+    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
   } else if (mode === "Development") {
-    contractAddress = developmentContractAddress;
+    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+  } else {
+    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
   }
-  const contract = new web3.eth.Contract(contractABI, contractAddress);
+  const contract: any = new web3.eth.Contract(
+    contractABI,
+    "0xA40566f39ca3ad0281E8952226fF3e6918274394"
+  );
+
   if (!walletAddress && !privateKey && account) {
     walletAddress = account;
   }

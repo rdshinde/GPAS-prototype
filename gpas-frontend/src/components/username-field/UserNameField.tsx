@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
+import { AuthFormActionsTypes } from "../../context/typings.context";
 type Props = {};
 
 export const UserNameField = (props: Props) => {
+  // const [usernameInput, setUsernameInput] = React.useState<string>("");
+  const {
+    authFormDispatch,
+    authFormState: { username },
+  } = useAuthProvider();
+
+  const setUsernameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    authFormDispatch({
+      type: AuthFormActionsTypes.SET_USERNAME,
+      payload: e.target.value,
+    });
+  };
+
   return (
     <>
       <section className="w-full">
@@ -27,7 +42,10 @@ export const UserNameField = (props: Props) => {
           type="text"
           tabIndex={0}
           id="default-input"
-          className={`bg-gray-50 border bg-inherit border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-bluelight rounded-lg block w-full p-2.5 focus:shadow-md focus:shadow-bluelight `}
+          className={`bg-gray-50 font-bold border bg-inherit border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-bluelight rounded-lg block w-full p-2.5 focus:shadow-md focus:shadow-bluelight `}
+          placeholder="Enter your username."
+          value={username}
+          onChange={setUsernameInput}
         />
         <span
           className="block my-1 mx-1 font-bold text-sm text-orange text-start"

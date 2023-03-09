@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-hot-toast";
 import { fetchContractMethod, getPasswordHash } from "../../services";
 import { ContractMethods } from "../../services/fetchContractMethod";
 import { goToNextStep } from "../../utility";
@@ -38,15 +39,12 @@ const AuthFormContext = createContext<{
   authFormState: AuthFormState;
   authFormDispatch: React.Dispatch<any>;
   isLoading: boolean;
-  message?: Message;
+  contractMethodResponseHandler: Function;
 }>({
   authFormState: initialAuthFormState,
   authFormDispatch: () => null,
   isLoading: false,
-  message: {
-    type: "",
-    description: "",
-  },
+  contractMethodResponseHandler: () => false,
 });
 
 export type Props = {
@@ -55,6 +53,8 @@ export type Props = {
   publicKey?: string;
   mode?: string;
   useWindowWallet?: boolean;
+  onErrorHandler?: (result: any) => void;
+  onSuccessHandler?: (result: any) => void;
 };
 
 export const useAuthProvider = (): UseAuthProvider =>
@@ -66,6 +66,8 @@ export const VisualDAuthProvider = ({
   mode,
   useWindowWallet,
   children,
+  onErrorHandler,
+  onSuccessHandler,
 }: Props): any => {
   const [authFormState, authFormDispatch] = useReducer(
     authFormReducer,
@@ -73,10 +75,6 @@ export const VisualDAuthProvider = ({
   );
 
   const [isLoading, setLoader] = useState<boolean>(false);
-  const [message, setMessage] = useState<Message>({
-    type: "",
-    description: "",
-  });
 
   const [onSuccess, setOnSuccess] = useState<any>({});
   const [onError, setOnError] = useState<any>({});
@@ -108,11 +106,16 @@ export const VisualDAuthProvider = ({
       });
     }
   }, [authFormState.pwdImages]);
-
-  const { uiState, uiDispatch } = useUi();
-  const contractMethodResponseHandler = () => {
-    const { currentStep, nextStep, previousStep, chosenRoute, allSteps } =
-      uiState;
+  const { uiDispatch } = useUi();
+  const contractMethodResponseHandler = (
+    currentStep: StepNames,
+    nextStep: StepNames,
+    previousStep: StepNames,
+    chosenRoute: RouteNames,
+    allSteps: any,
+    currentStepIndex: number,
+    uiDispatch: React.Dispatch<any>
+  ) => {
     const {
       username,
       pwdHash,
@@ -123,7 +126,33 @@ export const VisualDAuthProvider = ({
       switch (currentStep) {
         case StepNames.USERNAME:
           let response: any;
-          usernameResponseHandler(response);
+          if (username) {
+            response = fetchContractMethod(
+              ContractMethods.IS_USERNAME_TAKEN,
+              mode,
+              walletAddress,
+              privateKey,
+              useWindowWallet,
+              { username },
+              setLoader
+            );
+          } else {
+            toast.error("Username is required.");
+          }
+          if (response) {
+            return response.then((res: any) => {
+              if (!res?.isUsernameTaken) {
+                toast.success(res?.message);
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError(res);
+              }
+            });
+          }
           break;
         case StepNames.PASSWORD:
           if (pwdHash && username) {
@@ -137,79 +166,58 @@ export const VisualDAuthProvider = ({
               setLoader
             );
           } else {
-            setMessage({
-              type: "error",
-              description: "Password are required.",
-            });
+            toast.error("Password is required.");
           }
           if (response.status) {
-            setOnSuccess(response);
-            setMessage({
-              type: "success",
-              description: response?.message,
-            });
+            setOnSuccess({ ...response, action: "Signup" });
+            toast.success(response?.message);
             goToNextStep(allSteps, currentStep, uiDispatch);
           } else {
-            setMessage({
-              type: "error",
-              description: response?.message,
-            });
+            toast.error(response?.message);
             setOnError(response);
           }
           break;
         case StepNames.DONE:
           if (onSuccess?.status) {
-            setMessage({
-              type: "success",
-              description: onSuccess?.message,
-            });
+            toast.success(onSuccess?.message);
           } else {
-            setMessage({
-              type: "error",
-              description: onError?.message,
-            });
+            toast.error(onError?.message);
           }
+          uiDispatch({
+            type: UiActionsTypes.CLOSE_MODAL,
+          });
           break;
       }
     }
-
-    function usernameResponseHandler(response: any) {
-      if (username) {
-        response = fetchContractMethod(
-          ContractMethods.IS_USERNAME_TAKEN,
-          mode,
-          walletAddress,
-          privateKey,
-          useWindowWallet,
-          { username },
-          setLoader
-        );
-      } else {
-        setMessage({
-          type: "error",
-          description: "Username is required.",
-        });
-      }
-      if (response) {
-        if (response.isUsernameTaken) {
-          setMessage({
-            type: "error",
-            description: response?.message,
-          });
-        } else {
-          setMessage({
-            type: "success",
-            description: response?.message,
-          });
-          goToNextStep(allSteps, currentStep, uiDispatch);
-        }
-      }
-    }
+    return false;
   };
-
+  useEffect(() => {
+    if (onSuccess) {
+      onSuccessHandler
+        ? onSuccessHandler(onSuccess)
+        : toast.error(
+            "Please provide the onSuccessHandler function in VisualDAuthProvider"
+          );
+    }
+  }, [onSuccess]);
+  useEffect(() => {
+    if (onError) {
+      onErrorHandler
+        ? onErrorHandler(onError)
+        : toast.error(
+            "Please provide the onErrorHandler function in VisualDAuthProvider"
+          );
+    }
+  }, [onError]);
+  // console.log("authFormState", authFormState);
   return (
     <AuthFormContext.Provider
-      value={{ authFormState, authFormDispatch, isLoading, message }}
+      value={{
+        authFormState,
+        authFormDispatch,
+        isLoading,
+        contractMethodResponseHandler,
+      }}
     >
       <UiProvider>{children}</UiProvider>
     </AuthFormContext.Provider>

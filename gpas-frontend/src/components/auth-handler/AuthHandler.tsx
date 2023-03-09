@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import React, { ReactNode, useEffect, useState } from "react";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
 import { useUi } from "../../context/ui/UiProvider";
 import { componentRenderingHandler } from "../../utility/componentRenderingHandler";
 import { AuthOptions } from "../auth-options/AuthOptions";
@@ -12,6 +13,7 @@ type Props = {};
 
 export const AuthHandler = (props: Props) => {
   const { uiState, uiDispatch } = useUi();
+  const { isLoading } = useAuthProvider();
   const { isModalOpen, chosenRoute, allSteps, currentStep, previousStep } =
     uiState;
   const [currentComponent, setCurrentComponent] = useState<ReactNode>(
@@ -24,7 +26,7 @@ export const AuthHandler = (props: Props) => {
   return (
     <div className={`relative w-full`}>
       <AnimatePresence>
-        {false ? (
+        {isLoading ? (
           <>
             <div className="absolute z-10 -inset-0 p-5 h-full w-full bg-[#fff] opacity-90"></div>
             <Loader />

@@ -6,6 +6,7 @@ export const goToNextStep = (
   currentStep: string,
   uiDispatch: any
 ) => {
+  
   const currentStepIndex = allSteps.findIndex(
     (step: any) => step.stepName === currentStep
   );
