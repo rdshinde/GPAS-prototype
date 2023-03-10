@@ -66,7 +66,7 @@ export const createNewUser = async (
           status: true,
           transactionHash: txReceipt.transactionHash,
         };
-
+        console.log("Transaction Successful", resultObj);
         return resultObj;
       } else {
         console.log("Transaction Failed");

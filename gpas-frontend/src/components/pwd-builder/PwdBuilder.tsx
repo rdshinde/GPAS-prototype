@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { toast } from "react-hot-toast";
 import uuid from "react-uuid";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
+import { AuthFormActionsTypes } from "../../context/typings.context";
 import { getImageMetaData } from "../../utility";
 import { GridContainer } from "../grid-container/GridContainer";
 import { HidePwdEye } from "../icons/pwd-eye-icon/HidePwdEye";
@@ -21,7 +24,6 @@ const readImages = () => {
       id: uuid(),
       imageSrc: `images/image_${i}.jpg`,
       imageAlt: uuid(),
-      ...getImageMetaData(`images/image_${i}.jpg`),
     });
   }
   return images;
@@ -65,8 +67,7 @@ export const PwdBuilder = (props: Props) => {
     }
     if (!result.destination) {
       return;
-    } else if (result.destination.index === result.source.index) return;
-    else if (
+    } else if (
       result.destination.droppableId === result.source.droppableId &&
       result.source.droppableId === "pwdContainer"
     ) {
@@ -88,6 +89,10 @@ export const PwdBuilder = (props: Props) => {
       result.destination.droppableId === "pwdContainer" &&
       result.source.droppableId === "gridContainer"
     ) {
+      if (isOnlyTwoSixImagesInPwd(pwdImages)) {
+        toast.error("You can only drag and drop six images.");
+        return;
+      }
       let activeImage = gridImages[result.source.index];
       let newGridImages = [...gridImages];
       newGridImages.splice(result.source.index, 1);
@@ -110,9 +115,27 @@ export const PwdBuilder = (props: Props) => {
     }
   };
 
+  const { authFormDispatch } = useAuthProvider();
+
   useEffect(() => {
     setGridImages([...readImages()]);
   }, []);
+
+  useEffect(() => {
+    if (isPwdEmpty(pwdImages)) {
+      authFormDispatch({
+        type: AuthFormActionsTypes.SET_PWD_IMAGES,
+        payload: pwdImages,
+      });
+    }
+  }, [pwdImages]);
+
+  const isOnlyTwoSixImagesInPwd = (pwdImages: Images[]) => {
+    const filteredImages = pwdImages.filter((image) => {
+      return Boolean(image.imageSrc);
+    });
+    return filteredImages.length === 6;
+  };
 
   return (
     <DragDropContext

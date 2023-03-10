@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import {
   createContext,
   useContext,
@@ -5,7 +6,9 @@ import {
   useEffect,
   useState,
 } from "react";
+import { generateMnemonic } from "bip39";
 import { toast } from "react-hot-toast";
+import { Images } from "../../components/pwd-builder/PwdBuilder";
 import { fetchContractMethod, getPasswordHash } from "../../services";
 import { ContractMethods } from "../../services/fetchContractMethod";
 import { goToNextStep } from "../../utility";
@@ -20,6 +23,7 @@ import {
 import { UiProvider, useUi } from "../ui/UiProvider";
 import { authFormReducer } from "./authFormReducer";
 
+(window as any).Buffer = Buffer;
 export const initialAuthFormState = {
   username: "",
   pwdImages: [],
@@ -107,6 +111,23 @@ export const VisualDAuthProvider = ({
     }
   }, [authFormState.pwdImages]);
   const { uiDispatch } = useUi();
+  const isOnlySixImagesInPwd = (pwdImages: Images[]) => {
+    const filteredImages = pwdImages.filter((image) => {
+      return Boolean(image.imageSrc);
+    });
+    return filteredImages.length === 6;
+  };
+  useEffect(() => {
+    if (
+      isOnlySixImagesInPwd(authFormState.pwdImages) &&
+      authFormState.username
+    ) {
+      authFormDispatch({
+        type: AuthFormActionsTypes.SET_MNEMONIC_PHRASE,
+        payload: generateMnemonic(128),
+      });
+    }
+  }, [authFormState.pwdImages]);
   const contractMethodResponseHandler = (
     currentStep: StepNames,
     nextStep: StepNames,
@@ -155,7 +176,12 @@ export const VisualDAuthProvider = ({
           }
           break;
         case StepNames.PASSWORD:
-          if (pwdHash && username) {
+          if (
+            pwdHash &&
+            username &&
+            isOnlySixImagesInPwd(authFormState.pwdImages) &&
+            mnemonicPhrase
+          ) {
             response = fetchContractMethod(
               ContractMethods.CREATE_NEW_USER,
               mode,
@@ -166,15 +192,22 @@ export const VisualDAuthProvider = ({
               setLoader
             );
           } else {
-            toast.error("Password is required.");
+            toast.error("Six Images password is required.");
           }
-          if (response.status) {
-            setOnSuccess({ ...response, action: "Signup" });
-            toast.success(response?.message);
-            goToNextStep(allSteps, currentStep, uiDispatch);
-          } else {
-            toast.error(response?.message);
-            setOnError(response);
+          if (response) {
+            return response.then((res: any) => {
+              if (res?.status) {
+                toast.success(res?.message);
+                setOnSuccess({ ...res, action: "User Registration." });
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError(res);
+              }
+            });
           }
           break;
         case StepNames.DONE:
@@ -207,8 +240,8 @@ export const VisualDAuthProvider = ({
             "Please provide the onErrorHandler function in VisualDAuthProvider"
           );
     }
-  }, [onError]); 
-  // console.log("authFormState", authFormState);
+  }, [onError]);
+  console.log("authFormState", authFormState);
   return (
     <AuthFormContext.Provider
       value={{

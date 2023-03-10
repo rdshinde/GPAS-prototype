@@ -6,18 +6,18 @@ import { SHA256 } from "crypto-js";
  * @description This function hashes the password data and returns the hash
  **/
 
-
 export const getPasswordHash = (
   passwordData: any,
   username: string
 ): string => {
   let dataToHash = "";
   for (const obj of passwordData) {
-    if (Object.keys(obj).length > 0) {
+    if (obj.imageSrc) {
       dataToHash += JSON.stringify(obj);
     } else {
       dataToHash += username;
     }
   }
+
   return SHA256(dataToHash).toString();
 };
