@@ -109,13 +109,14 @@ export const VisualDAuthProvider = ({
       });
     }
   }, [authFormState.pwdImages]);
-  const { uiDispatch } = useUi();
+
   const isOnlySixImagesInPwd = (pwdImages: Images[]) => {
     const filteredImages = pwdImages.filter((image) => {
       return Boolean(image.imageSrc);
     });
     return filteredImages.length === 6;
   };
+
   useEffect(() => {
     if (
       isOnlySixImagesInPwd(authFormState.pwdImages) &&
@@ -127,6 +128,7 @@ export const VisualDAuthProvider = ({
       });
     }
   }, [authFormState.pwdImages]);
+
   const contractMethodResponseHandler = (
     currentStep: StepNames,
     nextStep: StepNames,
@@ -142,8 +144,8 @@ export const VisualDAuthProvider = ({
       mnemonicPhrase,
       developerDetails: { mode, privateKey, useWindowWallet, publicKey },
     } = authFormState;
+    let response: any;
     if (chosenRoute === RouteNames.REGISTER) {
-      let response: any;
       switch (currentStep) {
         case StepNames.USERNAME:
           if (username) {
@@ -181,13 +183,6 @@ export const VisualDAuthProvider = ({
             isOnlySixImagesInPwd(authFormState.pwdImages) &&
             mnemonicPhrase
           ) {
-            console.log(
-              "Fetching contract method...",
-              username,
-              pwdHash,
-              mnemonicPhrase
-            );
-            console.log({ mode, publicKey, privateKey, useWindowWallet });
             response = fetchContractMethod(
               ContractMethods.CREATE_NEW_USER,
               mode,
@@ -198,13 +193,14 @@ export const VisualDAuthProvider = ({
               setLoader
             );
           } else {
-            toast.error("Six Images password is required.");
+            toast.error("Six Image password is required.");
           }
           if (response) {
             return response.then((res: any) => {
               if (res?.status) {
-                toast.success(res?.message);
-                setOnSuccess({ ...res, action: "User Registration." });
+                console.log("res", res);
+                toast.success(res?.result?.message);
+                setOnSuccess({ ...res.result, action: "User Registration." });
                 uiDispatch({
                   type: UiActionsTypes.GO_TO_NEXT_STEP,
                   payload: allSteps[currentStepIndex + 1].stepName || "",
@@ -217,11 +213,90 @@ export const VisualDAuthProvider = ({
           }
           break;
         case StepNames.DONE:
-          if (onSuccess?.status) {
-            toast.success(onSuccess?.message);
+          uiDispatch({
+            type: UiActionsTypes.RESET,
+          });
+          authFormDispatch({
+            type: AuthFormActionsTypes.RESET,
+          });
+          uiDispatch({
+            type: UiActionsTypes.CLOSE_MODAL,
+          });
+          break;
+      }
+    } else if (chosenRoute === RouteNames.LOGIN) {
+      switch (currentStep) {
+        case StepNames.USERNAME:
+          if (username) {
+            response = fetchContractMethod(
+              ContractMethods.IS_USERNAME_TAKEN,
+              mode,
+              publicKey,
+              privateKey,
+              useWindowWallet,
+              { username },
+              setLoader
+            );
           } else {
-            toast.error(onError?.message);
+            toast.error("Username is required.");
           }
+          if (response) {
+            response.then((res: any) => {
+              if (res?.isUsernameTaken) {
+                toast.success(res?.message);
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError(res);
+              }
+            });
+          }
+          break;
+        case StepNames.PASSWORD:
+          if (
+            pwdHash &&
+            username &&
+            isOnlySixImagesInPwd(authFormState.pwdImages)
+          ) {
+            response = fetchContractMethod(
+              ContractMethods.LOGIN_REGISTERED_USER,
+              mode,
+              publicKey,
+              privateKey,
+              useWindowWallet,
+              { username, pwdHash },
+              setLoader
+            );
+          } else {
+            toast.error("Six Image password is required.");
+          }
+          if (response) {
+            response.then((res: any) => {
+              console.log(res);
+              if (res?.userLogin) {
+                toast.success(res?.message);
+                setOnSuccess({ ...res, action: "User Login." });
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError({ ...res, action: "User Login." });
+              }
+            });
+          }
+          break;
+        case StepNames.DONE:
+          uiDispatch({
+            type: UiActionsTypes.RESET,
+          });
+          authFormDispatch({
+            type: AuthFormActionsTypes.RESET,
+          });
           uiDispatch({
             type: UiActionsTypes.CLOSE_MODAL,
           });
@@ -238,6 +313,7 @@ export const VisualDAuthProvider = ({
           );
     }
   }, [onSuccess]);
+
   useEffect(() => {
     if (onError) {
       onErrorHandler
@@ -247,7 +323,9 @@ export const VisualDAuthProvider = ({
           );
     }
   }, [onError]);
+
   // console.log("authFormState", authFormState);
+
   return (
     <AuthFormContext.Provider
       value={{

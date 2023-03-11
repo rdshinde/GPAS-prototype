@@ -11,21 +11,57 @@ export const authFormReducer = (
 ) => {
   switch (action.type) {
     case AuthFormActionsTypes.SET_USERNAME:
-      return { ...state, username: action.payload };
+      return {
+        ...state,
+        username: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_PWD_IMAGES:
-      return { ...state, pwdImages: action.payload };
+      return {
+        ...state,
+        pwdImages: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_GRID_IMAGES:
-      return { ...state, gridImages: action.payload };
+      return {
+        ...state,
+        gridImages: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_PWD_HASH:
-      return { ...state, pwdHash: action.payload };
+      return {
+        ...state,
+        pwdHash: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_MNEMONIC_PHRASE:
-      return { ...state, mnemonicPhrase: action.payload };
+      return {
+        ...state,
+        mnemonicPhrase: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_MNEMONIC_PHRASE_HASH:
-      return { ...state, mnemonicPhraseHash: action.payload };
+      return {
+        ...state,
+        mnemonicPhraseHash: action.payload,
+      };
+
     case AuthFormActionsTypes.SET_DEVELOPER_DETAILS:
-      return { ...state, developerDetails: action.payload };
+      return {
+        ...state,
+        developerDetails: action.payload,
+      };
+
     case AuthFormActionsTypes.RESET:
-      return initialAuthFormState;
+      return {
+        ...state,
+        username: initialAuthFormState.username,
+        pwdImages: initialAuthFormState.pwdImages,
+        gridImages: initialAuthFormState.gridImages,
+        pwdHash: initialAuthFormState.pwdHash,
+        mnemonicPhrase: initialAuthFormState.mnemonicPhrase,
+        mnemonicPhraseHash: initialAuthFormState.mnemonicPhraseHash,
+      };
     default:
       return state;
   }

@@ -80,7 +80,7 @@ export const fetchContractMethod = async (
   const transaction = {
     from: web3.utils.toChecksumAddress(wallet),
     to: env.DEVELOPMENT_CONTRACT_ADDRESS,
-    gas: '3000000',
+    gas: "3000000",
   };
 
   let contractResponse;
@@ -109,7 +109,7 @@ export const fetchContractMethod = async (
     case ContractMethods.LOGIN_REGISTERED_USER:
       contractResponse = await loginRegisteredUser(
         methodParams.username,
-        methodParams.password,
+        methodParams.pwdHash,
         contract,
         setLoader
       );

@@ -1,4 +1,5 @@
 window.env = {
+  "GENERATE_SOURCEMAP": "false",
   "TERM_PROGRAM": "vscode",
   "NODE": "/usr/local/bin/node",
   "INIT_CWD": "/Users/rdshinde/Documents/Project/GPAS-prototype/gpas-frontend",
@@ -17,7 +18,7 @@ window.env = {
   "USER": "rdshinde",
   "COMMAND_MODE": "unix2003",
   "npm_config_globalconfig": "/usr/local/etc/npmrc",
-  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.2K7EsJ219i/Listeners",
+  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.EQFmCShZ9j/Listeners",
   "__CF_USER_TEXT_ENCODING": "0x1F5:0:0",
   "npm_execpath": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
   "PATH": "/Users/rdshinde/Documents/Project/GPAS-prototype/gpas-frontend/node_modules/.bin:/Users/rdshinde/Documents/Project/GPAS-prototype/node_modules/.bin:/Users/rdshinde/Documents/Project/node_modules/.bin:/Users/rdshinde/Documents/node_modules/.bin:/Users/rdshinde/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin",
@@ -45,7 +46,7 @@ window.env = {
   "VSCODE_GIT_ASKPASS_MAIN": "/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js",
   "npm_config_cache": "/Users/rdshinde/.npm",
   "LOGNAME": "rdshinde",
-  "npm_lifecycle_script": "react-dotenv && react-scripts start",
+  "npm_lifecycle_script": "GENERATE_SOURCEMAP=false react-dotenv && react-scripts start",
   "VSCODE_GIT_IPC_HANDLE": "/var/folders/89/zg6ds1m51dv8j7p085f1dkqm0000gn/T/vscode-git-15a4ee518c.sock",
   "npm_config_user_agent": "npm/8.19.3 node/v18.13.0 darwin arm64 workspaces/false",
   "VSCODE_GIT_ASKPASS_NODE": "/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)",
@@ -53,8 +54,8 @@ window.env = {
   "npm_node_execpath": "/usr/local/bin/node",
   "npm_config_prefix": "/usr/local",
   "COLORTERM": "truecolor",
-  "DEVELOPMENT_CONTRACT_ADDRESS": "0x66387BAF8a3523018E24012d11b21577483d2732",
+  "DEVELOPMENT_CONTRACT_ADDRESS": "0xB6D12E034cA410EF176B2c1871fCE015942D586A",
   "PRODUCTION_CONTRACT_ADDRESS": "0xA40566f39ca3ad0281E8952226fF3e6918274394",
-  "WALLET_ADDRESS": "0xf13C88F79fdF2Ce97498E1fe9933B4FB0baC2e82",
-  "WALLET_PRIVATE_KEY": "4bbce6dfa3caa0fabc5c7c162c2cb70f2fb06d9883ca01e6718c7afb9d0fe084"
+  "WALLET_ADDRESS": "0xA6c8F499f7aa34DE983028303deC9A5C55f4Ad35",
+  "WALLET_PRIVATE_KEY": "0da6889a14d35c2d9701fcd51aca120576fd9caa8cd5a4314e636ad8728f91ad"
 };

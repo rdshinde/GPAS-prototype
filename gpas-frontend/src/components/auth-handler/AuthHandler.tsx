@@ -21,7 +21,12 @@ export const AuthHandler = (props: Props) => {
   );
 
   useEffect(() => {
-    setCurrentComponent(componentRenderingHandler(currentStep));
+    setCurrentComponent(
+      <>
+        {componentRenderingHandler(currentStep)}
+        <FooterNav />
+      </>
+    );
   }, [uiState, currentStep]);
   return (
     <div className={`relative w-full`}>
@@ -39,7 +44,7 @@ export const AuthHandler = (props: Props) => {
       <div className="w-full border border-gray-300 rounded-lg px-3 py-2 pt-5 my-5">
         {uiState.chosenRoute ? <StepperChain steps={allSteps} /> : ""}
         {currentComponent}
-        <FooterNav />
+        {/* <FooterNav /> */}
       </div>
       <footer className="mt-2">
         <p className="text-center text-gray-500 text-xs">
