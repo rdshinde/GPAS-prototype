@@ -18,7 +18,7 @@ export const MnemonicPhraseContainer = (props: Props) => {
       <section className="w-full">
         <div className="text-start py-3 my-2">
           <h2 className="text-2xl font-extrabold text-gray-500">
-            {authFormState?.mnemonicPhrase}
+            Here is your Mnemonic Phrase!
           </h2>
           <span className="font-bold text-md text-bluelight">
             Please copy this phrase and store it in a safe place. You will need
@@ -34,8 +34,7 @@ export const MnemonicPhraseContainer = (props: Props) => {
           className={`max-w-[400px] text-lg font-semibold border border-gray-300 rounded-lg md:p-5 md:pt-7 sm:p-2 m-2 w-full relative shadow-md shadow-gray-200 text-center`}
         >
           <span className="font-bold text-gray-700">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto
-            nulla labore minima!
+            {authFormState?.mnemonicPhrase}
           </span>
           <button
             className="bg-gray-50 font-bold text-blue bg-inherit  flex items-center absolute top-1 right-2 ease-in-out duration-500 hover:text-bluelighter transition-all"
