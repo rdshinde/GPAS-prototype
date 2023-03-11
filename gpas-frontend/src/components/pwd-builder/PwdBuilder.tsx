@@ -4,7 +4,8 @@ import { toast } from "react-hot-toast";
 import uuid from "react-uuid";
 import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
 import { AuthFormActionsTypes } from "../../context/typings.context";
-import { getImageMetaData } from "../../utility";
+import { useUi } from "../../context/ui/UiProvider";
+import { RouteNames } from "../../utility/getSteps";
 import { GridContainer } from "../grid-container/GridContainer";
 import { HidePwdEye } from "../icons/pwd-eye-icon/HidePwdEye";
 import { ShowPwdEye } from "../icons/pwd-eye-icon/ShowPwdEye";
@@ -117,6 +118,10 @@ export const PwdBuilder = (props: Props) => {
 
   const { authFormDispatch } = useAuthProvider();
 
+  const {
+    uiState: { chosenRoute },
+  } = useUi();
+
   useEffect(() => {
     setGridImages([...readImages()]);
   }, []);
@@ -146,7 +151,8 @@ export const PwdBuilder = (props: Props) => {
       <section className="mb-3">
         <div className="text-start py-3 my-2">
           <h2 className="text-2xl font-extrabold text-gray-500">
-            Create your password.
+            {chosenRoute === RouteNames.REGISTER ? "Create" : "Enter"} your
+            password.
           </h2>
           <span className="font-bold text-md text-bluelight">
             You need to drag and drop{" "}

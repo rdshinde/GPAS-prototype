@@ -13,7 +13,7 @@ export const getPasswordHash = (
   let dataToHash = "";
   for (const obj of passwordData) {
     if (obj.imageSrc) {
-      dataToHash += JSON.stringify(obj);
+      dataToHash += JSON.stringify(obj.imageSrc);
     } else {
       dataToHash += username;
     }
