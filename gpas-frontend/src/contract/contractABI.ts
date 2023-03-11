@@ -1,10 +1,8 @@
-export const developmentContractAddress =
-  process.env.DEVELOPMENT_CONTRACT_ADDRESS ||
-  "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+import env from "react-dotenv";
 
-export const productionContractAddress =
-  process.env.PRODUCTION_CONTRACT_ADDRESS ||
-  "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+export const developmentContractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
+
+export const productionContractAddress = env.PRODUCTION_CONTRACT_ADDRESS;
 export const contractABI: any = [
   {
     anonymous: false,

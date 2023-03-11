@@ -62,7 +62,7 @@ export const PwdBuilder = (props: Props) => {
     return objects.some((obj) => Boolean(obj.imageSrc));
   }
   const dragEndHandler = (result: DropResult) => {
-    if (pwdImages.length > 8) {
+    if (pwdImages?.length > 8) {
       return;
     }
     if (!result.destination) {
@@ -134,7 +134,7 @@ export const PwdBuilder = (props: Props) => {
     const filteredImages = pwdImages.filter((image) => {
       return Boolean(image.imageSrc);
     });
-    return filteredImages.length === 6;
+    return filteredImages?.length === 6;
   };
 
   return (

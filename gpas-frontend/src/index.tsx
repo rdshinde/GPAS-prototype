@@ -4,26 +4,26 @@ import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
+import env from "react-dotenv";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
   <VisualDAuthProvider
-    // publicKey={""}
-    // privateKey={""}
+    publicKey={env.WALLET_ADDRESS}
+    // privateKey={env.WALLET_PRIVATE_KEY}
     mode={"Development"}
     useWindowWallet={true}
     onErrorHandler={(result) => {
-      console.log("error");
       console.log(result);
     }}
-    onSuccessHandler={(result) => console.log(result)}
+    onSuccessHandler={(result) => {
+      console.log(result);
+    }}
   >
     <App />
   </VisualDAuthProvider>
-  // {/* </React.StrictMode> */}
 );
 
 // If you want to start measuring performance in your app, pass a function

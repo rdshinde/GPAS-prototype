@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
 
 type Props = {};
 
@@ -11,13 +12,13 @@ export const MnemonicPhraseContainer = (props: Props) => {
       e.currentTarget.innerHTML = `Copied!`;
     }
   };
-
+  const { authFormState } = useAuthProvider();
   return (
     <>
       <section className="w-full">
         <div className="text-start py-3 my-2">
           <h2 className="text-2xl font-extrabold text-gray-500">
-            Here is your Mnemonic Phrase!
+            {authFormState?.mnemonicPhrase}
           </h2>
           <span className="font-bold text-md text-bluelight">
             Please copy this phrase and store it in a safe place. You will need
@@ -26,7 +27,9 @@ export const MnemonicPhraseContainer = (props: Props) => {
           </span>
         </div>
       </section>
-      <section className={`mb-6 w-full text-center flex items-center justify-center`}>
+      <section
+        className={`mb-6 w-full text-center flex items-center justify-center`}
+      >
         <div
           className={`max-w-[400px] text-lg font-semibold border border-gray-300 rounded-lg md:p-5 md:pt-7 sm:p-2 m-2 w-full relative shadow-md shadow-gray-200 text-center`}
         >

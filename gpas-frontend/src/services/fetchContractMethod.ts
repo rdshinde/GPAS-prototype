@@ -1,4 +1,6 @@
 import Web3 from "web3";
+import env from "react-dotenv";
+
 import {
   contractABI,
   developmentContractAddress,
@@ -20,9 +22,8 @@ declare global {
   }
 }
 
-const web3 = new Web3(window.ethereum);
-
-let contractAddress: any;
+// const web3 = new Web3(window.ethereum);
+const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
 /**
  * @param {string} contractMethod - Any method from ContractMethods
@@ -38,6 +39,7 @@ let contractAddress: any;
  * @returns {string} contractResponse.result - result from the contract method
  * @description This function is used to call the contract methods from the services
  */
+
 export enum ContractMethods {
   IS_USERNAME_TAKEN = "isUsernameTaken",
   CREATE_NEW_USER = "createNewUser",
@@ -56,26 +58,29 @@ export const fetchContractMethod = async (
   methodParams: any | null,
   setLoader: (value: boolean) => void
 ): Promise<any> => {
-  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
+  let contractAddress: any;
+  let wallet: any;
   if (mode === "Production") {
-    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+    contractAddress = productionContractAddress;
   } else if (mode === "Development") {
-    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+    contractAddress = developmentContractAddress;
   } else {
-    contractAddress = "0xA40566f39ca3ad0281E8952226fF3e6918274394";
+    contractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
   }
-  const contract: any = new web3.eth.Contract(
-    contractABI,
-    "0xA40566f39ca3ad0281E8952226fF3e6918274394"
-  );
 
+  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
+  const contract: any = new web3.eth.Contract(contractABI, contractAddress);
+  console.log({ walletAddress, privateKey, account, useWindowWallet });
   if (!walletAddress && !privateKey && account) {
-    walletAddress = account;
+    wallet = account;
+  } else {
+    wallet = walletAddress;
   }
+
   const transaction = {
-    from: walletAddress,
-    to: contractAddress,
-    gas: "3000000",
+    from: web3.utils.toChecksumAddress(wallet),
+    to: env.DEVELOPMENT_CONTRACT_ADDRESS,
+    gas: '3000000',
   };
 
   let contractResponse;
@@ -90,7 +95,7 @@ export const fetchContractMethod = async (
     case ContractMethods.CREATE_NEW_USER:
       contractResponse = await createNewUser(
         methodParams.username,
-        methodParams.passwordHash,
+        methodParams.pwdHash,
         methodParams.mnemonicPhrase,
         privateKey,
         useWindowWallet,

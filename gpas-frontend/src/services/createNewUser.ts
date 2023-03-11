@@ -1,3 +1,5 @@
+import env from "react-dotenv";
+
 /**
  * @param {string} userName
  * @param {string} password
@@ -36,10 +38,10 @@ export const createNewUser = async (
       .addNewUser(userName, password, mnemonicPhrase)
       .encodeABI(),
   };
-
   try {
     setLoader(true);
     if (privateKey && !useWindowWallet) {
+      console.log("Kae", { privateKey });
       // If a private key is provided, sign the transaction with it
       const signedTx: any = await web3.eth.accounts.signTransaction(
         transaction,
@@ -72,6 +74,7 @@ export const createNewUser = async (
         console.log("Transaction Failed");
       }
     } else {
+      console.log({ privateKey });
       // Otherwise, prompt the user to sign the transaction with their browser wallet
       const tx = await window.ethereum.request({
         method: "eth_sendTransaction",

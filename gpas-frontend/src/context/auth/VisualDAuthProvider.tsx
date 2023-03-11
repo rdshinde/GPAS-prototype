@@ -77,7 +77,6 @@ export const VisualDAuthProvider = ({
     authFormReducer,
     initialAuthFormState
   );
-
   const [isLoading, setLoader] = useState<boolean>(false);
 
   const [onSuccess, setOnSuccess] = useState<any>({});
@@ -141,17 +140,17 @@ export const VisualDAuthProvider = ({
       username,
       pwdHash,
       mnemonicPhrase,
-      developerDetails: { mode, privateKey, useWindowWallet, walletAddress },
+      developerDetails: { mode, privateKey, useWindowWallet, publicKey },
     } = authFormState;
     if (chosenRoute === RouteNames.REGISTER) {
+      let response: any;
       switch (currentStep) {
         case StepNames.USERNAME:
-          let response: any;
           if (username) {
             response = fetchContractMethod(
               ContractMethods.IS_USERNAME_TAKEN,
               mode,
-              walletAddress,
+              publicKey,
               privateKey,
               useWindowWallet,
               { username },
@@ -161,7 +160,7 @@ export const VisualDAuthProvider = ({
             toast.error("Username is required.");
           }
           if (response) {
-            return response.then((res: any) => {
+            response.then((res: any) => {
               if (!res?.isUsernameTaken) {
                 toast.success(res?.message);
                 uiDispatch({
@@ -182,13 +181,20 @@ export const VisualDAuthProvider = ({
             isOnlySixImagesInPwd(authFormState.pwdImages) &&
             mnemonicPhrase
           ) {
+            console.log(
+              "Fetching contract method...",
+              username,
+              pwdHash,
+              mnemonicPhrase
+            );
+            console.log({ mode, publicKey, privateKey, useWindowWallet });
             response = fetchContractMethod(
               ContractMethods.CREATE_NEW_USER,
               mode,
-              walletAddress,
+              publicKey,
               privateKey,
               useWindowWallet,
-              { username, pwdHash },
+              { username, pwdHash, mnemonicPhrase },
               setLoader
             );
           } else {
@@ -241,7 +247,7 @@ export const VisualDAuthProvider = ({
           );
     }
   }, [onError]);
-  console.log("authFormState", authFormState);
+  // console.log("authFormState", authFormState);
   return (
     <AuthFormContext.Provider
       value={{
