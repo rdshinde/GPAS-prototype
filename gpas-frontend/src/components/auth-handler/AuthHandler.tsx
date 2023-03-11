@@ -34,7 +34,9 @@ export const AuthHandler = (props: Props) => {
         {isLoading ? (
           <>
             <div className="absolute z-10 -inset-0 p-5 h-full w-full bg-[#fff] opacity-90"></div>
-            <Loader />
+            <div className="w-full top-[16vh] relative z-50">
+              <Loader />
+            </div>
           </>
         ) : (
           ""

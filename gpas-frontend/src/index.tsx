@@ -12,9 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <VisualDAuthProvider
     publicKey={env.WALLET_ADDRESS}
-    privateKey={env.WALLET_PRIVATE_KEY}
+    // privateKey={env.WALLET_PRIVATE_KEY}
     mode={"Development"}
-    useWindowWallet={false}
+    useWindowWallet={true}
     onErrorHandler={(result) => {
       console.log(result);
     }}

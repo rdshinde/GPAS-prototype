@@ -5,7 +5,7 @@ type Props = {};
 export const Loader = (props: Props) => {
   return (
     <motion.div
-      className="text-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-[40%] z-50"
+      className="text-center absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-[40%] z-80"
       layout
       initial={{ scale: 0.7, opacity: 0 }}
       animate={{
