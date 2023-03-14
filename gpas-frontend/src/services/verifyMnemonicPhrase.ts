@@ -17,20 +17,15 @@ export const verifyMnemonicPhrase = async (
 ) => {
   try {
     setLoader(true);
-    contract.methods
+    const result = await contract.methods
       .verifyMnemonicPhrase(username, mnemonicPhrase)
-      .call(async (err: any, result: any) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          const resultObj = {
-            message: result[0],
-            status: result[1],
-            result: result[2],
-          };
-          return resultObj;
-        }
-      });
+      .call();
+    const resultObj = {
+      message: result.message,
+      status: result.status,
+      isMnemonicPhraseValid: result.result,
+    };
+    return resultObj;
   } catch (err: any) {
     console.log(err.message);
     const resultObj = {

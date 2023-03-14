@@ -22,8 +22,8 @@ declare global {
   }
 }
 
-// const web3 = new Web3(window.ethereum);
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+const web3 = new Web3(window.ethereum);
+// const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
 /**
  * @param {string} contractMethod - Any method from ContractMethods
@@ -121,6 +121,7 @@ export const fetchContractMethod = async (
         contract,
         setLoader
       );
+      // console.log("GetMnemonicFetch", { contractResponse });
       break;
 
     case ContractMethods.VERIFY_MNEMONIC_PHRASE:

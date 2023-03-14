@@ -15,23 +15,21 @@ export const getMnemonicPhrase = async (
 ) => {
   try {
     setLoader(true);
-    contract.methods
-      .getMnemonicPhrase(username)
-      .call(async (err: any, result: any) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          const resultObj = {
-            message: result[0],
-            status: result[1],
-            result: result[2],
-          };
-          console.log("mnemonicPhrase", resultObj);
-          return resultObj;
-        }
-      });
+    const result = await contract.methods.getMnemonicPhrase(username).call();
+    const resultObj = {
+      message: result.message,
+      status: result.status,
+      mnemonicPhrase: result.result,
+    };
+    return resultObj;
   } catch (err: any) {
     console.log(err.message);
+    const resultObj = {
+      message: err.message,
+      status: false,
+      result: null,
+    };
+    return resultObj;
   } finally {
     setLoader(false);
   }

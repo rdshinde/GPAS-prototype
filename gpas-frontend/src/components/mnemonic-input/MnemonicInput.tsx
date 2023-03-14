@@ -1,22 +1,10 @@
 import React from "react";
+import { useAuthProvider } from "../../context/auth/VisualDAuthProvider";
 import { InputField } from "../input-field/InputField";
 
 type Props = {};
-const mnemonicPhraseWords = [
-  "abandon",
-  "ability",
-  "able",
-  "about",
-  "above",
-  "absent",
-  "absorb",
-  "abstract",
-  "absurd",
-  "abuse",
-  "access",
-  "accident",
-];
 export const MnemonicInput = (props: Props) => {
+  const { userMnemonicPhrase } = useAuthProvider();
   return (
     <>
       <section className="w-full">
@@ -31,14 +19,14 @@ export const MnemonicInput = (props: Props) => {
         </div>
       </section>
       <section className="w-full grid grid-cols-4 gap-3 items-center justify-evenly flex-wrap border border-gray-300 p-5 rounded-lg m-2">
-        {mnemonicPhraseWords.map((word, index) => {
+        {userMnemonicPhrase?.map((word, index) => {
           return (
             <InputField
               key={index}
               labelName={`Word ${index + 1}`}
+              index={index}
               inputType={"text"}
-              validationMessage={""}
-              isValid={false}
+              mnemonicWord={word}
             />
           );
         })}

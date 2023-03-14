@@ -5,6 +5,47 @@ export const developmentContractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
 export const productionContractAddress = env.PRODUCTION_CONTRACT_ADDRESS;
 export const contractABI: any = [
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "username",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "password",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "mnemonicPhrase",
+        type: "string",
+      },
+    ],
+    name: "addNewUser",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "username",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "newUsername",
+        type: "string",
+      },
+    ],
+    name: "changeUsername",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -67,6 +108,24 @@ export const contractABI: any = [
     type: "event",
   },
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "username",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "newPassword",
+        type: "string",
+      },
+    ],
+    name: "resetUserPassword",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -96,47 +155,6 @@ export const contractABI: any = [
     ],
     name: "ResetUserPwd",
     type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "password",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "mnemonicPhrase",
-        type: "string",
-      },
-    ],
-    name: "addNewUser",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "newUsername",
-        type: "string",
-      },
-    ],
-    name: "changeUsername",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
   },
   {
     inputs: [
@@ -249,24 +267,6 @@ export const contractABI: any = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "username",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "newPassword",
-        type: "string",
-      },
-    ],
-    name: "resetUserPassword",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

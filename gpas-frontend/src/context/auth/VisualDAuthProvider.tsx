@@ -31,6 +31,7 @@ export const initialAuthFormState = {
   pwdHash: "",
   mnemonicPhrase: "",
   mnemonicPhraseHash: "",
+  userMnemonicPhraseInput: [],
   developerDetails: {
     mode: "",
     privatekey: "",
@@ -44,11 +45,13 @@ const AuthFormContext = createContext<{
   authFormDispatch: React.Dispatch<any>;
   isLoading: boolean;
   contractMethodResponseHandler: Function;
+  userMnemonicPhrase: string[];
 }>({
   authFormState: initialAuthFormState,
   authFormDispatch: () => null,
   isLoading: false,
   contractMethodResponseHandler: () => false,
+  userMnemonicPhrase: [],
 });
 
 export type Props = {
@@ -73,14 +76,20 @@ export const VisualDAuthProvider = ({
   onErrorHandler,
   onSuccessHandler,
 }: Props): any => {
+  // Add types to reducer and state  and dispatch
   const [authFormState, authFormDispatch] = useReducer(
     authFormReducer,
     initialAuthFormState
   );
+
   const [isLoading, setLoader] = useState<boolean>(false);
 
   const [onSuccess, setOnSuccess] = useState<any>({});
   const [onError, setOnError] = useState<any>({});
+
+  const [userMnemonicPhrase, setUserMnemonicPhrase] = useState<string[]>([]);
+
+  console.log({ userMnemonicPhrase });
 
   useEffect(() => {
     if (privateKey && publicKey && mode) {
@@ -142,6 +151,7 @@ export const VisualDAuthProvider = ({
       username,
       pwdHash,
       mnemonicPhrase,
+      userMnemonicPhraseInput,
       developerDetails: { mode, privateKey, useWindowWallet, publicKey },
     } = authFormState;
     let response: any;
@@ -302,6 +312,146 @@ export const VisualDAuthProvider = ({
           });
           break;
       }
+    } else if (chosenRoute === RouteNames.RECOVER) {
+      switch (currentStep) {
+        case StepNames.USERNAME:
+          if (username) {
+            (async () => {
+              const usernameResponse = await fetchContractMethod(
+                ContractMethods.IS_USERNAME_TAKEN,
+                mode,
+                publicKey,
+                privateKey,
+                useWindowWallet,
+                { username },
+                setLoader
+              );
+              if (usernameResponse) {
+                const usernameRes = await usernameResponse;
+                if (usernameRes?.isUsernameTaken) {
+                  toast.success(usernameRes?.message);
+                  const mnemonicPhraseResponse = await fetchContractMethod(
+                    ContractMethods.GET_MNEMONIC_PHRASE,
+                    mode,
+                    publicKey,
+                    privateKey,
+                    useWindowWallet,
+                    { username },
+                    setLoader
+                  );
+                  if (mnemonicPhraseResponse) {
+                    const mnemonicPhraseRes = await mnemonicPhraseResponse;
+                    if (mnemonicPhraseRes) {
+                      setUserMnemonicPhrase([
+                        ...mnemonicPhraseRes?.mnemonicPhrase.split(" "),
+                      ]);
+                      uiDispatch({
+                        type: UiActionsTypes.GO_TO_NEXT_STEP,
+                        payload: allSteps[currentStepIndex + 1].stepName || "",
+                      });
+                    } else {
+                      toast.error(mnemonicPhraseRes?.message);
+                      setOnError({
+                        ...mnemonicPhraseRes,
+                        action: "Get Mnemonic Phrase.",
+                      });
+                    }
+                  }
+                  uiDispatch({
+                    type: UiActionsTypes.GO_TO_NEXT_STEP,
+                    payload: allSteps[currentStepIndex + 1].stepName || "",
+                  });
+                } else {
+                  toast.error(usernameRes?.message);
+                  setOnError(usernameRes);
+                }
+              }
+            })();
+          } else {
+            toast.error("Username is required.");
+          }
+          break;
+        case StepNames.VERIFY:
+          if (userMnemonicPhraseInput) {
+            const mnemonicPhraseInput = userMnemonicPhraseInput.join(" ");
+            const mnemonicPhrase = userMnemonicPhrase.join(" ");
+            if (mnemonicPhraseInput === mnemonicPhrase) {
+              response = fetchContractMethod(
+                ContractMethods.VERIFY_MNEMONIC_PHRASE,
+                mode,
+                publicKey,
+                privateKey,
+                useWindowWallet,
+                { username, mnemonicPhrase: mnemonicPhraseInput },
+                setLoader
+              );
+            } else {
+              toast.error("Mnemonic Phrase is incorrect.");
+            }
+          } else {
+            toast.error("Mnemonic Phrase is required.");
+          }
+          if (response) {
+            response.then((res: any) => {
+              if (res?.isMnemonicPhraseValid) {
+                toast.success(res?.message);
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError(res);
+              }
+            });
+          }
+          break;
+        case StepNames.PASSWORD:
+          if (
+            pwdHash &&
+            username &&
+            isOnlySixImagesInPwd(authFormState.pwdImages)
+          ) {
+            response = fetchContractMethod(
+              ContractMethods.RESET_USER_PASSWORD,
+              mode,
+              publicKey,
+              privateKey,
+              useWindowWallet,
+              { username, newPassword: pwdHash },
+              setLoader
+            );
+          } else {
+            toast.error("Six Image password is required.");
+          }
+          if (response) {
+            response.then((res: any) => {
+              if (res?.isResetSuccessful) {
+                toast.success(res?.message);
+                setOnSuccess({ ...res, action: "User Password Reset." });
+                uiDispatch({
+                  type: UiActionsTypes.GO_TO_NEXT_STEP,
+                  payload: allSteps[currentStepIndex + 1].stepName || "",
+                });
+              } else {
+                toast.error(res?.message);
+                setOnError({ ...res, action: "User Password Reset." });
+              }
+            });
+          }
+          break;
+        case StepNames.DONE:
+          uiDispatch({
+            type: UiActionsTypes.RESET,
+          });
+          authFormDispatch({
+            type: AuthFormActionsTypes.RESET,
+          });
+          uiDispatch({
+            type: UiActionsTypes.CLOSE_MODAL,
+          });
+          break;
+      }
     }
   };
   useEffect(() => {
@@ -324,7 +474,7 @@ export const VisualDAuthProvider = ({
     }
   }, [onError]);
 
-  // console.log("authFormState", authFormState);
+  console.log("authFormState", authFormState);
 
   return (
     <AuthFormContext.Provider
@@ -333,6 +483,7 @@ export const VisualDAuthProvider = ({
         authFormDispatch,
         isLoading,
         contractMethodResponseHandler,
+        userMnemonicPhrase,
       }}
     >
       <UiProvider>{children}</UiProvider>

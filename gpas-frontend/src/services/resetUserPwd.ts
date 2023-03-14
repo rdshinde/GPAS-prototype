@@ -49,7 +49,7 @@ export const resetUserPwd = async (
           userName: username,
           message: message,
           status: status,
-          result: result,
+          isResetSuccessful: result,
           transactionHash: txReceipt.transactionHash,
         };
         console.log(
@@ -76,7 +76,7 @@ export const resetUserPwd = async (
           userName: username,
           message: message,
           status: status,
-          result: result,
+          isResetSuccessful: result,
           transactionHash: txReceipt.transactionHash,
         };
         return resultObj;

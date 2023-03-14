@@ -52,6 +52,13 @@ export const authFormReducer = (
         developerDetails: action.payload,
       };
 
+    case AuthFormActionsTypes.SET_USER_MNEMONIC_INPUT:
+      const words = [...state.userMnemonicPhraseInput];
+      words[action.payload.index] = action.payload.word;
+      return {
+        ...state,
+        userMnemonicPhraseInput: [...words],
+      };
     case AuthFormActionsTypes.RESET:
       return {
         ...state,
@@ -61,6 +68,7 @@ export const authFormReducer = (
         pwdHash: initialAuthFormState.pwdHash,
         mnemonicPhrase: initialAuthFormState.mnemonicPhrase,
         mnemonicPhraseHash: initialAuthFormState.mnemonicPhraseHash,
+        // userMnemonicPhraseInput: initialAuthFormState.userMnemonicPhraseInput,
       };
     default:
       return state;

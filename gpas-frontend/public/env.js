@@ -18,7 +18,7 @@ window.env = {
   "USER": "rdshinde",
   "COMMAND_MODE": "unix2003",
   "npm_config_globalconfig": "/usr/local/etc/npmrc",
-  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.7i9TmnKJD6/Listeners",
+  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.lEY9Vy0lft/Listeners",
   "__CF_USER_TEXT_ENCODING": "0x1F5:0:0",
   "npm_execpath": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
   "PATH": "/Users/rdshinde/Documents/Project/GPAS-prototype/gpas-frontend/node_modules/.bin:/Users/rdshinde/Documents/Project/GPAS-prototype/node_modules/.bin:/Users/rdshinde/Documents/Project/node_modules/.bin:/Users/rdshinde/Documents/node_modules/.bin:/Users/rdshinde/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin",
@@ -54,8 +54,8 @@ window.env = {
   "npm_node_execpath": "/usr/local/bin/node",
   "npm_config_prefix": "/usr/local",
   "COLORTERM": "truecolor",
-  "DEVELOPMENT_CONTRACT_ADDRESS": "0xB6D12E034cA410EF176B2c1871fCE015942D586A",
+  "DEVELOPMENT_CONTRACT_ADDRESS": "0xe141C286FbaDcE974Bc93C6E25a7AD7FB72Cafaf",
   "PRODUCTION_CONTRACT_ADDRESS": "0xA40566f39ca3ad0281E8952226fF3e6918274394",
-  "WALLET_ADDRESS": "0xA6c8F499f7aa34DE983028303deC9A5C55f4Ad35",
-  "WALLET_PRIVATE_KEY": "0da6889a14d35c2d9701fcd51aca120576fd9caa8cd5a4314e636ad8728f91ad"
+  "WALLET_ADDRESS": "0x006045992F68375562C290C3d8F763e8DA409d7a",
+  "WALLET_PRIVATE_KEY": "b4623408b2a83ec7f3e249afaf50052b8dbd2ce19c34bdd29d4c81d67483c275"
 };

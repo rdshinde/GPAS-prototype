@@ -13,6 +13,7 @@ export type AuthFormState = {
   pwdHash: string;
   mnemonicPhrase: string;
   mnemonicPhraseHash: string;
+  userMnemonicPhraseInput: string[];
   developerDetails?: {
     mode?: string;
     privateKey?: string;
@@ -25,6 +26,7 @@ export type UseAuthProvider = {
   authFormDispatch: React.Dispatch<any>;
   isLoading: boolean;
   contractMethodResponseHandler: Function;
+  userMnemonicPhrase: string[];
 };
 
 export enum AuthFormActionsTypes {
@@ -35,6 +37,7 @@ export enum AuthFormActionsTypes {
   SET_MNEMONIC_PHRASE = "SET_MNEMONIC_PHRASE",
   SET_MNEMONIC_PHRASE_HASH = "SET_MNEMONIC_PHRASE_HASH",
   SET_DEVELOPER_DETAILS = "SET_DEVELOPER_DETAILS",
+  SET_USER_MNEMONIC_INPUT = "SET_USER_MNEMONIC_INPUT",
   RESET = "RESET",
 }
 

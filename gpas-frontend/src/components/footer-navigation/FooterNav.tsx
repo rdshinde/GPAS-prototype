@@ -18,19 +18,19 @@ export const FooterNav = (props: Props) => {
     if (!nextStep) {
       return;
     } else {
-      // contractMethodResponseHandler(
-      //   currentStep,
-      //   nextStep,
-      //   previousStep,
-      //   chosenRoute,
-      //   allSteps,
-      //   currentStepIndex,
-      //   uiDispatch
-      // );
-      uiDispatch({
-        type: UiActionsTypes.GO_TO_NEXT_STEP,
-        payload: allSteps[currentStepIndex + 1].stepName || "",
-      });
+      contractMethodResponseHandler(
+        currentStep,
+        nextStep,
+        previousStep,
+        chosenRoute,
+        allSteps,
+        currentStepIndex,
+        uiDispatch
+      );
+      // uiDispatch({
+      //   type: UiActionsTypes.GO_TO_NEXT_STEP,
+      //   payload: allSteps[currentStepIndex + 1].stepName || "",
+      // });
     }
   };
   const previousButtonHandler = () => {
