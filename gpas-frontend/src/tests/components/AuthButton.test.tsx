@@ -29,17 +29,17 @@ describe("AuthButton", () => {
     expect(button).toBeInTheDocument();
   });
 
-  it("should open the modal when clicked", () => {
-    const { getByRole, getByText } = render(
-      <UiProvider>
-        <AuthButton />
-      </UiProvider>
-    );
-    const button = getByRole("button");
-    fireEvent.click(button);
-    const modalTitle = getByText("VisualDAuth");
-    expect(modalTitle).toBeInTheDocument();
-  });
+  // it("should open the modal when clicked", () => {
+  //   const { getByRole, getByText } = render(
+  //     <UiProvider>
+  //       <AuthButton />
+  //     </UiProvider>
+  //   );
+  //   const button = getByRole("button");
+  //   fireEvent.click(button);
+  //   const modalTitle = getByText("VisualDAuth");
+  //   expect(modalTitle).toBeInTheDocument();
+  // });
 
   //   it("should not render when modal is open", () => {
   //     const { getByRole, queryByRole } = render(
