@@ -24,15 +24,6 @@ contract Users {
     event NewUserAdded(uint userCount, bytes32 userId, string username, string message, bool status);
 
     function addNewUser(string memory username, string memory password, string memory mnemonicPhrase) public {
-    if (bytes(username).length == 0) {
-        revert("Username cannot be empty.");
-    }
-    if (bytes(password).length == 0){
-        revert("Password cannot be empty.");
-    }
-    if (bytes(mnemonicPhrase).length == 0){
-        revert("Mnemonic phrase cannot be empty.");
-    }
     if (UserExixts[username]) {
         revert("Username already exists.");
     }
@@ -144,6 +135,6 @@ contract Users {
     bytes32 userId = keccak256(abi.encodePacked(newUsername, userCount));
     user.userId = bytes32(userId);
     emit ChangeUsername("Username changed successfully!", true , userId);
- }
+}
 }
 

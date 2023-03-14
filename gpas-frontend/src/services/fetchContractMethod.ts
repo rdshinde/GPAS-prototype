@@ -22,7 +22,7 @@ declare global {
   }
 }
 
-const web3 = new Web3(window.ethereum);
+// const web3 = new Web3(window.ethereum);
 // const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
 
 /**
@@ -58,17 +58,30 @@ export const fetchContractMethod = async (
   methodParams: any | null,
   setLoader: (value: boolean) => void
 ): Promise<any> => {
+  let web3: any;
   let contractAddress: any;
   let wallet: any;
-  if (mode === "Production") {
+  if (mode === "Production" && !useWindowWallet) {
     contractAddress = productionContractAddress;
-  } else if (mode === "Development") {
+    web3 = new Web3(new Web3.providers.HttpProvider(env.INFURA_PRODUCTION_URL));
+  } else if (mode === "Development" && !useWindowWallet) {
     contractAddress = developmentContractAddress;
+    web3 = new Web3(
+      new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
+    );
+  } else if (mode === "Production" && useWindowWallet) {
+    contractAddress = productionContractAddress;
+    web3 = new Web3(window.ethereum);
+  } else if (mode === "Development" && useWindowWallet) {
+    contractAddress = developmentContractAddress;
+    web3 = new Web3(window.ethereum);
   } else {
     contractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
   }
 
-  const account = await web3.eth.getAccounts().then((accounts) => accounts[0]);
+  const account = await web3.eth
+    .getAccounts()
+    .then((accounts: any) => accounts[0]);
   const contract: any = new web3.eth.Contract(contractABI, contractAddress);
   console.log({ walletAddress, privateKey, account, useWindowWallet });
   if (!walletAddress && !privateKey && account) {

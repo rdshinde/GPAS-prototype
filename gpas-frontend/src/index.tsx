@@ -14,7 +14,7 @@ root.render(
     publicKey={env.WALLET_ADDRESS}
     privateKey={env.WALLET_PRIVATE_KEY}
     mode={"Development"}
-    useWindowWallet={false}
+    useWindowWallet={true}
     onErrorHandler={(result) => {
       console.log(result);
     }}
