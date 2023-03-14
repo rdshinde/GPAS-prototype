@@ -18,7 +18,7 @@ window.env = {
   "USER": "rdshinde",
   "COMMAND_MODE": "unix2003",
   "npm_config_globalconfig": "/usr/local/etc/npmrc",
-  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.EQFmCShZ9j/Listeners",
+  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.7i9TmnKJD6/Listeners",
   "__CF_USER_TEXT_ENCODING": "0x1F5:0:0",
   "npm_execpath": "/usr/local/lib/node_modules/npm/bin/npm-cli.js",
   "PATH": "/Users/rdshinde/Documents/Project/GPAS-prototype/gpas-frontend/node_modules/.bin:/Users/rdshinde/Documents/Project/GPAS-prototype/node_modules/.bin:/Users/rdshinde/Documents/Project/node_modules/.bin:/Users/rdshinde/Documents/node_modules/.bin:/Users/rdshinde/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin",
