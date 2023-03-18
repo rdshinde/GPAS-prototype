@@ -173,7 +173,7 @@ export const VisualDAuthProvider = ({
           }
           if (response) {
             response.then((res: any) => {
-              if (!res?.isUsernameTaken) {
+              if (!res?.isUsernameTaken && res?.state) {
                 toast.success(res?.message);
                 uiDispatch({
                   type: UiActionsTypes.GO_TO_NEXT_STEP,
