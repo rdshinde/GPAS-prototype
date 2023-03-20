@@ -41,7 +41,6 @@ export const createNewUser = async (
   try {
     setLoader(true);
     if (privateKey && !useWindowWallet) {
-      console.log("Kae", { privateKey });
       // If a private key is provided, sign the transaction with it
       const signedTx: any = await web3.eth.accounts.signTransaction(
         transaction,
@@ -59,22 +58,22 @@ export const createNewUser = async (
 
         const { userCount, userId, username, message } = events[0].returnValues;
         const resultObj = {
-          result: {
-            userCount: userCount,
-            userId: userId,
-            userName: username,
-            message: message,
-          },
+          userCount: userCount,
+          userId: userId,
+          userName: username,
+          message: message,
           status: true,
           transactionHash: txReceipt.transactionHash,
         };
-        console.log("Transaction Successful", resultObj);
         return resultObj;
       } else {
-        console.log("Transaction Failed");
+        const resultObj = {
+          message: "Transaction Failed",
+          status: false,
+        };
+        return resultObj;
       }
     } else {
-      console.log({ privateKey });
       // Otherwise, prompt the user to sign the transaction with their browser wallet
       const tx = await window.ethereum.request({
         method: "eth_sendTransaction",
@@ -88,25 +87,26 @@ export const createNewUser = async (
         });
         const { userCount, userId, username, message } = events[0].returnValues;
         const resultObj = {
-          result: {
-            userCount: userCount,
-            userId: userId,
-            userName: username,
-            message: message,
-          },
+          userCount: userCount,
+          userId: userId,
+          userName: username,
+          message: message,
           status: true,
           transactionHash: txReceipt.transactionHash,
         };
         return resultObj;
       } else {
-        console.log("Transaction Failed");
+        const resultObj = {
+          message: "Transaction Failed",
+          status: false,
+        };
+        return resultObj;
       }
     }
   } catch (error: any) {
     const resultObj = {
       message: error.message,
       status: false,
-      result: null,
     };
     return resultObj;
   } finally {

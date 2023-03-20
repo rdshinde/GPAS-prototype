@@ -18,7 +18,7 @@ export const MnemonicInput = (props: Props) => {
           </span>
         </div>
       </section>
-      <section className="w-full grid grid-cols-4 gap-3 items-center justify-evenly flex-wrap border border-gray-300 p-5 rounded-lg m-2">
+      <section className="w-full grid grid-cols-4 gap-3 items-center justify-evenly flex-wrap border border-gray-300 p-5 rounded-lg my-2">
         {userMnemonicPhrase?.map((word, index) => {
           return (
             <InputField

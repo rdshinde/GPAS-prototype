@@ -8,6 +8,7 @@ import {
   ModalContainerOverlay,
 } from "../../components";
 import { Props } from "../../components/auth-button/AuthButton";
+import { RouteNames, StepNames } from "../../utility/getSteps";
 import { UiActionsTypes, UiState, UseUi } from "../typings.context";
 import { uiReducer } from "./uiReducer";
 
@@ -43,6 +44,20 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
   }, [uiState.chosenRoute]);
+
+  useEffect(() => {
+    if (
+      uiState.currentStep === StepNames.DONE &&
+      uiState.chosenRoute !== RouteNames.REGISTER
+    ) {
+      let timeoutId = setTimeout(() => {
+        uiDispatch({
+          type: UiActionsTypes.CLOSE_MODAL,
+        });
+      }, 3000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [uiState.currentStep]);
 
   return (
     <UiContext.Provider value={{ uiState, uiDispatch, AuthButton }}>

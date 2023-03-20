@@ -21,16 +21,13 @@ export const loginRegisteredUser = async (
     const result = await contract.methods
       .loginRegisteredUser(username, password)
       .call();
-    console.log(result);
     const resultObj = {
       message: result.message,
       userLogin: result.result,
       status: result.status,
     };
-    console.log(resultObj);
     return resultObj;
   } catch (err: any) {
-    console.log(err.message);
     const resultObj = {
       message: err.message,
       result: null,

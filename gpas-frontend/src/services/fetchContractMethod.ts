@@ -66,9 +66,10 @@ export const fetchContractMethod = async (
     web3 = new Web3(new Web3.providers.HttpProvider(env.INFURA_PRODUCTION_URL));
   } else if (mode === "Development" && !useWindowWallet) {
     contractAddress = developmentContractAddress;
-    web3 = new Web3(
-      new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
-    );
+    // web3 = new Web3(
+    //   new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
+    // );
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
   } else if (mode === "Production" && useWindowWallet) {
     contractAddress = productionContractAddress;
     web3 = new Web3(window.ethereum);
@@ -77,13 +78,13 @@ export const fetchContractMethod = async (
     web3 = new Web3(window.ethereum);
   } else {
     contractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
+    web3 = new Web3(new Web3.providers.HttpProvider(env.LOCAL_HOST_URL));
   }
 
   const account = await web3.eth
     .getAccounts()
     .then((accounts: any) => accounts[0]);
   const contract: any = new web3.eth.Contract(contractABI, contractAddress);
-  console.log({ walletAddress, privateKey, account, useWindowWallet });
   if (!walletAddress && !privateKey && account) {
     wallet = account;
   } else {

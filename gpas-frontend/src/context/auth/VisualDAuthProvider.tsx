@@ -89,8 +89,6 @@ export const VisualDAuthProvider = ({
 
   const [userMnemonicPhrase, setUserMnemonicPhrase] = useState<string[]>([]);
 
-  console.log({ userMnemonicPhrase });
-
   useEffect(() => {
     if (privateKey && publicKey && mode) {
       authFormDispatch({
@@ -173,7 +171,7 @@ export const VisualDAuthProvider = ({
           }
           if (response) {
             response.then((res: any) => {
-              if (!res?.isUsernameTaken && res?.state) {
+              if (!res?.isUsernameTaken && res?.status) {
                 toast.success(res?.message);
                 uiDispatch({
                   type: UiActionsTypes.GO_TO_NEXT_STEP,
@@ -181,7 +179,6 @@ export const VisualDAuthProvider = ({
                 });
               } else {
                 toast.error(res?.message);
-                setOnError(res);
               }
             });
           }
@@ -208,28 +205,18 @@ export const VisualDAuthProvider = ({
           if (response) {
             return response.then((res: any) => {
               if (res?.status) {
-                console.log("res", res);
-                toast.success(res?.result?.message);
-                setOnSuccess({ ...res.result, action: "User Registration." });
+                toast.success(res?.message);
+                setOnSuccess({ ...res, action: "User Registration." });
                 uiDispatch({
                   type: UiActionsTypes.GO_TO_NEXT_STEP,
                   payload: allSteps[currentStepIndex + 1].stepName || "",
                 });
               } else {
                 toast.error(res?.message);
-                setOnError(res);
+                setOnError({ ...res, action: "User Registration." });
               }
             });
           }
-          let timeoutId = setTimeout(() => {
-            uiDispatch({
-              type: UiActionsTypes.CLOSE_MODAL,
-            });
-            authFormDispatch({
-              type: AuthFormActionsTypes.RESET,
-            });
-          }, 3000);
-          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
@@ -266,7 +253,6 @@ export const VisualDAuthProvider = ({
                 });
               } else {
                 toast.error(res?.message);
-                setOnError(res);
               }
             });
           }
@@ -291,7 +277,6 @@ export const VisualDAuthProvider = ({
           }
           if (response) {
             response.then((res: any) => {
-              console.log(res);
               if (res?.userLogin) {
                 toast.success(res?.message);
                 setOnSuccess({ ...res, action: "User Login." });
@@ -305,15 +290,6 @@ export const VisualDAuthProvider = ({
               }
             });
           }
-          let timeoutId = setTimeout(() => {
-            uiDispatch({
-              type: UiActionsTypes.CLOSE_MODAL,
-            });
-            authFormDispatch({
-              type: AuthFormActionsTypes.RESET,
-            });
-          }, 3000);
-          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
@@ -363,10 +339,6 @@ export const VisualDAuthProvider = ({
                       });
                     } else {
                       toast.error(mnemonicPhraseRes?.message);
-                      setOnError({
-                        ...mnemonicPhraseRes,
-                        action: "Get Mnemonic Phrase.",
-                      });
                     }
                   }
                   uiDispatch({
@@ -375,7 +347,6 @@ export const VisualDAuthProvider = ({
                   });
                 } else {
                   toast.error(usernameRes?.message);
-                  setOnError(usernameRes);
                 }
               }
             })();
@@ -413,7 +384,6 @@ export const VisualDAuthProvider = ({
                 });
               } else {
                 toast.error(res?.message);
-                setOnError(res);
               }
             });
           }
@@ -451,15 +421,6 @@ export const VisualDAuthProvider = ({
               }
             });
           }
-          let timeoutId = setTimeout(() => {
-            uiDispatch({
-              type: UiActionsTypes.CLOSE_MODAL,
-            });
-            authFormDispatch({
-              type: AuthFormActionsTypes.RESET,
-            });
-          }, 3000);
-          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
@@ -473,7 +434,7 @@ export const VisualDAuthProvider = ({
     }
   };
   useEffect(() => {
-    if (onSuccess) {
+    if (onSuccess && onSuccess.status) {
       onSuccessHandler
         ? onSuccessHandler(onSuccess)
         : toast.error(
@@ -483,7 +444,7 @@ export const VisualDAuthProvider = ({
   }, [onSuccess]);
 
   useEffect(() => {
-    if (onError) {
+    if (onError && onError.status) {
       onErrorHandler
         ? onErrorHandler(onError)
         : toast.error(
@@ -492,7 +453,7 @@ export const VisualDAuthProvider = ({
     }
   }, [onError]);
 
-  console.log("authFormState", authFormState);
+  // console.log("authFormState", authFormState);
 
   return (
     <AuthFormContext.Provider

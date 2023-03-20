@@ -31,7 +31,7 @@
     "web3": "^1.8.2"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-dotenv && react-scripts start",
+    "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "build": "react-dotenv && react-scripts build",
     "test": "react-dotenv && react-scripts test",
     "eject": "react-dotenv && react-scripts eject"

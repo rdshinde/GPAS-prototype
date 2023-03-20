@@ -1,10 +1,8 @@
 import env from "react-dotenv";
 
-export const developmentContractAddress =
-  env.DEVELOPMENT_CONTRACT_ADDRESS;
+export const developmentContractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
 
-export const productionContractAddress =
-  env.PRODUCTION_CONTRACT_ADDRESS;
+export const productionContractAddress = env.PRODUCTION_CONTRACT_ADDRESS;
 export const contractABI: any = [
   {
     inputs: [

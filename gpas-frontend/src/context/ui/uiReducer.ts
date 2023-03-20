@@ -13,11 +13,11 @@ export const uiReducer = (state: UiState, action: UiActions): UiState => {
       return {
         ...state,
         isModalOpen: false,
-        // chosenRoute: "",
-        // currentStep: "",
-        // previousStep: "",
-        // nextStep: "",
-        // allSteps: [],
+        chosenRoute: "",
+        currentStep: "",
+        previousStep: "",
+        nextStep: "",
+        allSteps: [],
       };
     case UiActionsTypes.SET_ROUTE:
       return {
