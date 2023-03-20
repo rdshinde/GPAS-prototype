@@ -221,16 +221,22 @@ export const VisualDAuthProvider = ({
               }
             });
           }
+          let timeoutId = setTimeout(() => {
+            uiDispatch({
+              type: UiActionsTypes.CLOSE_MODAL,
+            });
+            authFormDispatch({
+              type: AuthFormActionsTypes.RESET,
+            });
+          }, 3000);
+          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
-            type: UiActionsTypes.RESET,
+            type: UiActionsTypes.CLOSE_MODAL,
           });
           authFormDispatch({
             type: AuthFormActionsTypes.RESET,
-          });
-          uiDispatch({
-            type: UiActionsTypes.CLOSE_MODAL,
           });
           break;
       }
@@ -299,16 +305,22 @@ export const VisualDAuthProvider = ({
               }
             });
           }
+          let timeoutId = setTimeout(() => {
+            uiDispatch({
+              type: UiActionsTypes.CLOSE_MODAL,
+            });
+            authFormDispatch({
+              type: AuthFormActionsTypes.RESET,
+            });
+          }, 3000);
+          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
-            type: UiActionsTypes.RESET,
+            type: UiActionsTypes.CLOSE_MODAL,
           });
           authFormDispatch({
             type: AuthFormActionsTypes.RESET,
-          });
-          uiDispatch({
-            type: UiActionsTypes.CLOSE_MODAL,
           });
           break;
       }
@@ -439,16 +451,22 @@ export const VisualDAuthProvider = ({
               }
             });
           }
+          let timeoutId = setTimeout(() => {
+            uiDispatch({
+              type: UiActionsTypes.CLOSE_MODAL,
+            });
+            authFormDispatch({
+              type: AuthFormActionsTypes.RESET,
+            });
+          }, 3000);
+          clearTimeout(timeoutId);
           break;
         case StepNames.DONE:
           uiDispatch({
-            type: UiActionsTypes.RESET,
+            type: UiActionsTypes.CLOSE_MODAL,
           });
           authFormDispatch({
             type: AuthFormActionsTypes.RESET,
-          });
-          uiDispatch({
-            type: UiActionsTypes.CLOSE_MODAL,
           });
           break;
       }

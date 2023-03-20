@@ -4,12 +4,14 @@ import {
   MnemonicInput,
   MnemonicPhraseContainer,
   PwdBuilder,
+  SuccessGif,
   UserNameField,
 } from "../components";
-import { StepNames } from "./getSteps";
+import { RouteNames, StepNames } from "./getSteps";
 
 export const componentRenderingHandler = (
-  currentStep: StepNames | any
+  currentStep: StepNames | any,
+  chosenRoute: RouteNames | any
 ): ReactNode => {
   switch (currentStep) {
     case StepNames.USERNAME:
@@ -34,11 +36,19 @@ export const componentRenderingHandler = (
       );
 
     case StepNames.DONE:
-      return (
-        <>
-          <MnemonicPhraseContainer />
-        </>
-      );
+      if (chosenRoute === RouteNames.REGISTER) {
+        return (
+          <>
+            <MnemonicPhraseContainer />
+          </>
+        );
+      } else {
+        return (
+          <>
+            <SuccessGif />
+          </>
+        );
+      }
 
     default:
       return <AuthOptions />;

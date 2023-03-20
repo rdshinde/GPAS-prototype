@@ -23,7 +23,7 @@ export const AuthHandler = (props: Props) => {
   useEffect(() => {
     setCurrentComponent(
       <>
-        {componentRenderingHandler(currentStep)}
+        {componentRenderingHandler(currentStep, chosenRoute)}
         <FooterNav />
       </>
     );

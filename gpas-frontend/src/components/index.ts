@@ -21,3 +21,4 @@ export { HidePwdEye } from "./icons/pwd-eye-icon/HidePwdEye";
 export { ShowPwdEye } from "./icons/pwd-eye-icon/ShowPwdEye";
 export { Loader } from "./loader/Loader";
 export { Alert } from "./alert/Alert";
+export { SuccessGif } from "./success-gif/SuccessGif";
