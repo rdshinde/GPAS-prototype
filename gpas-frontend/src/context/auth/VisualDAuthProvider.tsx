@@ -55,7 +55,7 @@ const AuthFormContext = createContext<{
 });
 
 export type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   privateKey?: string;
   publicKey?: string;
   mode?: string;
