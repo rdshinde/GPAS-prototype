@@ -1,46 +1,163 @@
-# Getting Started with Create React App
+# Visual-D-Auth
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The NPM package for your projects decentralised graphical password authentication.
 
-## Available Scripts
+[npm-image]: https://img.shields.io/npm/v/react-visual-d-auth.svg
+[npm-url]: https://www.npmjs.com/package/react-visual-d-auth
 
-In the project directory, you can run:
+[github-build]: [https://github.com/rdshinde/Visual-D-Auth]
+[github-build-url]: [https://github.com/rdshinde/Visual-D-Auth]
+[npm-typescript]: [https://img.shields.io/npm/types/react-visual-d-auth]
+[github-license]: [https://img.shields.io/github/license/rdshinde/Visual-D-Auth]
 
-### `npm start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage in React](#usage-in-react)
+  - [1. publicKey](#1-publickey)
+  - [2.privateKey](#2privatekey)
+  - [3.mode](#3mode)
+  - [3.useWindowWallet](#3usewindowwallet)
+  - [4.onErrorHandler](#4onerrorhandler)
+  - [5.onSuccessHandler](#5onsuccesshandler)
+- [Instructions for AuthButton props](#instructions-for-authbutton-props)
+  - [1.styles](#1styles)
+  - [2.className](#2classname)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Introduction
 
-### `npm test`
+Visual-D-Auth is a NPM package that allows you to use your wallet to authenticate your users in your projects. It uses the wallet you are using to sign a message and send it to the VisualDAuth contract. The contract then verifies the signature and returns the result. The result is then passed to the onSuccessHandler function. If there is an error in the process, the error is passed to the onErrorHandler function.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+```bash
+npm install visual-d-auth
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage in React
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Step 1: Import the package in your project and wrap your app with the VisualDAuthProvider. You need to also pass in the following props:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- publicKey: The public key of your wallet
+- privateKey: The private key of your wallet
+- mode: The mode of the wallet. Can be either "Development" or "Production"
+- useWindowWallet: Whether to use the wallet in the window object or not
+- onErrorHandler: A function to handle errors
+- onSuccessHandler: A function to handle success
 
-### `npm run eject`
+```tsx
+import React, { useState } from 'react'
+import { VisualDAuthProvider } from 'visual-d-auth'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+root.render(
+  <VisualDAuthProvider
+    publicKey={WALLET_ADDRESS}
+    privateKey={WALLET_PRIVATE_KEY}
+    mode={'Development'}
+    useWindowWallet={false}
+    onErrorHandler={handleError(result)}
+    onSuccessHandler={handleSuccess(result)}
+  >
+    <App />
+  </VisualDAuthProvider>,
+)
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Step 2: Import the AuthButton component and use it in your project. You need to pass in the following props:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- styles: The styles of the button (optional)
+- className: The class name of the button (optional)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```tsx
+import React from 'react'
+import { AuthButton } from 'visual-d-auth'
 
-## Learn More
+const App = () => {
+  return (
+    <div>
+      <AuthButton />
+    </div>
+  )
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+export default App
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## OR
+
+```tsx
+import React from 'react'
+import { AuthButton } from 'visual-d-auth'
+
+const App = () => {
+  return (
+    <div>
+      <AuthButton>
+        <div>Custom Button</div>
+      </AuthButton>
+    </div>
+  )
+}
+
+export default App
+```
+
+Thats it! You are now ready to use the package in your react project. You can also check out the example project in the examples folder.
+
+## Instructions for VisualDAuthProvider props
+
+### 1. publicKey
+
+- The public key of your wallet. This is the address of your wallet. You can get this from the wallet you are using. For example, if you are using Metamask, you can get this from the Metamask extension. If you are using the wallet in the window object, you can get this from the window object.
+
+- For Development mode, VisualDAuthProvider is using the Goerli testnet. You can get a testnet wallet from [here](https://goerli-faucet.slock.it/), and get some testnet ETH from [here](https://goerli-faucet.slock.it/).
+
+- For Production mode, VisualDAuthProvider is using the Ethereum mainnet. You can get a mainnet wallet from [here](https://metamask.io/), and get some mainnet ETH from [here](https://faucet.metamask.io/).
+
+### 2.privateKey
+
+- The private key of your wallet. You can get this from the wallet you are using. For example, if you are using Metamask, you can get this from the Metamask extension. If you are using the wallet in the window object, you can get this from the window object.
+
+- For Development mode, VisualDAuthProvider is using the Goerli testnet. You can get a testnet wallet from [here](https://goerli-faucet.slock.it/), and get some testnet ETH from [here](https://goerli-faucet.slock.it/).
+
+- For Production mode, VisualDAuthProvider is using the Ethereum mainnet. You can get a mainnet wallet from [here](https://metamask.io/), and get some mainnet ETH from [here](https://faucet.metamask.io/).
+
+### 3.mode
+
+- The mode of the wallet. Can be either "Development" or "Production".
+
+- Provide the public and private keys of your wallet according to the mode you are using. For example, if you are using the Development mode, provide the public and private keys of your wallet in the Goerli testnet. If you are using the Production mode, provide the public and private keys of your wallet in the Ethereum mainnet.
+
+### 3.useWindowWallet
+
+- Whether to use the wallet in the window object or not. If set to true, VisualDAuthProvider will use the wallet in the window object. If set to false, VisualDAuthProvider will use the wallet passed in the publicKey and privateKey props.
+
+### 4.onErrorHandler
+
+- A function to handle errors. This function will be called when there is an error in the authentication process. The function will be passed the error object as a parameter.
+
+### 5.onSuccessHandler
+
+- A function to handle success. This function will be called when the authentication process is successful. The function will be passed the result object as a parameter.
+
+## Instructions for AuthButton props
+
+### 1.styles
+
+- The styles of the button. You can pass in the styles as an object. For example, if you want to change the background color of the button, you can pass in the following object:
+
+```tsx
+const styles = {
+  backgroundColor: 'red',
+}
+```
+
+### 2.className
+
+- The class name of the button. You can pass in the class name as a string. For example, if you want to add a class name to the button, you can pass in the following string:
+
+```tsx
+const className = 'my-class-name'
+```

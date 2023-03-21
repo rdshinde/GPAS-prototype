@@ -3,8 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
+// import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
 import env from "react-dotenv";
+
+import { VisualDAuthProvider } from "react-visual-d-auth";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

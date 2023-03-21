@@ -3,8 +3,10 @@ import { SuccessGif } from "./components";
 import { useUi } from "./context/ui/UiProvider";
 import "./styles/App.css";
 
+import { AuthButton } from "react-visual-d-auth";
+
 function App() {
-  const { AuthButton } = useUi();
+  // const { AuthButton } = useUi();
   return (
     <div className="App">
       <AuthButton />
