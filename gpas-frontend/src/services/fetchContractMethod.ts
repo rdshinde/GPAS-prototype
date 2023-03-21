@@ -66,10 +66,10 @@ export const fetchContractMethod = async (
     web3 = new Web3(new Web3.providers.HttpProvider(env.INFURA_PRODUCTION_URL));
   } else if (mode === "Development" && !useWindowWallet) {
     contractAddress = developmentContractAddress;
-    // web3 = new Web3(
-    //   new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
-    // );
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    web3 = new Web3(
+      new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
+    );
+    // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
   } else if (mode === "Production" && useWindowWallet) {
     contractAddress = productionContractAddress;
     web3 = new Web3(window.ethereum);
