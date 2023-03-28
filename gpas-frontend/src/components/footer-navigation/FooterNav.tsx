@@ -20,8 +20,6 @@ export const FooterNav = (props: Props) => {
     } else {
       contractMethodResponseHandler(
         currentStep,
-        nextStep,
-        previousStep,
         chosenRoute,
         allSteps,
         currentStepIndex,

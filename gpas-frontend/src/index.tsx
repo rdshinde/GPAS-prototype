@@ -3,18 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-// import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
+import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
 import env from "react-dotenv";
-
-import { VisualDAuthProvider } from "react-visual-d-auth";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <VisualDAuthProvider
-    publicKey={env.WALLET_ADDRESS}
-    privateKey={env.WALLET_PRIVATE_KEY}
+    publicKey={`0xE112f74b09564c6BD94d1f4e1b71254f881AD641`}
+    privateKey={`2c8f002d2cea49b1d02bb2e2cd3c9113f534809a0dc2a1820e33b15b2788eab7`}
     mode={"Development"}
     useWindowWallet={false}
     onErrorHandler={(result) => {

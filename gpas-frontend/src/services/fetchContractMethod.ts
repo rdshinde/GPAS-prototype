@@ -22,9 +22,6 @@ declare global {
   }
 }
 
-// const web3 = new Web3(window.ethereum);
-// const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-
 /**
  * @param {string} contractMethod - Any method from ContractMethods
  * @param {string} mode - "Production" or "Development"
@@ -59,17 +56,17 @@ export const fetchContractMethod = async (
   setLoader: (value: boolean) => void
 ): Promise<any> => {
   let web3: any;
-  let contractAddress: any;
+  let contractAddress: string;
   let wallet: any;
   if (mode === "Production" && !useWindowWallet) {
     contractAddress = productionContractAddress;
     web3 = new Web3(new Web3.providers.HttpProvider(env.INFURA_PRODUCTION_URL));
   } else if (mode === "Development" && !useWindowWallet) {
     contractAddress = developmentContractAddress;
-    web3 = new Web3(
-      new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
-    );
-    // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+    // web3 = new Web3(
+    //   new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
+    // );
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
   } else if (mode === "Production" && useWindowWallet) {
     contractAddress = productionContractAddress;
     web3 = new Web3(window.ethereum);
@@ -93,7 +90,7 @@ export const fetchContractMethod = async (
 
   const transaction = {
     from: web3.utils.toChecksumAddress(wallet),
-    to: env.DEVELOPMENT_CONTRACT_ADDRESS,
+    to: web3.utils.toChecksumAddress(contractAddress),
     gas: "3000000",
   };
 
@@ -135,7 +132,6 @@ export const fetchContractMethod = async (
         contract,
         setLoader
       );
-      // console.log("GetMnemonicFetch", { contractResponse });
       break;
 
     case ContractMethods.VERIFY_MNEMONIC_PHRASE:

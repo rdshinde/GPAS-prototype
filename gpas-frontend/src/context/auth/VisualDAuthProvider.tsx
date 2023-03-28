@@ -138,8 +138,6 @@ export const VisualDAuthProvider = ({
 
   const contractMethodResponseHandler = (
     currentStep: StepNames,
-    nextStep: StepNames,
-    previousStep: StepNames,
     chosenRoute: RouteNames,
     allSteps: any,
     currentStepIndex: number,
