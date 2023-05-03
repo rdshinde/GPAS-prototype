@@ -45,6 +45,7 @@ export enum ContractMethods {
   RESET_USER_PASSWORD = "resetUserPwd",
   VERIFY_MNEMONIC_PHRASE = "verifyMnemonicPhrase",
 }
+let contractAddress: string;
 
 export const fetchContractMethod = async (
   ContractMethod: ContractMethods,
@@ -56,8 +57,8 @@ export const fetchContractMethod = async (
   setLoader: (value: boolean) => void
 ): Promise<any> => {
   let web3: any;
-  let contractAddress: string;
   let wallet: any;
+
   if (mode === "Production" && !useWindowWallet) {
     contractAddress = productionContractAddress;
     web3 = new Web3(new Web3.providers.HttpProvider(env.INFURA_PRODUCTION_URL));
@@ -66,13 +67,48 @@ export const fetchContractMethod = async (
     web3 = new Web3(
       new Web3.providers.HttpProvider(env.INFURA_DEVELOPMENT_URL)
     );
-    // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-  } else if (mode === "Production" && useWindowWallet) {
-    contractAddress = productionContractAddress;
-    web3 = new Web3(window.ethereum);
-  } else if (mode === "Development" && useWindowWallet) {
-    contractAddress = developmentContractAddress;
-    web3 = new Web3(window.ethereum);
+  } else if (useWindowWallet) {
+    try {
+      if (mode === "Production") {
+        contractAddress = productionContractAddress;
+        if (window.ethereum) {
+          alert("Open metamask and accept the connection request.");
+          web3 = new Web3(window.ethereum);
+          await window.ethereum.enable();
+          const networkId = await web3.eth.net.getId();
+          if (networkId !== 1) {
+            await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x1" }],
+            });
+            throw new Error("Please switch to the Ethereum Mainnet.");
+          }
+        } else {
+          throw new Error("Please install MetaMask to use this dApp.");
+        }
+      } else if (mode === "Development") {
+        contractAddress = developmentContractAddress;
+        if (window.ethereum) {
+          alert("Open metamask and accept the connection request.");
+          web3 = new Web3(window.ethereum);
+          await window.ethereum.enable();
+          const networkId = await web3.eth.net.getId();
+          if (networkId !== 5) {
+            await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x5" }],
+            });
+            throw new Error("Please switch to the Goerli Test Network.");
+          }
+        } else {
+          throw new Error("Please install MetaMask to use this dApp.");
+        }
+      } else {
+        throw new Error("Invalid mode specified.");
+      }
+    } catch (error: any) {
+      alert(error.message);
+    }
   } else {
     contractAddress = env.DEVELOPMENT_CONTRACT_ADDRESS;
     web3 = new Web3(new Web3.providers.HttpProvider(env.LOCAL_HOST_URL));
