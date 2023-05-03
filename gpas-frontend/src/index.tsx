@@ -4,7 +4,6 @@ import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { VisualDAuthProvider } from "./context/auth/VisualDAuthProvider";
-import env from "react-dotenv";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
