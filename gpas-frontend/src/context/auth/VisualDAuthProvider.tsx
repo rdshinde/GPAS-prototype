@@ -11,7 +11,6 @@ import { toast } from "react-hot-toast";
 import { Images } from "../../components/pwd-builder/PwdBuilder";
 import { fetchContractMethod, getPasswordHash } from "../../services";
 import { ContractMethods } from "../../services/fetchContractMethod";
-import { goToNextStep } from "../../utility";
 import { RouteNames, StepNames } from "../../utility/getSteps";
 import {
   AuthFormActionsTypes,
