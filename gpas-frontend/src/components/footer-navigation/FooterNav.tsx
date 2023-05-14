@@ -66,6 +66,11 @@ export const FooterNav = (props: Props) => {
             tabIndex={1}
             type="button"
             onClick={previousButtonHandler}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                nextButtonHandler();
+              }
+            }}
           >
             <span className="mr-2">
               <svg
