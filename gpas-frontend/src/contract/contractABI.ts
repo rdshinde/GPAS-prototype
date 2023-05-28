@@ -1,5 +1,6 @@
 import env from "react-dotenv";
 
+// export const developmentContractAddress: string = `0x3ceBeB08201A0882Ce98aBC37231487c83063481`;
 export const developmentContractAddress: string = `0x3ceBeB08201A0882Ce98aBC37231487c83063481`;
 
 export const productionContractAddress = env.PRODUCTION_CONTRACT_ADDRESS;

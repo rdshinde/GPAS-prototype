@@ -54,7 +54,7 @@ const UiProvider = ({ children }: { children: React.ReactNode }) => {
         uiDispatch({
           type: UiActionsTypes.CLOSE_MODAL,
         });
-      }, 3000);
+      }, 10000);
       return () => clearTimeout(timeoutId);
     }
   }, [uiState.currentStep]);

@@ -28,7 +28,7 @@ export const initialAuthFormState = {
   pwdImages: [],
   gridImages: [],
   pwdHash: "",
-  mnemonicPhrase: "",
+  mnemonicPhrase: "group eight sort venue talk praise mechanic frog neglect essay curtain before",
   mnemonicPhraseHash: "",
   userMnemonicPhraseInput: [],
   developerDetails: {
@@ -249,7 +249,7 @@ export const VisualDAuthProvider = ({
                   payload: allSteps[currentStepIndex + 1].stepName || "",
                 });
               } else {
-                toast.error(res?.message);
+                toast.error("Username is not registered.");
               }
             });
           }
